@@ -10,7 +10,6 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 setup(
     name='sagax',
     use_scm_version=True,
-    packages=['sagax'],
     license='BSD',
     author='Josh Benner',
     author_email='josh@bennerweb.com',
@@ -33,7 +32,11 @@ setup(
             'Sensu1API = sagax.sensu:Sensu1API'
         ]
     },
-    package_data={'': ['LICENSE', 'README.rst']},
+    packages=['sagax'],
+    package_data={
+        'sagax': ['sagax/frontend/dist']
+    },
+    include_package_data=True,
     classifiers=[
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: BSD License',

@@ -1,7 +1,12 @@
+import pkg_resources
+
 import hug
 
 from sagax.config import config
 from sagax.sensu import sensu_factory
+
+ui_path = pkg_resources.resource_filename('sagax', 'frontend/dist')
+static_path = pkg_resources.resource_filename('sagax', 'frontend/dist/static')
 
 
 @hug.directive()
@@ -23,6 +28,16 @@ def load_sensu_api(api):
     del sensu_config['type']
     api.context['sensu'] = sensu_factory(type_name=type_name,
                                          config=sensu_config)
+
+
+@hug.static('/ui')
+def ui():
+    return ui_path,
+
+
+@hug.static('/static')
+def static():
+    return static_path,
 
 
 @hug.get('/health')
