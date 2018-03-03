@@ -1,13 +1,26 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <page-header/>
+    <navigation/>
     <router-view/>
   </div>
 </template>
 
 <script>
+import {loadConfig} from './services/config'
+import PageHeader from './components/PageHeader'
+import Navigation from './components/Navigation'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    PageHeader,
+    Navigation
+  },
+
+  created () {
+    loadConfig()
+  }
 }
 </script>
 

@@ -8,6 +8,9 @@ from sagax.sensu import sensu_factory
 ui_path = pkg_resources.resource_filename('sagax', 'frontend/dist')
 static_path = pkg_resources.resource_filename('sagax', 'frontend/dist/static')
 
+api = hug.API(__name__)
+api.http.add_middleware(hug.middleware.CORSMiddleware(api))
+
 
 @hug.directive()
 class Sensu(object):
