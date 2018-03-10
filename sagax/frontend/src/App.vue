@@ -1,22 +1,12 @@
 <template>
-  <div id="app">
-    <page-header/>
-    <navigation/>
-    <router-view/>
-  </div>
+  <router-view/>
 </template>
 
 <script>
 import {loadConfig} from './services/config'
-import PageHeader from './components/PageHeader'
-import Navigation from './components/Navigation'
 
 export default {
   name: 'App',
-  components: {
-    PageHeader,
-    Navigation
-  },
 
   created () {
     loadConfig()
@@ -24,13 +14,13 @@ export default {
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+$navbar-brand-logo: url('../static/img/logo.png');
+$navbar-brand-minimized-logo: url('../static/img/logo-symbol.png');
+
+@import 'font-awesome/css/font-awesome.min.css';
+@import 'simple-line-icons/css/simple-line-icons.css';
+@import 'bootstrap-vue/dist/bootstrap-vue.css';
+@import 'bootstrap/scss/bootstrap.scss';
+@import 'styles/style.scss';
 </style>
