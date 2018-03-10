@@ -7,13 +7,21 @@ settings_schema = {
         'timestamp_format': Item(default='YYYY-MM-DD HH:mm:ss z', envvar=True),
         'fields': {
             'event_list': [
-                {'name': 'Client', 'field': 'event.client.name'},
-                {'name': 'Check', 'field': 'event.check.name'},
-                {'name': 'Output', 'field': 'event.check.output'},
-                {'name': 'Occurrences', 'field': 'event.occurrences'},
-                {'name': 'Timestmap', 'field': 'event.timestamp',
-                 'format': 'ago'},
-                {'name': 'Last OK', 'field': 'event.last_ok', 'format': 'ago'}
+                {'label': 'Client', 'key': 'client.name'},
+                {'label': 'Check', 'key': 'check.name'},
+                {'label': 'Output', 'key': 'check.output'},
+                {'label': 'Occurrences', 'key': 'occurrences'},
+                {'label': 'Last Occurrence', 'key': 'timestamp',
+                 'formatter': 'timeAgo'},
+                {'label': 'Last OK', 'key': 'last_ok',
+                 'formatter': 'timeAgo'}
+            ],
+            'client_list': [
+                {'label': 'Name', 'key': 'name'},
+                {'label': 'IP', 'key': 'address'},
+                {'label': 'Version', 'key': 'version'},
+                {'label': 'Last keepalive', 'key': 'timestamp',
+                 'formatter': 'timeAgo'}
             ]
         }
     },

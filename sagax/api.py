@@ -23,6 +23,9 @@ class Sensu(object):
     def events(self, client=None, check=None):
         return self.api.events(client, check)
 
+    def clients(self):
+        return self.api.clients()
+
 
 @hug.startup()
 def load_sensu_api(api):
@@ -59,3 +62,8 @@ def frontend_config():
 @hug.get('/events')
 def events(sensu: Sensu, client: str=None, check: str=None):
     return sensu.events(client, check)
+
+
+@hug.get('/clients')
+def clients(sensu: Sensu):
+    return sensu.clients()

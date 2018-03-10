@@ -1,28 +1,22 @@
 <template>
-  <div class="events-table-container">
-    <p>Table will go here.</p>
-    <b-button variant="success">Vue Btn</b-button>
-  </div>
+  <b-card>
+    <b-table :items="events" :fields="fields" striped/>
+  </b-card>
 </template>
 
 <script>
-// import config from '../services/config'
-import api from '../services/api'
+import { mapState } from 'vuex'
 
 export default {
   name: 'EventsPage',
-  data () {
-    return {
-      loading: false,
-      events: []
+  computed: {
+    ...mapState({ events: state => state.events.events }),
+    fields () {
+      return this.getConfig('fields.event_list', [])
     }
   },
   created () {
-    this.loading = true
-    api.getEvents(data => {
-      this.events = data
-      this.loading = false
-    })
+    return this.$store.dispatch('getEvents')
   }
 
 }

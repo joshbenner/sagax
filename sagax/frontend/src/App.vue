@@ -3,14 +3,8 @@
 </template>
 
 <script>
-import {loadConfig} from './services/config'
-
 export default {
-  name: 'App',
-
-  created () {
-    loadConfig()
-  }
+  name: 'App'
 }
 </script>
 

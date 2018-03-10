@@ -17,6 +17,10 @@ class SensuAPI(ABC):
     def events(self, client: str=None, check: str=None) -> list:
         raise NotImplemented
 
+    @abstractmethod
+    def clients(self) -> list:
+        raise NotImplemented
+
 
 class Sensu1API(SensuAPI, HTTP):
     """
@@ -34,6 +38,10 @@ class Sensu1API(SensuAPI, HTTP):
     def events(self, client: str=None, check: str=None) -> list:
         path = '/events/{}/{}'.format(client or '', check or '').rstrip('/')
         r = self.get(path)
+        return r.data
+
+    def clients(self) -> list:
+        r = self.get('/clients')
         return r.data
 
 

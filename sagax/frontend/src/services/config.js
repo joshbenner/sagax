@@ -1,13 +1,5 @@
-import {HTTP} from './http-client'
+import { mapGetters } from 'vuex'
 
-export const config = {}
-
-export function loadConfig () {
-  HTTP.get('config')
-    .then(response => {
-      Object.assign(config, response.data)
-    })
-    .catch(e => {
-      console.log('Error loading config: ', e)
-    })
+export const configMixin = {
+  computed: mapGetters(['getConfig'])
 }

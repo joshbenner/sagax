@@ -1,13 +1,15 @@
 import { HTTP } from './http-client'
 
-export default {
-  getEvents (cb) {
-    HTTP.get('events')
-      .then(response => {
-        cb(response.data)
-      })
-      .catch(e => {
-        console.log('Failed getting events: ', e)
-      })
+function getter (path) {
+  return function (cb) {
+    HTTP.get(path)
+      .then(r => cb(r.data))
+      .catch(e => console.log('Failed getting path: ', e))
   }
+}
+
+export default {
+  getConfig: getter('config'),
+  getEvents: getter('events'),
+  getClients: getter('clients')
 }
