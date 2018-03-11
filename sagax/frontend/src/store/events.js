@@ -24,7 +24,7 @@ const getters = {
 
     for (let event of state.events) {
       let name = event.client.name
-      let status = event.status
+      let status = event.check.status
       // Squash unknown values to -1.
       if (!(status in [0, 1, 2])) {
         status = -1
@@ -32,8 +32,8 @@ const getters = {
           maxStatus[name] = status
         }
       }
-      if (maxStatus[name] < event.status) {
-        maxStatus[name] = event.status
+      if (maxStatus[name] < status) {
+        maxStatus[name] = status
       }
     }
 

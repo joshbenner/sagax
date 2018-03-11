@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import moment from 'moment'
 import api from '../services/api'
 
 import config from './config'
@@ -12,7 +13,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
-    loading: 0
+    loading: 0,
+    lastRefresh: 0
   },
   modules: {
     config,
@@ -25,6 +27,10 @@ export default new Vuex.Store({
     },
     doneLoading (state) {
       state.loading -= 1
+    },
+    doneRefresh (state) {
+      state.loading -= 1
+      state.lastRefresh = moment().unix()
     }
   },
   actions: {
@@ -36,7 +42,11 @@ export default new Vuex.Store({
           commit('setClients', data['clients'])
           resolve()
         })
-      }).then(() => commit('doneLoading'))
+      }).then(() => commit('doneRefresh'))
     }
+  },
+  getters: {
+    lastRefresh: (state) => state.lastRefresh,
+    sinceLastRefresh: (state, getters) => moment().unix() - getters.lastRefresh
   }
 })

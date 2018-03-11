@@ -11,6 +11,7 @@ export default {
       () => this.$store.dispatch('refreshAll'),
       seconds * 1000
     )
+    this.$store.dispatch('refreshAll')
   },
   beforeDestroy () {
     clearInterval(this.timer)
