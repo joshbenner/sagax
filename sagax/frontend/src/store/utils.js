@@ -1,6 +1,8 @@
+import moment from 'moment'
+
 export function loader (loaderFunc, mutation) {
   return function ({ commit, getters }) {
-    if (getters.sinceLastRefresh < 1) {
+    if (moment().unix() - getters.lastRefresh[mutation] < 1) {
       return
     }
     commit('startLoading')
@@ -9,6 +11,6 @@ export function loader (loaderFunc, mutation) {
         commit(mutation, data)
         resolve()
       })
-    }).then(() => commit('doneLoading'))
+    }).then(() => commit('doneLoading', mutation))
   }
 }

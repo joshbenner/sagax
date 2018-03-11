@@ -14,7 +14,7 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
     loading: 0,
-    lastRefresh: 0
+    lastRefresh: {}
   },
   modules: {
     config,
@@ -25,12 +25,12 @@ export default new Vuex.Store({
     startLoading (state) {
       state.loading += 1
     },
-    doneLoading (state) {
+    doneLoading (state, datasets) {
       state.loading -= 1
-    },
-    doneRefresh (state) {
-      state.loading -= 1
-      state.lastRefresh = moment().unix()
+      let now = moment().unix()
+      for (let ds of datasets) {
+        state.lastRefresh[ds] = now
+      }
     }
   },
   actions: {
@@ -42,11 +42,10 @@ export default new Vuex.Store({
           commit('setClients', data['clients'])
           resolve()
         })
-      }).then(() => commit('doneRefresh'))
+      }).then(() => commit('doneLoading', ['setEvents', 'setClients']))
     }
   },
   getters: {
-    lastRefresh: (state) => state.lastRefresh,
-    sinceLastRefresh: (state, getters) => moment().unix() - getters.lastRefresh
+    lastRefresh: (state) => state.lastRefresh
   }
 })
