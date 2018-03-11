@@ -9,13 +9,19 @@
     <router-link :to="url" :class="classList">
       <i :class="icon"></i> {{name}}
       <b-badge v-if="badge && badge.text" :variant="badge.variant">{{badge.text}}</b-badge>
+      <count-badge v-for="countBadge in countBadges" :counter="countBadge.getter" :variant="countBadge.variant" :key="countBadge.getter"/>
     </router-link>
   </div>
 </template>
 
 <script>
+import SidebarCountBadge from './SidebarCountBadge'
+
 export default {
   name: 'sidebar-nav-link',
+  components: {
+    'count-badge': SidebarCountBadge
+  },
   props: {
     name: {
       type: String,
@@ -32,6 +38,10 @@ export default {
     badge: {
       type: Object,
       default: () => {}
+    },
+    countBadges: {
+      type: Array,
+      default: () => []
     },
     variant: {
       type: String,

@@ -24,13 +24,13 @@
                     <!-- Second level dropdown -->
                     <SidebarNavDropdown :name="childL1.name" :url="childL1.url" :icon="childL1.icon" :key="'nav-dropdown-' + index + '-' + childL1Index">
                       <li class="nav-item" v-for="(childL2, childL2Index) in childL1.children" :key="'nav-li-' + index + '-' + childL2Index">
-                        <SidebarNavLink :name="childL2.name" :url="childL2.url" :icon="childL2.icon" :badge="childL2.badge" :variant="item.variant"/>
+                        <SidebarNavLink :name="childL2.name" :url="childL2.url" :icon="childL2.icon" :badge="childL2.badge" :countBadges="childL2.countBadges" :variant="item.variant"/>
                       </li>
                     </SidebarNavDropdown>
                   </template>
                   <template v-else>
                     <SidebarNavItem :classes="item.class" :key="'nav-item-' + index + '-' + childL1Index">
-                      <SidebarNavLink :name="childL1.name" :url="childL1.url" :icon="childL1.icon" :badge="childL1.badge" :variant="item.variant"/>
+                      <SidebarNavLink :name="childL1.name" :url="childL1.url" :icon="childL1.icon" :badge="childL1.badge" :countBadges="childL1.countBadges" :variant="item.variant"/>
                     </SidebarNavItem>
                   </template>
                 </template>
@@ -38,7 +38,7 @@
             </template>
             <template v-else>
               <SidebarNavItem :classes="item.class" :key="'nav-item-' + index">
-                <SidebarNavLink :name="item.name" :url="item.url" :icon="item.icon" :badge="item.badge" :variant="item.variant"/>
+                <SidebarNavLink :name="item.name" :url="item.url" :icon="item.icon" :badge="item.badge" :countBadges="item.countBadges" :variant="item.variant"/>
               </SidebarNavItem>
             </template>
           </template>
