@@ -12,5 +12,6 @@ export default {
   getConfig: getter('config'),
   getRefresh: getter('refresh'),
   getEvents: getter('events'),
-  getClients: getter('clients')
+  getClients: getter('clients'),
+  getSilenced: getter('silenced')
 }

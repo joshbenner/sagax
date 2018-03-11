@@ -21,6 +21,14 @@ class SensuAPI(ABC):
     def clients(self) -> list:
         raise NotImplemented
 
+    @abstractmethod
+    def silenced(self) -> list:
+        raise NotImplemented
+
+    @abstractmethod
+    def results(self) -> list:
+        raise NotImplemented
+
 
 class Sensu1API(SensuAPI, HTTP):
     """
@@ -42,6 +50,14 @@ class Sensu1API(SensuAPI, HTTP):
 
     def clients(self) -> list:
         r = self.get('/clients')
+        return r.data
+
+    def silenced(self) -> list:
+        r = self.get('/silenced')
+        return r.data
+
+    def results(self) -> list:
+        r = self.get('/results')
         return r.data
 
 

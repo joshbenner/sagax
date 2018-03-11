@@ -11,8 +11,10 @@ settings_schema = {
         'refresh_interval': 5,
         'fields': {
             'event_list': [
-                {'label': 'Client', 'key': 'client.name'},
-                {'label': 'Check', 'key': 'check.name'},
+                {'label': 'Client', 'key': 'client.name',
+                 'formatter': 'clientName'},
+                {'label': 'Check', 'key': 'check.name',
+                 'formatter': 'checkName'},
                 {'label': 'Output', 'key': 'check.output'},
                 {'label': 'Occurrences', 'key': 'occurrences'},
                 {'label': 'Last Occurrence', 'key': 'timestamp',
@@ -26,6 +28,15 @@ settings_schema = {
                 {'label': 'Version', 'key': 'version'},
                 {'label': 'Last keepalive', 'key': 'timestamp',
                  'formatter': 'timeAgo'}
+            ],
+            'silenced_list': [
+                {'label': 'ID', 'key': 'id'},
+                {'label': 'Reason', 'key': 'reason'},
+                {'label': 'Creator', 'key': 'creator'},
+                {'label': 'Created', 'key': 'timestamp',
+                 'formatter': 'timeAgo'},
+                {'label': 'Expires', 'key': 'expire',
+                 'formatter': 'silenceExpire'}
             ]
         }
     },

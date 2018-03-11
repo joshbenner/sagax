@@ -10,12 +10,18 @@
         </div>
       </main>
     </div>
+    <SilenceModal/>
   </div>
 </template>
 
 <script>
 import nav from '../_nav'
-import { Header as AppHeader, Sidebar, Aside as AppAside, Footer as AppFooter, Breadcrumb } from '../components/'
+import AppHeader from '../components/Header'
+import Sidebar from '../components/Sidebar/Sidebar'
+import AppAside from '../components/Aside'
+import AppFooter from '../components/Footer'
+import Breadcrumb from '../components/Breadcrumb'
+import SilenceModal from '../components/SilenceModal'
 
 export default {
   name: 'full',
@@ -24,7 +30,8 @@ export default {
     Sidebar,
     AppAside,
     AppFooter,
-    Breadcrumb
+    Breadcrumb,
+    SilenceModal
   },
   data () {
     return {

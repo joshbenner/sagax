@@ -26,6 +26,12 @@ class Sensu(object):
     def clients(self):
         return self.api.clients()
 
+    def silenced(self):
+        return self.api.silenced()
+
+    def results(self):
+        return self.api.results()
+
 
 @hug.startup()
 def load_sensu_api(api):
@@ -63,7 +69,8 @@ def frontend_config():
 def refresh(sensu: Sensu):
     return {
         'events': sensu.events(),
-        'clients': sensu.clients()
+        'clients': sensu.clients(),
+        'silenced': sensu.silenced()
     }
 
 
@@ -75,3 +82,13 @@ def events(sensu: Sensu, client: str=None, check: str=None):
 @hug.get('/clients')
 def clients(sensu: Sensu):
     return sensu.clients()
+
+
+@hug.get('/silenced')
+def clients(sensu: Sensu):
+    return sensu.silenced()
+
+
+@hug.get('/results')
+def results(sensu: Sensu):
+    return sensu.results()

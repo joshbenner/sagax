@@ -28,7 +28,17 @@ const getters = {
   okClientCount: (state, getters) => getters.okClients.length,
   warningClientCount: (state, getters) => getters.warningClients.length,
   criticalClientCount: (state, getters) => getters.criticalClients.length,
-  silencedClientCount: (state, getters) => getters.silencedClients.length
+  silencedClientCount: (state, getters) => getters.silencedClients.length,
+  allSubscriptions: (state) => {
+    let reducer = (subs, client) => subs.concat(client.subscriptions)
+    return Array.from(new Set(state.clients.reduce(reducer, [])))
+  },
+  allSubsInfo: (state, getters) => {
+    return getters.allSubscriptions.map((sub) => {
+      let [name, type] = sub.split(':', 2).reverse().concat('group')
+      return {id: sub, type, name}
+    })
+  }
 }
 
 export default {

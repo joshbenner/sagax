@@ -1,5 +1,7 @@
 <template>
-   <div class="sidebar-form"></div>
+   <div class="sidebar-form">
+     <b-button v-b-modal="'silenceModal'">Silence</b-button>
+   </div>
 </template>
 <script>
 

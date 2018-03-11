@@ -7,6 +7,7 @@ import api from '../services/api'
 import config from './config'
 import events from './events'
 import clients from './clients'
+import silenced from './silenced'
 
 Vue.use(Vuex)
 
@@ -19,7 +20,8 @@ export default new Vuex.Store({
   modules: {
     config,
     events,
-    clients
+    clients,
+    silenced
   },
   mutations: {
     startLoading (state) {

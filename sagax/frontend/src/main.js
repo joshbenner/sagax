@@ -14,6 +14,15 @@ import bBadge from 'bootstrap-vue/es/components/badge/badge'
 import bLink from 'bootstrap-vue/es/components/link/link'
 import bTable from 'bootstrap-vue/es/components/table/table'
 import bCard from 'bootstrap-vue/es/components/card/card'
+import bModal from 'bootstrap-vue/es/components/modal/modal'
+import bModalDirective from 'bootstrap-vue/es/directives/modal/modal'
+import bForm from 'bootstrap-vue/es/components/form/form'
+import bFormGroup from 'bootstrap-vue/es/components/form-group/form-group'
+import bFormInput from 'bootstrap-vue/es/components/form-input/form-input'
+import bInputGroup from 'bootstrap-vue/es/components/input-group/input-group'
+import bInputGroupAppend from 'bootstrap-vue/es/components/input-group/input-group-append'
+import Multiselect from 'vue-multiselect'
+import Autocomplete from './components/Autocomplete'
 
 Vue.use(Vuex)
 
@@ -22,6 +31,15 @@ Vue.component('b-badge', bBadge)
 Vue.component('b-link', bLink)
 Vue.component('b-table', bTable)
 Vue.component('b-card', bCard)
+Vue.component('b-modal', bModal)
+Vue.directive('b-modal', bModalDirective)
+Vue.component('b-form', bForm)
+Vue.component('b-form-group', bFormGroup)
+Vue.component('b-form-input', bFormInput)
+Vue.component('b-input-group', bInputGroup)
+Vue.component('b-input-group-append', bInputGroupAppend)
+Vue.component('multiselect', Multiselect)
+Vue.component('autocomplete', Autocomplete)
 
 Vue.config.productionTip = false
 

@@ -27,5 +27,6 @@ $navbar-brand-minimized-logo: url('../static/img/logo-symbol.png');
 @import 'simple-line-icons/css/simple-line-icons.css';
 @import 'bootstrap-vue/dist/bootstrap-vue.css';
 @import 'bootstrap/scss/bootstrap.scss';
+@import 'vue-multiselect/dist/vue-multiselect.min.css';
 @import 'styles/style.scss';
 </style>

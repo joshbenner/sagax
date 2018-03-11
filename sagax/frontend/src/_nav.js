@@ -37,6 +37,11 @@ export default {
           variant: 'success'
         }
       ]
+    },
+    {
+      name: 'Silenced',
+      url: '/silenced',
+      icon: 'fa fa-bell-slash-o'
     }
   ]
 }
