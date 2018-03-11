@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import api from '../services/api'
+
 import config from './config'
 import events from './events'
 import clients from './clients'
@@ -8,6 +10,7 @@ import clients from './clients'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  strict: process.env.NODE_ENV !== 'production',
   state: {
     loading: 0
   },
@@ -24,5 +27,16 @@ export default new Vuex.Store({
       state.loading -= 1
     }
   },
-  strict: process.env.NODE_ENV !== 'production'
+  actions: {
+    refreshAll ({ dispatch, commit }) {
+      commit('startLoading')
+      return new Promise((resolve) => {
+        api.getRefresh(data => {
+          commit('setEvents', data['events'])
+          commit('setClients', data['clients'])
+          resolve()
+        })
+      }).then(() => commit('doneLoading'))
+    }
+  }
 })

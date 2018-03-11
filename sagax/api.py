@@ -59,6 +59,14 @@ def frontend_config():
     return config.frontend.dump_values()
 
 
+@hug.get('/refresh')
+def refresh(sensu: Sensu):
+    return {
+        'events': sensu.events(),
+        'clients': sensu.clients()
+    }
+
+
 @hug.get('/events')
 def events(sensu: Sensu, client: str=None, check: str=None):
     return sensu.events(client, check)

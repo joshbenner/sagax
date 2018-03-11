@@ -4,7 +4,17 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created () {
+    let seconds = this.getConfig('refresh_interval', 5)
+    this.timer = setInterval(
+      () => this.$store.dispatch('refreshAll'),
+      seconds * 1000
+    )
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)
+  }
 }
 </script>
 

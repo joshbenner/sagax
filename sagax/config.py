@@ -5,6 +5,7 @@ from configmanager import Config, Item
 settings_schema = {
     'frontend': {
         'timestamp_format': Item(default='YYYY-MM-DD HH:mm:ss z', envvar=True),
+        'refresh_interval': 5,
         'fields': {
             'event_list': [
                 {'label': 'Client', 'key': 'client.name'},

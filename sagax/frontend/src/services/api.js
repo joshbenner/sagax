@@ -10,6 +10,7 @@ function getter (path) {
 
 export default {
   getConfig: getter('config'),
+  getRefresh: getter('refresh'),
   getEvents: getter('events'),
   getClients: getter('clients')
 }
