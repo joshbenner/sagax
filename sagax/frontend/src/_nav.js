@@ -18,7 +18,7 @@ export default {
     {
       name: 'Clients',
       url: '/clients',
-      icon: 'icon-organization',
+      icon: 'fa fa-server',
       countBadges: [
         {
           getter: 'criticalClientCount',

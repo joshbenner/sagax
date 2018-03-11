@@ -1,6 +1,9 @@
 import os
+import urllib3
 
 from configmanager import Config, Item
+
+urllib3.disable_warnings()
 
 settings_schema = {
     'frontend': {
