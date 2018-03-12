@@ -28,8 +28,10 @@ import Multiselect from 'vue-multiselect'
 import Autocomplete from './components/Autocomplete'
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
+import Notifications from 'vue-notification'
 
 Vue.use(Vuex)
+Vue.use(Notifications)
 
 Vue.component('b-button', bButton)
 Vue.component('b-badge', bBadge)

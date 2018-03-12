@@ -11,6 +11,7 @@
       </main>
     </div>
     <SilenceModal/>
+    <notifications group="main"/>
   </div>
 </template>
 

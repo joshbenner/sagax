@@ -216,7 +216,22 @@ export default {
       let silenced = this.buildSilencedEntry()
       console.log(silenced)
       api.postSilenced(silenced).then((r) => {
-        console.log(r)
+        if (r.status === 201) {
+          this.$notify({
+            group: 'main',
+            type: 'success',
+            title: 'Silence entry created',
+            text: 'The silence entry was succesfully created in Sensu'
+          })
+        } else {
+          console.log(r)
+          this.$notify({
+            group: 'main',
+            type: 'error',
+            title: 'Error creating silence entry',
+            text: 'Something went wrong. See the console for more info.'
+          })
+        }
       })
       this.resetForm()
     }
