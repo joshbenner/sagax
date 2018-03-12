@@ -26,6 +26,10 @@ class SensuAPI(ABC):
         raise NotImplemented
 
     @abstractmethod
+    def create_silenced(self, silence) -> tuple:
+        raise NotImplemented
+
+    @abstractmethod
     def results(self) -> list:
         raise NotImplemented
 
@@ -55,6 +59,10 @@ class Sensu1API(SensuAPI, HTTP):
     def silenced(self) -> list:
         r = self.get('/silenced')
         return r.data
+
+    def create_silenced(self, silenced):
+        r = self.post('/silenced', **silenced)
+        return r.status_code, r.data
 
     def results(self) -> list:
         r = self.get('/results')

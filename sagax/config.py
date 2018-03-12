@@ -9,6 +9,16 @@ settings_schema = {
     'frontend': {
         'timestamp_format': Item(default='YYYY-MM-DD HH:mm:ss z', envvar=True),
         'refresh_interval': 5,
+        'silence_intervals': [
+            '15 minutes',
+            '30 minutes',
+            '1 hour',
+            '2 hours',
+            '4 hours',
+            '8 hours',
+            '1 day'
+        ],
+        'silence_interval_default': '2 hours',
         'fields': {
             'event_list': [
                 {'label': 'Client', 'key': 'client.name',

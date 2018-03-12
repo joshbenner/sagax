@@ -1,6 +1,7 @@
 import pkg_resources
 
 import hug
+from falcon import get_http_status
 
 from sagax.config import config
 from sagax.sensu import sensu_factory
@@ -29,6 +30,9 @@ class Sensu(object):
     def silenced(self):
         return self.api.silenced()
 
+    def create_silenced(self, silenced):
+        return self.api.create_silenced(silenced)
+
     def results(self):
         return self.api.results()
 
@@ -53,7 +57,7 @@ def static():
 
 
 @hug.get('/health')
-def health(sensu: Sensu):
+def get_health(sensu: Sensu):
     return {
         'sagax': 'ok',
         'sensu': 'ok' if sensu.is_healthy() else 'NOT OK'
@@ -61,12 +65,12 @@ def health(sensu: Sensu):
 
 
 @hug.get('/config')
-def frontend_config():
+def get_frontend_config():
     return config.frontend.dump_values()
 
 
 @hug.get('/refresh')
-def refresh(sensu: Sensu):
+def get_refresh(sensu: Sensu):
     return {
         'events': sensu.events(),
         'clients': sensu.clients(),
@@ -75,18 +79,25 @@ def refresh(sensu: Sensu):
 
 
 @hug.get('/events')
-def events(sensu: Sensu, client: str=None, check: str=None):
+def get_events(sensu: Sensu, client: str=None, check: str=None):
     return sensu.events(client, check)
 
 
 @hug.get('/clients')
-def clients(sensu: Sensu):
+def get_clents(sensu: Sensu):
     return sensu.clients()
 
 
 @hug.get('/silenced')
-def clients(sensu: Sensu):
+def get_silenced(sensu: Sensu):
     return sensu.silenced()
+
+
+@hug.post('/silenced')
+def post_silenced(sensu: Sensu, body, response):
+    status_code, data = sensu.create_silenced(body)
+    response.status = get_http_status(status_code)
+    return data
 
 
 @hug.get('/results')

@@ -16,7 +16,8 @@ const actions = {
 }
 
 const getters = {
-  allSilenced: (state) => state.silenced
+  allSilenced: (state) => state.silenced,
+  silencedCount: (state) => state.silenced.length
 }
 
 export default {

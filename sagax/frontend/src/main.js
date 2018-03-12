@@ -21,8 +21,13 @@ import bFormGroup from 'bootstrap-vue/es/components/form-group/form-group'
 import bFormInput from 'bootstrap-vue/es/components/form-input/form-input'
 import bInputGroup from 'bootstrap-vue/es/components/input-group/input-group'
 import bInputGroupAppend from 'bootstrap-vue/es/components/input-group/input-group-append'
+import bFormRadioGroup from 'bootstrap-vue/es/components/form-radio/form-radio-group'
+import bFormRadio from 'bootstrap-vue/es/components/form-radio/form-radio'
+import bSelect from 'bootstrap-vue/es/components/form-select/form-select'
 import Multiselect from 'vue-multiselect'
 import Autocomplete from './components/Autocomplete'
+import flatPickr from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
 
 Vue.use(Vuex)
 
@@ -38,8 +43,12 @@ Vue.component('b-form-group', bFormGroup)
 Vue.component('b-form-input', bFormInput)
 Vue.component('b-input-group', bInputGroup)
 Vue.component('b-input-group-append', bInputGroupAppend)
+Vue.component('b-form-radio', bFormRadio)
+Vue.component('b-form-radio-group', bFormRadioGroup)
+Vue.component('b-form-select', bSelect)
 Vue.component('multiselect', Multiselect)
 Vue.component('autocomplete', Autocomplete)
+Vue.component('flat-pickr', flatPickr)
 
 Vue.config.productionTip = false
 

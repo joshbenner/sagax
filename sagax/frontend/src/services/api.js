@@ -8,10 +8,17 @@ function getter (path) {
   }
 }
 
+function postSilenced (silenced) {
+  return HTTP.post('/silenced', silenced)
+    .catch(e => console.log('Failed creating silenced: ', e))
+}
+
 export default {
   getConfig: getter('config'),
   getRefresh: getter('refresh'),
   getEvents: getter('events'),
   getClients: getter('clients'),
-  getSilenced: getter('silenced')
+  getSilenced: getter('silenced'),
+  postSilenced: postSilenced,
+  allResults: getter('results')
 }

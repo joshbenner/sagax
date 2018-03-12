@@ -42,6 +42,7 @@ export default new Vuex.Store({
         api.getRefresh(data => {
           commit('setEvents', data['events'])
           commit('setClients', data['clients'])
+          commit('setSilenced', data['silenced'])
           resolve()
         })
       }).then(() => commit('doneLoading', ['setEvents', 'setClients']))

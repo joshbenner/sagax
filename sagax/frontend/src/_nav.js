@@ -41,7 +41,13 @@ export default {
     {
       name: 'Silenced',
       url: '/silenced',
-      icon: 'fa fa-bell-slash-o'
+      icon: 'fa fa-bell-slash-o',
+      countBadges: [
+        {
+          getter: 'silencedCount',
+          variant: 'info'
+        }
+      ]
     }
   ]
 }

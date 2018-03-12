@@ -1,7 +1,7 @@
 <template>
   <div class="autocomplete">
     <b-input-group>
-      <b-form-input v-model="internalValue"
+      <b-form-input v-model="value"
                     ref="input"
                     autocomplete="off"
                     @input="onInput"
@@ -10,9 +10,14 @@
                     @keydown.native="keydown"
                     @keydown.native.enter="enter"
                     @keydown.native.down="down"
-                    @keydown.native.up="up"/>
+                    @keydown.native.up="up"
+                    :state="state"
+                    :placeholder="placeholder"/>
       <b-input-group-append>
-        <b-button @click="toggleDropdown" variant="primary">
+        <b-button class="autocomplete-clear fa fa-close"
+                  v-if="value.length > 0"
+                  @click="clearInput"/>
+        <b-button @click="clickDropdownButton" variant="primary">
           <i class="fa fa-caret-down"></i>
         </b-button>
       </b-input-group-append>
@@ -44,13 +49,18 @@ export default {
     suggestions: {
       type: Array,
       required: true
+    },
+    state: {},
+    placeholder: {
+      type: String,
+      default: ''
     }
   },
   data: function () {
     return {
       open: false,
       current: 0,
-      internalValue: this.value
+      blurTimer: null
     }
   },
   computed: {
@@ -70,7 +80,7 @@ export default {
     },
     matches () {
       return this.normalizedSuggestions.filter((opt) => {
-        return opt.value.toLowerCase().indexOf(this.internalValue.toLowerCase()) >= 0
+        return opt.value.toLowerCase().indexOf(this.value.toLowerCase()) >= 0
       })
     },
     groupedMatches () {
@@ -96,18 +106,17 @@ export default {
   methods: {
     onInput (value) {
       this.setValue(value)
-      this.$emit('input', value)
     },
     onClickInput () {
-      if (!this.open && this.internalValue === '') {
+      if (!this.open && this.value === '') {
         this.openDropdown()
       }
     },
     onBlurInput (event) {
-      setTimeout(this.closeDropdown, 200)
+      this.blurTimer = setTimeout(this.closeDropdown, 200)
     },
     setValue (value) {
-      this.internalValue = value
+      this.$emit('input', value)
     },
     keydown (event) {
       if (event.keyCode === 27) {
@@ -136,7 +145,7 @@ export default {
       return index === this.current
     },
     selectSuggestion (index) {
-      this.setValue(this.matches[index].value)
+      this.setValue(this.normalizedSuggestions[index].value)
       this.closeDropdown()
     },
     openDropdown () {
@@ -145,6 +154,10 @@ export default {
     },
     closeDropdown () {
       this.open = false
+      if (this.blurTimer !== null) {
+        clearTimeout(this.blurTimer)
+      }
+      this.blurTimer = null
     },
     toggleDropdown () {
       if (this.open) {
@@ -152,18 +165,30 @@ export default {
       } else {
         this.openDropdown()
       }
+    },
+    clearInput () {
+      this.setValue('')
+      this.closeDropdown()
+      this.$refs.input.focus()
+    },
+    clickDropdownButton () {
+      if (this.blurTimer !== null) {
+        clearTimeout(this.blurTimer)
+        this.blurTimer = null
+      }
+      this.toggleDropdown()
     }
   }
 }
 </script>
 
 <style scoped>
-.autocomplete {
-  position: relative;
-}
-.dropdown-menu {
-  width: 100%;
-  max-height: 500px;
-  overflow: auto;
-}
+  .autocomplete {
+    position: relative;
+  }
+  .dropdown-menu {
+    width: 100%;
+    max-height: 500px;
+    overflow: auto;
+  }
 </style>
