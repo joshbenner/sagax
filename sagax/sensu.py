@@ -1,14 +1,16 @@
 from abc import ABC, abstractmethod
 
 from hug.use import HTTP
-
-import sagax.plugins
+from configmanager import Item
 
 
 class SensuAPI(ABC):
     """
     An upstream Sensu API.
     """
+    config_section = 'sensu'
+    config_schema = {}
+
     @abstractmethod
     def is_healthy(self) -> bool:
         raise NotImplemented
@@ -38,6 +40,12 @@ class Sensu1API(SensuAPI, HTTP):
     """
     Sensu 1.x API
     """
+    config_schema = {
+        'url': Item(default='http://127.0.0.1:4567', envvar=True),
+        'insecure': Item(default=False, envvar=True, type=bool),
+        'timeout': Item(default=5, envvar=True, type=int)
+    }
+
     def __init__(self, url, insecure=False, timeout=5):
         super(Sensu1API, self).__init__(url, timeout=timeout)
         if insecure:
@@ -67,12 +75,3 @@ class Sensu1API(SensuAPI, HTTP):
     def results(self) -> list:
         r = self.get('/results')
         return r.data
-
-
-sensu_types = sagax.plugins.get_entry_points('sagax_sensu')
-
-
-def sensu_factory(type_name, config) -> SensuAPI:
-    entry_point = sensu_types[type_name]
-    cls = entry_point.load()
-    return cls(**config)

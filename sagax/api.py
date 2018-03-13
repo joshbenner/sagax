@@ -3,14 +3,20 @@ import pkg_resources
 import hug
 from falcon import get_http_status
 
-from sagax.config import config
-from sagax.sensu import sensu_factory
+from sagax.config import load_config
+from sagax.plugins import plugin_class_factory
+from sagax.tokens import issue_token
 
 ui_path = pkg_resources.resource_filename('sagax', 'frontend/dist')
 static_path = pkg_resources.resource_filename('sagax', 'frontend/dist/static')
 
-api = hug.API(__name__)
-api.http.add_middleware(hug.middleware.CORSMiddleware(api))
+api_ = hug.API(__name__)
+api_.http.add_middleware(hug.middleware.CORSMiddleware(api_))
+
+
+@hug.format.content_type('application/jwt')
+def jwt_content_type(content, **kwargs):
+    return content
 
 
 @hug.directive()
@@ -37,13 +43,47 @@ class Sensu(object):
         return self.api.results()
 
 
+@hug.directive()
+class AuthN(object):
+    def __init__(self, api, *args, **kwargs):
+        self.backend = api.context['authentication']
+
+    def authenticate(self, request):
+        return self.backend.authenticate(request)
+
+
+@hug.startup()
+def load_app_config(api, **kwargs):
+    api.context['config'] = load_config()
+
+
 @hug.startup()
 def load_sensu_api(api):
-    sensu_config = config.sensu.dump_values()
-    type_name = sensu_config['type']
-    del sensu_config['type']
-    api.context['sensu'] = sensu_factory(type_name=type_name,
-                                         config=sensu_config)
+    config = api.context['config']
+    type_name = config.sensu_type.get()
+    api.context['sensu'] = plugin_class_factory('sagax_sensu',
+                                                class_name=type_name,
+                                                config=config)
+
+
+@hug.startup()
+def load_authentication_backend(api):
+    config = api.context['config']
+    type_name = config.authentication_type.get()
+    api.context['authentication'] = plugin_class_factory('sagax_authentication',
+                                                         class_name=type_name,
+                                                         config=config)
+
+
+@hug.post('/auth', output=jwt_content_type)
+def post_auth(hug_api, authn: AuthN, request, response):
+    config = hug_api.context['config']
+    claims = authn.authenticate(request)
+    if isinstance(claims, dict):
+        return issue_token(config, claims)
+    else:
+        response.status = hug.HTTP_401
+        return ''
 
 
 @hug.static('/ui')
@@ -65,7 +105,8 @@ def get_health(sensu: Sensu):
 
 
 @hug.get('/config')
-def get_frontend_config():
+def get_frontend_config(hug_api):
+    config = hug_api.context['config']
     return config.frontend.dump_values()
 
 

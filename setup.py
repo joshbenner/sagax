@@ -23,13 +23,18 @@ setup(
     },
     install_requires=[
         'hug>=2.4,<3',
-        'requests',
+        'falcon',
+        'requests>=2.18,<3',
         'configmanager>=1.34,<2',
-        'pyyaml'
+        'pyyaml>=3.12,<4',
+        'pyjwt>=1.6.0,<2'
     ],
     entry_points={
         'sagax_sensu': [
             'Sensu1API = sagax.sensu:Sensu1API'
+        ],
+        'sagax_authentication': [
+            'NoAuth = sagax.authentication:NoAuth'
         ]
     },
     packages=['sagax'],

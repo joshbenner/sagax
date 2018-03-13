@@ -3,6 +3,8 @@ import urllib3
 
 from configmanager import Config, Item
 
+from sagax.plugins import get_plugin_class
+
 urllib3.disable_warnings()
 
 settings_schema = {
@@ -50,23 +52,41 @@ settings_schema = {
             ]
         }
     },
-    'sensu': {
-        'type': Item(default='Sensu1API', envvar=True),
-        'url': Item(default='http://127.0.0.1:4567', envvar=True),
-        'insecure': Item(default=False, envvar=True, type=bool),
-        'timeout': Item(default=5, envvar=True, type=int)
-    }
+    'jwt': {
+        'secret_key': Item(default='overrideme!', envvar=True),
+        'issuer': Item(default='sagax', envvar=True),
+        'algorithm': Item(default='HS256', envvar=True),
+        'ttl': Item(default=1209600, envvar=True, type=int)
+    },
+    'sensu_type': Item(default='Sensu1API', envvar=True),
+    'authentication_type': Item(default='NoAuth', envvar=True),
 }
-config_file_locations = [
-    '/etc/sagax/settings.yml',
-    '~/.config/sagax/settings.yml'
-]
-if 'SAGAX_CONFIG_FILE' in os.environ:
-    config_file_locations.append(os.environ.get('SAGAX_CONFIG_FILE'))
+
+configurable_plugin_classes = {
+    'sagax_sensu': 'sensu_type',
+    'sagax_authentication': 'authentication_type'
+}
 
 
-config = Config(
-    schema=settings_schema,
-    load_sources=config_file_locations,
-    auto_load=True
-)
+def load_config():
+    config_file_locations = [
+        '/etc/sagax/settings.yml',
+        '~/.config/sagax/settings.yml'
+    ]
+    if 'SAGAX_CONFIG_FILE' in os.environ:
+        config_file_locations.append(os.environ.get('SAGAX_CONFIG_FILE'))
+    # Load base config so we know which plugin classes to load schema for.
+    base = Config(
+        schema=settings_schema,
+        load_sources=config_file_locations,
+        auto_load=True
+    )
+    # Add config schema from configured plugin classes.
+    for plugin_type, config_key in configurable_plugin_classes.items():
+        cls = get_plugin_class(plugin_type, base[config_key].get())
+        settings_schema.update({cls.config_section: cls.config_schema})
+    return Config(
+        schema=settings_schema,
+        load_sources=config_file_locations,
+        auto_load=True
+    )
