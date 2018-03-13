@@ -1,7 +1,10 @@
 from abc import ABC, abstractmethod
 
+import urllib3
 from hug.use import HTTP
 from configmanager import Item
+
+urllib3.disable_warnings()
 
 
 class SensuAPI(ABC):

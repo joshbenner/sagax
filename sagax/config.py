@@ -1,11 +1,8 @@
 import os
-import urllib3
 
 from configmanager import Config, Item
 
 from sagax.plugins import get_plugin_class
-
-urllib3.disable_warnings()
 
 settings_schema = {
     'frontend': {
