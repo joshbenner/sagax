@@ -67,26 +67,28 @@ configurable_plugin_classes = {
     'sagax_authentication': 'authentication_type'
 }
 
+config_file_locations = [
+    '/etc/sagax/settings.yml',
+    '~/.config/sagax/settings.yml'
+]
+if 'SAGAX_CONFIG_FILE' in os.environ:
+    config_file_locations.append(os.environ.get('SAGAX_CONFIG_FILE'))
 
-def load_config():
-    config_file_locations = [
-        '/etc/sagax/settings.yml',
-        '~/.config/sagax/settings.yml'
-    ]
-    if 'SAGAX_CONFIG_FILE' in os.environ:
-        config_file_locations.append(os.environ.get('SAGAX_CONFIG_FILE'))
-    # Load base config so we know which plugin classes to load schema for.
-    base = Config(
-        schema=settings_schema,
-        load_sources=config_file_locations,
-        auto_load=True
-    )
-    # Add config schema from configured plugin classes.
-    for plugin_type, config_key in configurable_plugin_classes.items():
-        cls = get_plugin_class(plugin_type, base[config_key].get())
-        settings_schema.update({cls.config_section: cls.config_schema})
-    return Config(
-        schema=settings_schema,
-        load_sources=config_file_locations,
-        auto_load=True
-    )
+# Load base config so we know which plugin classes to load schema for.
+base_config = Config(
+    schema=settings_schema,
+    load_sources=config_file_locations,
+    auto_load=True
+)
+
+# Add config schema from configured plugin classes.
+for plugin_type, config_key in configurable_plugin_classes.items():
+    cls = get_plugin_class(plugin_type, base_config[config_key].get())
+    settings_schema.update({cls.config_section: cls.config_schema})
+
+config = Config(
+    schema=settings_schema,
+    load_sources=config_file_locations,
+    auto_load=True
+)
+del base_config

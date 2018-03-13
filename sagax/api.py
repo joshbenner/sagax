@@ -3,7 +3,7 @@ import pkg_resources
 import hug
 from falcon import get_http_status
 
-from sagax.config import load_config
+from sagax.config import config
 from sagax.plugins import plugin_class_factory
 from sagax.tokens import issue_token
 
@@ -53,13 +53,7 @@ class AuthN(object):
 
 
 @hug.startup()
-def load_app_config(api, **kwargs):
-    api.context['config'] = load_config()
-
-
-@hug.startup()
 def load_sensu_api(api):
-    config = api.context['config']
     type_name = config.sensu_type.get()
     api.context['sensu'] = plugin_class_factory('sagax_sensu',
                                                 class_name=type_name,
@@ -68,7 +62,6 @@ def load_sensu_api(api):
 
 @hug.startup()
 def load_authentication_backend(api):
-    config = api.context['config']
     type_name = config.authentication_type.get()
     api.context['authentication'] = plugin_class_factory('sagax_authentication',
                                                          class_name=type_name,
@@ -76,8 +69,7 @@ def load_authentication_backend(api):
 
 
 @hug.post('/auth', output=jwt_content_type)
-def post_auth(hug_api, authn: AuthN, request, response):
-    config = hug_api.context['config']
+def post_auth(authn: AuthN, request, response):
     claims = authn.authenticate(request)
     if isinstance(claims, dict):
         return issue_token(config, claims)
@@ -105,8 +97,7 @@ def get_health(sensu: Sensu):
 
 
 @hug.get('/config')
-def get_frontend_config(hug_api):
-    config = hug_api.context['config']
+def get_frontend_config():
     return config.frontend.dump_values()
 
 
