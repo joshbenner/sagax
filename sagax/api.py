@@ -5,13 +5,30 @@ from falcon import get_http_status
 
 from sagax.config import config
 from sagax.plugins import plugin_class_factory
-from sagax.tokens import issue_token
+from sagax.tokens import issue_token, verify_token
 
 ui_path = pkg_resources.resource_filename('sagax', 'frontend/dist')
 static_path = pkg_resources.resource_filename('sagax', 'frontend/dist/static')
 
 api_ = hug.API(__name__)
 api_.http.add_middleware(hug.middleware.CORSMiddleware(api_))
+
+
+# @hug.authentication.authenticator
+def token_auth(request, response, **kwargs):
+    header = request.get_header('Authorization')
+    if not header:
+        raise hug.HTTPUnauthorized('Authentication Required',
+                                   'No Authorization header')
+    schema, _, encoded_token = header.partition(' ')
+    if schema.lower() != 'bearer':
+        raise hug.HTTPUnauthorized('Invalid Authentication',
+                                   'Authorization schema must be Bearer')
+    try:
+        verify_token(encoded_token)
+    except Exception as e:
+        raise hug.HTTPUnauthorized('Invalid Authentication', str(e))
+    return True
 
 
 @hug.format.content_type('application/jwt')
@@ -72,7 +89,7 @@ def load_authentication_backend(api):
 def post_auth(authn: AuthN, request, response):
     claims = authn.authenticate(request)
     if isinstance(claims, dict):
-        return issue_token(config, claims)
+        return issue_token(claims)
     else:
         response.status = hug.HTTP_401
         return ''
@@ -101,7 +118,7 @@ def get_frontend_config():
     return config.frontend.dump_values()
 
 
-@hug.get('/refresh')
+@hug.get('/refresh', requires=token_auth)
 def get_refresh(sensu: Sensu):
     return {
         'events': sensu.events(),
@@ -110,28 +127,28 @@ def get_refresh(sensu: Sensu):
     }
 
 
-@hug.get('/events')
+@hug.get('/events', requires=token_auth)
 def get_events(sensu: Sensu, client: str=None, check: str=None):
     return sensu.events(client, check)
 
 
-@hug.get('/clients')
+@hug.get('/clients', requires=token_auth)
 def get_clents(sensu: Sensu):
     return sensu.clients()
 
 
-@hug.get('/silenced')
+@hug.get('/silenced', requires=token_auth)
 def get_silenced(sensu: Sensu):
     return sensu.silenced()
 
 
-@hug.post('/silenced')
+@hug.post('/silenced', requires=token_auth)
 def post_silenced(sensu: Sensu, body, response):
     status_code, data = sensu.create_silenced(body)
     response.status = get_http_status(status_code)
     return data
 
 
-@hug.get('/results')
+@hug.get('/results', requires=token_auth)
 def results(sensu: Sensu):
     return sensu.results()
