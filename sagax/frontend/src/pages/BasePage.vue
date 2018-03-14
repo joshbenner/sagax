@@ -17,6 +17,8 @@
 
 <script>
 import nav from '../_nav'
+import auth from '../services/auth'
+
 import AppHeader from '../components/Header'
 import Sidebar from '../components/Sidebar/Sidebar'
 import AppAside from '../components/Aside'
@@ -25,7 +27,7 @@ import Breadcrumb from '../components/Breadcrumb'
 import SilenceModal from '../components/SilenceModal'
 
 export default {
-  name: 'full',
+  name: 'BasePage',
   components: {
     AppHeader,
     Sidebar,
@@ -45,6 +47,24 @@ export default {
     },
     list () {
       return this.$route.matched
+    }
+  },
+  created () {
+    if (!this.getConfig('require_authentication') || auth.isAuthenticated()) {
+      this.startRefresh()
+    }
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)
+  },
+  methods: {
+    startRefresh () {
+      let seconds = this.getConfig('refresh_interval', 5)
+      this.timer = setInterval(
+        () => this.$store.dispatch('refreshAll'),
+        seconds * 1000
+      )
+      this.$store.dispatch('refreshAll')
     }
   }
 }

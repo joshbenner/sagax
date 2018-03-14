@@ -19,5 +19,6 @@ def issue_token(claims: dict, expires: int=None):
 
 
 def verify_token(encoded_token):
-    jwt.decode(encoded_token, config.jwt.secret_key.get(),
-               algorithms=[config.jwt.algorithm.get()])
+    return jwt.decode(encoded_token, config.jwt.secret_key.get(),
+                      algorithms=[config.jwt.algorithm.get()],
+                      issuer=config.jwt.issuer.get())

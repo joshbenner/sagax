@@ -3,30 +3,8 @@
 </template>
 
 <script>
-import api from './services/api'
-
 export default {
-  name: 'App',
-  created () {
-    if (api.authenticated()) {
-      this.startRefresh()
-    } else {
-      api.authenticate().then(this.startRefresh)
-    }
-  },
-  beforeDestroy () {
-    clearInterval(this.timer)
-  },
-  methods: {
-    startRefresh () {
-      let seconds = this.getConfig('refresh_interval', 5)
-      this.timer = setInterval(
-        () => this.$store.dispatch('refreshAll'),
-        seconds * 1000
-      )
-      this.$store.dispatch('refreshAll')
-    }
-  }
+  name: 'App'
 }
 </script>
 

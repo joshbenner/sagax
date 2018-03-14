@@ -34,7 +34,8 @@ setup(
             'Sensu1API = sagax.sensu:Sensu1API'
         ],
         'sagax_authentication': [
-            'NoAuth = sagax.authentication:NoAuth'
+            'NoAuth = sagax.authentication:NoAuth',
+            'StaticAuth = sagax.authentication:StaticAuth'
         ]
     },
     packages=['sagax'],

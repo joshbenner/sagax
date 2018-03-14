@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import BasePage from '../components/BasePage'
+import BasePage from '../pages/BasePage'
+import LoginPage from '../pages/LoginPage'
 import EventsPage from '../pages/EventsPage'
 import ClientsPage from '../pages/ClientsPage'
 import SilencedPage from '../pages/SilencedPage'
@@ -13,6 +14,11 @@ export default new Router({
   linkActiveClass: 'open active',
   scrollBehavior: () => ({ y: 0 }),
   routes: [
+    {
+      path: '/login',
+      name: 'Login',
+      component: LoginPage
+    },
     {
       path: '/',
       redirect: '/events',

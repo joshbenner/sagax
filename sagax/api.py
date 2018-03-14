@@ -14,8 +14,10 @@ api_ = hug.API(__name__)
 api_.http.add_middleware(hug.middleware.CORSMiddleware(api_))
 
 
-# @hug.authentication.authenticator
 def token_auth(request, response, **kwargs):
+    if not config.require_authentication.get():
+        request.context['user'] = {'username': 'anonymous'}
+        return True
     header = request.get_header('Authorization')
     if not header:
         raise hug.HTTPUnauthorized('Authentication Required',
@@ -25,9 +27,10 @@ def token_auth(request, response, **kwargs):
         raise hug.HTTPUnauthorized('Invalid Authentication',
                                    'Authorization schema must be Bearer')
     try:
-        verify_token(encoded_token)
+        token = verify_token(encoded_token)
     except Exception as e:
         raise hug.HTTPUnauthorized('Invalid Authentication', str(e))
+    request.context['user'] = token
     return True
 
 
@@ -65,8 +68,8 @@ class AuthN(object):
     def __init__(self, api, *args, **kwargs):
         self.backend = api.context['authentication']
 
-    def authenticate(self, request):
-        return self.backend.authenticate(request)
+    def authenticate(self, username, password):
+        return self.backend.authenticate(username, password)
 
 
 @hug.startup()
@@ -80,14 +83,15 @@ def load_sensu_api(api):
 @hug.startup()
 def load_authentication_backend(api):
     type_name = config.authentication_type.get()
-    api.context['authentication'] = plugin_class_factory('sagax_authentication',
-                                                         class_name=type_name,
-                                                         config=config)
+    authn = plugin_class_factory('sagax_authentication', class_name=type_name,
+                                 config=config)
+    authn.config = config
+    api.context['authentication'] = authn
 
 
 @hug.post('/auth', output=jwt_content_type)
-def post_auth(authn: AuthN, request, response):
-    claims = authn.authenticate(request)
+def post_auth(authn: AuthN, request, response, username=None, password=None):
+    claims = authn.authenticate(username, password)
     if isinstance(claims, dict):
         return issue_token(claims)
     else:
@@ -115,7 +119,9 @@ def get_health(sensu: Sensu):
 
 @hug.get('/config')
 def get_frontend_config():
-    return config.frontend.dump_values()
+    values = config.frontend.dump_values()
+    values['require_authentication'] = config.require_authentication.get()
+    return values
 
 
 @hug.get('/refresh', requires=token_auth)

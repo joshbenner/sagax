@@ -57,6 +57,7 @@ settings_schema = {
     },
     'sensu_type': Item(default='Sensu1API', envvar=True),
     'authentication_type': Item(default='NoAuth', envvar=True),
+    'require_authentication': False
 }
 
 configurable_plugin_classes = {
