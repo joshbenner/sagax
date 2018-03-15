@@ -34,11 +34,6 @@ def token_auth(request, response, **kwargs):
     return True
 
 
-@hug.format.content_type('application/jwt')
-def jwt_content_type(content, **kwargs):
-    return content
-
-
 @hug.directive()
 class Sensu(object):
     def __init__(self, api, *args, **kwargs):
@@ -89,14 +84,16 @@ def load_authentication_backend(api):
     api.context['authentication'] = authn
 
 
-@hug.post('/auth', output=jwt_content_type)
+@hug.post('/auth')
 def post_auth(authn: AuthN, request, response, username=None, password=None):
     claims = authn.authenticate(username, password)
     if isinstance(claims, dict):
+        response.set_header('Content-Type', 'application/jwt')
         return issue_token(claims)
     else:
         response.status = hug.HTTP_401
-        return ''
+        response.set_header('WWW-Authenticate', 'Sagax')
+        return {'error': 'Authentication failed'}
 
 
 @hug.static('/ui')

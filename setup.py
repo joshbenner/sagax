@@ -19,7 +19,10 @@ setup(
     setup_requires=['setuptools_scm'],
     tests_require=tests_require,
     extras_require={
-        'test': tests_require
+        'test': tests_require,
+        'ldap': [
+            'ldap3>=2.4,<3'
+        ]
     },
     install_requires=[
         'hug>=2.4,<3',
@@ -34,8 +37,9 @@ setup(
             'Sensu1API = sagax.sensu:Sensu1API'
         ],
         'sagax_authentication': [
-            'NoAuth = sagax.authentication:NoAuth',
-            'StaticAuth = sagax.authentication:StaticAuth'
+            'none = sagax.authentication:NoAuth',
+            'static = sagax.authentication:StaticAuth',
+            'ldap = sagax.ldap:LDAPAuthentication'
         ]
     },
     packages=['sagax'],

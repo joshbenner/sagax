@@ -15,7 +15,7 @@ class AuthenticationBackend(ABC):
 
 class NoAuth(AuthenticationBackend):
     def authenticate(self, username, password):
-        return {'sub': 'anonymous', 'email': ''}
+        return {'username': 'anonymous', 'email': ''}
 
 
 class StaticAuth(AuthenticationBackend):
@@ -28,4 +28,4 @@ class StaticAuth(AuthenticationBackend):
         users = {u.lower(): p
                  for u, p in self.config.static_auth.users.get().items()}
         if username.lower() in users and users[username] == password:
-            return {'sub': username.lower(), 'email': ''}
+            return {'username': username.lower(), 'email': ''}

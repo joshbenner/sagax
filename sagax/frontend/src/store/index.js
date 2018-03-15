@@ -56,18 +56,25 @@ export default new Vuex.Store({
   actions: {
     login ({ commit }, { username, password }) {
       return auth.authenticate(username, password)
-        .then((token) => {
-          commit('loggedIn', {
-            username: get(token, 'sub', ''),
-            email: get(token, 'email', '')
-          })
-          router.push('/')
-        })
+        .then(
+          (token) => {
+            commit('loggedIn', {
+              username: get(token, 'username', ''),
+              email: get(token, 'email', '')
+            })
+            router.replace('/')
+            return Promise.resolve(true)
+          },
+          () => Promise.resolve(false)
+        )
     },
     logout ({ commit }) {
       auth.logout()
       commit('loggedOut')
-      router.push('/login')
+      router.replace('/login')
+      commit('clearEvents')
+      commit('clearClients')
+      commit('clearSilenced')
     },
     refreshAll ({ dispatch, commit }) {
       commit('startLoading')

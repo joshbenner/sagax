@@ -8,6 +8,9 @@ const state = {
 const mutations = {
   setClients (state, newClients) {
     state.clients = newClients
+  },
+  clearClients (state) {
+    state.clients = []
   }
 }
 

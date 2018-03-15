@@ -10,16 +10,19 @@ export function maybeLogoutOnLoadFail (e, commit, dispatch) {
 export function loader (loaderFunc, mutation) {
   return function ({ commit, dispatch, getters }) {
     if (moment().unix() - getters.lastRefresh[mutation] < 1) {
-      return
+      return new Promise(() => {})
     }
     commit('startLoading')
-    return new Promise((resolve) => {
-      loaderFunc(data => {
-        commit(mutation, data)
-        resolve()
-      })
+    return loaderFunc(data => {
+      commit(mutation, data)
+      return Promise.resolve(data)
     })
-      .then(() => commit('doneLoading', mutation))
-      .catch((e) => maybeLogoutOnLoadFail(e, commit, dispatch))
+      .then(
+        () => commit('doneLoading', mutation),
+        (e) => {
+          maybeLogoutOnLoadFail(e, commit, dispatch)
+          return Promise.resolve(e)
+        }
+      )
   }
 }

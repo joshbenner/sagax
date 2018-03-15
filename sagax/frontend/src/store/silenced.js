@@ -8,6 +8,9 @@ const state = {
 const mutations = {
   setSilenced (state, newSilenced) {
     state.silenced = newSilenced
+  },
+  clearSilenced (state) {
+    state.silenced = []
   }
 }
 

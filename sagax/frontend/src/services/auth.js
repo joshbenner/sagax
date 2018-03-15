@@ -24,13 +24,15 @@ if (jwt) {
 export default {
   authenticate (username, password) {
     return HTTP.post('/auth', {username: username, password: password})
-      .then((r) => {
-        if (r.status === 200) {
-          setAuthToken(r.data)
-          return decode(r.data)
-        }
-      })
-      .catch(e => console.log('Failed authenticating: ', e))
+      .then(
+        (r) => {
+          if (r.status === 200) {
+            setAuthToken(r.data)
+            return decode(r.data)
+          }
+        },
+        (e) => Promise.reject(e)
+      )
   },
   isAuthenticated () {
     return !!getAuthToken()

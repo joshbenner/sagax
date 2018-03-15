@@ -1,5 +1,5 @@
 <template>
-  <div class="app flex-row align-items-center">
+  <b-form class="app flex-row align-items-center" @submit="login">
     <div class="container">
       <b-row class="justify-content-center">
         <b-col md="6">
@@ -10,17 +10,17 @@
                 <b-input-group-prepend>
                   <b-input-group-text><i class="icon-user"></i></b-input-group-text>
                 </b-input-group-prepend>
-                <b-form-input placeholder="Username" v-model="username"/>
+                <b-form-input placeholder="Username" v-model="username" required/>
               </b-input-group>
               <b-input-group class="mb-4">
                 <b-input-group-prepend>
                   <b-input-group-text><i class="icon-lock"></i></b-input-group-text>
                 </b-input-group-prepend>
-                <b-form-input type="password" placeholder="Password" v-model="password"/>
+                <b-form-input type="password" placeholder="Password" v-model="password" required/>
               </b-input-group>
               <b-row>
                 <b-col cols="6">
-                  <b-button variant="primary" class="px-4" @click="login">Login</b-button>
+                  <b-button variant="primary" class="px-4" type="submit">Login</b-button>
                 </b-col>
               </b-row>
             </b-card-body>
@@ -28,7 +28,7 @@
         </b-col>
       </b-row>
     </div>
-  </div>
+  </b-form>
 </template>
 
 <script>

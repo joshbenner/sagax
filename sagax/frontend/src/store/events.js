@@ -9,6 +9,9 @@ const state = {
 const mutations = {
   setEvents (state, newEvents) {
     state.events = newEvents
+  },
+  clearEvents (state) {
+    state.events = []
   }
 }
 
