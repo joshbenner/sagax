@@ -1,5 +1,6 @@
 import api from '../services/api'
-import { loader } from './utils'
+import { loader, clientSilencedBy } from './utils'
+import find from 'lodash/find'
 
 const state = {
   clients: []
@@ -20,6 +21,7 @@ const actions = {
 
 const getters = {
   allClients: (state) => state.clients,
+  getClient: (state) => (name) => find(state.clients, (c) => c.name === name),
   clientsWithMaxStatus: (state, getters) => (status) => {
     let clientNames = getters.maxStatusByClient
     return state.clients.filter((c) => clientNames[c.name] === status)
@@ -27,7 +29,13 @@ const getters = {
   okClients: (state, getters) => getters.clientsWithMaxStatus(0),
   warningClients: (state, getters) => getters.clientsWithMaxStatus(1),
   criticalClients: (state, getters) => getters.clientsWithMaxStatus(2),
-  silencedClients: (state) => state.clients.filter((c) => c.silenced),
+  silencedClients: (state, getters) => {
+    let silenced = new Set()
+    getters.allSilenced.forEach((s) => {
+      getters.clientsSilencedBy(s).forEach((c) => silenced.add(c))
+    })
+    return Array.from(silenced)
+  },
   okClientCount: (state, getters) => getters.okClients.length,
   warningClientCount: (state, getters) => getters.warningClients.length,
   criticalClientCount: (state, getters) => getters.criticalClients.length,
@@ -41,7 +49,10 @@ const getters = {
       let [name, type] = sub.split(':', 2).reverse().concat('group')
       return {id: sub, type, name}
     })
-  }
+  },
+  clientsSilencedBy: (state) => (silenced) => state.clients.filter((c) => {
+    return clientSilencedBy(c, silenced)
+  })
 }
 
 export default {

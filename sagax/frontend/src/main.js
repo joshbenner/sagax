@@ -6,7 +6,6 @@ import App from './App'
 import router from './router'
 import store from './store'
 
-import { timeMixin } from './services/time'
 import { configMixin } from './services/config'
 
 import bRow from 'bootstrap-vue/es/components/layout/row'
@@ -38,9 +37,12 @@ import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 import Notifications from 'vue-notification'
 import Gravatar from 'vue-gravatar'
+import { ClientTable } from 'vue-tables-2'
+import STable from './components/STable'
 
 Vue.use(Vuex)
 Vue.use(Notifications)
+Vue.use(ClientTable, {}, false, 'bootstrap4')
 
 Vue.component('b-row', bRow)
 Vue.component('b-col', bCol)
@@ -70,9 +72,10 @@ Vue.component('b-nav-item', bNavItem)
 Vue.component('b-nav-item-dropdown', bNavItemDropdown)
 Vue.component('v-gravatar', Gravatar)
 
+Vue.component('s-table', STable)
+
 Vue.config.productionTip = false
 
-Vue.mixin(timeMixin)
 Vue.mixin(configMixin)
 
 /* eslint-disable no-new */

@@ -1,6 +1,6 @@
 <template>
   <b-card>
-    <b-table :items="clients" :fields="fields" striped/>
+    <s-table :items="clients" :fields="fields"/>
   </b-card>
 </template>
 

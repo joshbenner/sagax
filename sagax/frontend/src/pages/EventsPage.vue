@@ -1,6 +1,6 @@
 <template>
   <b-card>
-    <b-table :items="events" :fields="fields" striped/>
+    <s-table :items="events" :fields="fields"/>
   </b-card>
 </template>
 
