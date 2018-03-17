@@ -29,6 +29,7 @@ import bInputGroupAppend from 'bootstrap-vue/es/components/input-group/input-gro
 import bFormRadioGroup from 'bootstrap-vue/es/components/form-radio/form-radio-group'
 import bFormRadio from 'bootstrap-vue/es/components/form-radio/form-radio'
 import bSelect from 'bootstrap-vue/es/components/form-select/form-select'
+import bCheckbox from 'bootstrap-vue/es/components/form-checkbox/form-checkbox'
 import bNavbarNav from 'bootstrap-vue/es/components/navbar/navbar-nav'
 import bNavItem from 'bootstrap-vue/es/components/nav/nav-item'
 import bNavItemDropdown from 'bootstrap-vue/es/components/nav/nav-item-dropdown'
@@ -66,6 +67,7 @@ Vue.component('b-input-group-append', bInputGroupAppend)
 Vue.component('b-form-radio', bFormRadio)
 Vue.component('b-form-radio-group', bFormRadioGroup)
 Vue.component('b-form-select', bSelect)
+Vue.component('b-form-checkbox', bCheckbox)
 Vue.component('multiselect', Multiselect)
 Vue.component('autocomplete', Autocomplete)
 Vue.component('flat-pickr', flatPickr)

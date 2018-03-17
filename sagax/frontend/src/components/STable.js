@@ -1,12 +1,3 @@
-<template>
-  <v-client-table
-    class="s-table"
-    :data="tableData"
-    :columns="columns"
-    :options="options" />
-</template>
-
-<script>
 import get from 'lodash/get'
 import moment from 'moment'
 
@@ -46,7 +37,45 @@ export default {
     },
     fields: {
       required: true
+    },
+    enableSearch: {
+      type: Boolean,
+      default: true
+    },
+    small: {
+      type: Boolean,
+      default: false
+    },
+    striped: {
+      type: Boolean,
+      default: true
+    },
+    countText: {
+      type: String,
+      default: '{count} records'
+    },
+    fakeFields: {
+      type: Array,
+      default: () => []
+    },
+    rowClassCallback: {
+      type: Function,
+      default: false
     }
+  },
+  render (h) {
+    return h(
+      'v-client-table',
+      {
+        scopedSlots: this.$vnode.data.scopedSlots,
+        class: {'s-table': true},
+        props: {
+          data: this.tableData,
+          columns: this.columns,
+          options: this.options
+        }
+      }
+    )
   },
   computed: {
     tableData () {
@@ -61,10 +90,25 @@ export default {
     columns () {
       return this.fields.map(fKey)
     },
+    extraClasses () {
+      let classes = []
+      if (this.small) {
+        classes.push('table-sm')
+      }
+      if (this.striped) {
+        classes.push('table-striped')
+      }
+      return classes
+    },
     options () {
       return {
         headings: this.fields.reduce((o, f) => {
-          o[fKey(f)] = f.label
+          let key = fKey(f)
+          if ('label' in f) {
+            o[key] = f.label
+          } else if (`h__${key}` in this.$slots) {
+            o[key] = () => this.$slots[`h__${key}`][0]
+          }
           return o
         }, {}),
         templates: this.fields.reduce((o, f) => {
@@ -78,13 +122,14 @@ export default {
         }, {}),
         perPage: 99999,
         perPageValues: [],
-        skin: 'table table-striped',
+        skin: 'table ' + this.extraClasses.join(' '),
         texts: {
           filter: '',
-          count: '{count} records'
-        }
+          count: this.countText
+        },
+        filterable: this.enableSearch,
+        rowClassCallback: this.rowClassCallback
       }
     }
   }
 }
-</script>

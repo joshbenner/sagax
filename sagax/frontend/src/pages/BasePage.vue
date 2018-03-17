@@ -13,6 +13,8 @@
     <SilenceModal ref="silenceModal"
                   :initialSubscription="silenceSubscription"
                   :initialCheck="silenceCheck"/>
+    <UnsilenceModal ref="unsilenceModal"
+                    :silenceIds="silenceIdsToDelete"/>
     <notifications group="main"/>
   </div>
 </template>
@@ -28,6 +30,7 @@ import AppAside from '../components/Aside'
 import AppFooter from '../components/Footer'
 import Breadcrumb from '../components/Breadcrumb'
 import SilenceModal from '../components/SilenceModal'
+import UnsilenceModal from '../components/UnsilenceModal'
 
 export default {
   name: 'BasePage',
@@ -37,13 +40,15 @@ export default {
     AppAside,
     AppFooter,
     Breadcrumb,
-    SilenceModal
+    SilenceModal,
+    UnsilenceModal
   },
   data () {
     return {
       nav: nav.items,
       silenceSubscription: '',
-      silenceCheck: ''
+      silenceCheck: '',
+      silenceIdsToDelete: []
     }
   },
   computed: {
@@ -56,6 +61,7 @@ export default {
   },
   mounted () {
     bus.$on('show-silence-modal', this.showSilenceModal)
+    bus.$on('show-unsilence-modal', this.showUnsilenceModal)
   },
   created () {
     if (!this.getConfig('require_authentication') || auth.isAuthenticated()) {
@@ -78,6 +84,10 @@ export default {
       this.silenceSubscription = subscription || ''
       this.silenceCheck = check || ''
       this.$refs.silenceModal.show()
+    },
+    showUnsilenceModal (silenceIds) {
+      this.silenceIdsToDelete = silenceIds
+      this.$refs.unsilenceModal.show()
     }
   }
 }

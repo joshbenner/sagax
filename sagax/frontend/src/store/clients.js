@@ -1,5 +1,6 @@
 import api from '../services/api'
-import { loader, clientSilencedBy } from './utils'
+import { loader } from './utils'
+import { clientSilencedBy } from '../services/silence'
 import find from 'lodash/find'
 
 const state = {

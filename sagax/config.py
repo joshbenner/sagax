@@ -32,13 +32,22 @@ settings_schema = {
                  'formatter': 'timeAgo'}
             ],
             'client_list': [
-                {'label': 'Name', 'key': 'name'},
+                {'label': 'Name', 'key': 'name', 'formatter': 'clientName'},
                 {'label': 'IP', 'key': 'address'},
                 {'label': 'Version', 'key': 'version'},
                 {'label': 'Last keepalive', 'key': 'timestamp',
                  'formatter': 'timeAgo'}
             ],
             'silenced_list': [
+                {'label': 'ID', 'key': 'id'},
+                {'label': 'Reason', 'key': 'reason'},
+                {'label': 'Creator', 'key': 'creator'},
+                {'label': 'Created', 'key': 'timestamp',
+                 'formatter': 'timeAgo'},
+                {'label': 'Expires', 'key': 'expire',
+                 'formatter': 'silenceExpire'}
+            ],
+            'unsilence_list': [
                 {'label': 'ID', 'key': 'id'},
                 {'label': 'Reason', 'key': 'reason'},
                 {'label': 'Creator', 'key': 'creator'},

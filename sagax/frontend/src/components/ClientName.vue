@@ -9,7 +9,8 @@
     </b-button>
     <b-button variant="link"
               class="client-unsilence"
-              v-if="silenced">
+              v-if="silenced"
+              @click="showUnsilenceModal(relevantSilenceIds())">
       <i class="fa fa-lg fa-volume-off text-danger"></i>
     </b-button>
     {{ clientName }}
@@ -18,6 +19,7 @@
 
 <script>
 import get from 'lodash/get'
+import { clientSilencedBy } from '../services/silence'
 
 const statusClasses = {
   0: 'ok',
@@ -54,6 +56,14 @@ export default {
     },
     statusClass () {
       return get(statusClasses, this.status, 'unknown')
+    }
+  },
+  methods: {
+    relevantSilenceIds () {
+      let silences = this.$store.getters.allSilenced.filter((s) => {
+        return clientSilencedBy(this.client, s)
+      })
+      return silences.map((s) => s.id)
     }
   }
 }
