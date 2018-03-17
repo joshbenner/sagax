@@ -64,12 +64,22 @@ export default {
       default: false
     }
   },
+  watch: {
+    orderBy (newVal, oldVal) {
+      // Fix default order, because table is created before we have all the
+      // config ready in some cases.
+      if (typeof oldVal.column === 'undefined' && typeof newVal.column === 'string') {
+        this.$nextTick(this.$refs.table.initOrderBy)
+      }
+    }
+  },
   render (h) {
     return h(
       'v-client-table',
       {
         scopedSlots: this.$vnode.data.scopedSlots,
         class: {'s-table': true},
+        ref: 'table',
         props: {
           data: this.tableData,
           columns: this.columns,
