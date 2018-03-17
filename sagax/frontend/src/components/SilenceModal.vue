@@ -95,6 +95,9 @@
 
 <script>
 import capitalize from 'lodash/capitalize'
+import uniqBy from 'lodash/uniqBy'
+import sortBy from 'lodash/sortBy'
+import get from 'lodash/get'
 import api from '../services/api'
 import parseDuration from 'parse-duration'
 import moment from 'moment'
@@ -132,6 +135,9 @@ function defaultData () {
   }
 }
 
+const allSubscriptions = [{value: '*', label: 'All Clients', group: 'Clients'}]
+const allChecks = [{value: '*', label: 'All Checks', group: 'Checks'}]
+
 export default {
   name: 'SilenceModal',
   props: {
@@ -154,27 +160,34 @@ export default {
       return this.expireAfterTimeSeconds >= 1
     },
     clientSuggestions: function () {
-      return Array.from(this.$store.getters.allSubsInfo).map((opt) => {
+      let subs = sortBy(Array.from(this.$store.getters.allSubsInfo).map((opt) => {
         return {
           value: opt.id,
           label: opt.name,
           group: capitalize(opt.type) + 's'
         }
-      })
+      }), ['group', 'value'])
+      return allSubscriptions.concat(subs)
     },
-    checkSuggestions: function () {
+    relevantResults () {
       if (this.subscription.startsWith('client:')) {
         let client = this.subscription.split(':', 2)[1]
-        let clientResults = this.allResults.filter((r) => r.client === client)
-        return clientResults.map((r) => {
-          return {
-            value: r.check.name,
-            label: r.check.name,
-            group: 'Checks'
-          }
-        })
+        return this.allResults.filter((r) => r.client === client)
+      } else if (this.subscription === '' || this.subscription === '*') {
+        return this.allResults
+      } else {
+        return this.allResults.filter((r) =>
+          get(r, 'check.subscribers', []).includes(this.subscription))
       }
-      return []
+    },
+    checkSuggestions: function () {
+      return sortBy(uniqBy(allChecks.concat(this.relevantResults.map((r) => {
+        return {
+          value: r.check.name,
+          label: r.check.name,
+          group: 'Checks'
+        }
+      })), (v) => v.value), ['group', 'label'])
     }
   },
   methods: {
@@ -201,13 +214,15 @@ export default {
       let silenced = {
         reason: this.reason
       }
+      let sub = this.subscription.trim()
+      let check = this.check.trim()
       if (this.useBegin) {
         silenced.begin = moment(this.expireBeginDateTime).unix()
       }
-      if (this.subscription.trim() !== '') {
+      if (sub !== '' && sub !== '*') {
         silenced.subscription = this.subscription
       }
-      if (this.check.trim() !== '') {
+      if (check !== '' && check !== '*') {
         silenced.check = this.check
       }
       switch (this.expireMode) {

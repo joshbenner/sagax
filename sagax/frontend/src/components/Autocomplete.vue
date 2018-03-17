@@ -22,13 +22,16 @@
         </b-button>
       </b-input-group-append>
     </b-input-group>
-    <div class="dropdown-menu" :class="{'show': dropdownVisible}" role="menu">
+    <div class="dropdown-menu"
+         :class="{'show': dropdownVisible}"
+         ref="dropdown"
+         role="menu">
       <div v-for="(group, groupIndex) in groupedMatches" :key="`group-${groupIndex}`">
         <h6 v-if="group.groupName" class="dropdown-header">{{group.groupName}}</h6>
         <a href="#"
            class="dropdown-item"
            v-for="(item, index) in group.options"
-           :class="{'active': suggestionIsActive(item.idx)}"
+           :class="{'active': suggestionIsActive(item.visibleIndex)}"
            @click="selectSuggestion(item.idx)"
            :key="`item-${groupIndex}-${index}`">
           {{ item.label }}
@@ -93,8 +96,10 @@ export default {
       })
     },
     groupedMatches () {
+      let visibleIndex = 0
       let groups = new Map()
       this.matches.map((opt) => {
+        opt.visibleIndex = visibleIndex++
         if (!groups.has(opt.group)) {
           groups.set(opt.group, [])
         }
@@ -144,10 +149,18 @@ export default {
       if (this.current > 0) {
         this.current--
       }
+      this.$nextTick(this.scrollToActive)
     },
     down () {
       if (this.current < this.matches.length - 1) {
         this.current++
+      }
+      this.$nextTick(this.scrollToActive)
+    },
+    scrollToActive () {
+      let el = this.$refs.dropdown.getElementsByClassName('active')
+      if (el.length) {
+        el[0].scrollIntoView({block: 'nearest', inline: 'nearest'})
       }
     },
     suggestionIsActive (index) {
@@ -160,6 +173,7 @@ export default {
     openDropdown () {
       this.open = true
       this.current = 0
+      this.$refs.input.focus()
     },
     closeDropdown () {
       this.open = false
@@ -197,7 +211,7 @@ export default {
   }
   .dropdown-menu {
     width: 100%;
-    max-height: 500px;
+    max-height: 300px;
     overflow: auto;
   }
 </style>
