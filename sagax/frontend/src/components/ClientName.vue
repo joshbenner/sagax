@@ -1,5 +1,5 @@
 <template>
-  <span class="client-name" :class="statusClass">
+  <span class="client-name">
     <b-button variant="link"
               v-b-tooltip="silenceTooltip"
               class="client-silence"
@@ -18,15 +18,7 @@
 </template>
 
 <script>
-import get from 'lodash/get'
 import { clientSilencedBy } from '../services/silence'
-
-const statusClasses = {
-  0: 'ok',
-  1: 'warn',
-  2: 'crit',
-  3: 'unknown'
-}
 
 export default {
   name: 'ClientName',
@@ -50,12 +42,6 @@ export default {
     },
     silenced () {
       return this.$store.getters.clientIsSilenced(this.clientName)
-    },
-    status () {
-      return this.$store.getters.maxStatusOfClient(this.clientName)
-    },
-    statusClass () {
-      return get(statusClasses, this.status, 'unknown')
     }
   },
   methods: {
@@ -73,10 +59,5 @@ export default {
 .client-name button {
   padding: 0 2px 1px 0;
   width: 2em;
-}
-.client-name button .fa-stack {
-  line-height: 1.2em;
-  height: 1.2em;
-  width: 1.2em;
 }
 </style>

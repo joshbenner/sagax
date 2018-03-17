@@ -1,1 +1,9 @@
 // core overrides
+@import 'bootstrap-variables';
+
+$client-status-colors: (
+  ok: map-get($theme-colors, success),
+  warn: map-get($theme-colors, warning),
+  crit: map-get($theme-colors, danger),
+  unknown: map-get($theme-colors, info)
+);

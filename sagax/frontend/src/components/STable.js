@@ -59,7 +59,6 @@ export default {
       default: () => []
     },
     rowClassCallback: {
-      type: Function,
       default: false
     }
   },
