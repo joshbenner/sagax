@@ -2,6 +2,7 @@ import get from 'lodash/get'
 import moment from 'moment'
 
 import ClientName from './ClientName'
+import CheckStatus from './CheckStatus'
 
 function fKey (field) {
   return field.key.replace('.', '_')
@@ -26,7 +27,8 @@ let templates = {
   _d: (val) => val,
   timeAgo: (val) => moment.unix(val).fromNow(),
   checkName: (val) => val,
-  clientName: componentTemplate(ClientName, 'clientName')
+  clientName: componentTemplate(ClientName, 'clientName'),
+  checkStatus: componentTemplate(CheckStatus, 'status')
 }
 
 export default {
@@ -79,7 +81,7 @@ export default {
   computed: {
     tableData () {
       return this.items.map((item) => {
-        let out = {}
+        let out = {_item: item}
         this.fields.forEach((field) => {
           out[fKey(field)] = get(item, field.key, '')
         })
@@ -98,6 +100,13 @@ export default {
         classes.push('table-striped')
       }
       return classes
+    },
+    colClasses () {
+      return this.fields.reduce((o, f) => {
+        let key = fKey(f)
+        o[key] = `col-${key}`
+        return o
+      }, {})
     },
     options () {
       return {
@@ -127,7 +136,8 @@ export default {
           count: this.countText
         },
         filterable: this.enableSearch,
-        rowClassCallback: this.rowClassCallback
+        rowClassCallback: this.rowClassCallback,
+        columnsClasses: this.colClasses
       }
     }
   }

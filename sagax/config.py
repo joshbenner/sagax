@@ -24,6 +24,8 @@ settings_schema = {
                  'formatter': 'clientName'},
                 {'label': 'Check', 'key': 'check.name',
                  'formatter': 'checkName'},
+                {'label': 'Status', 'key': 'check.status',
+                 'formatter': 'checkStatus'},
                 {'label': 'Output', 'key': 'check.output'},
                 {'label': 'Occurrences', 'key': 'occurrences'},
                 {'label': 'Last Occurrence', 'key': 'timestamp',
