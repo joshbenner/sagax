@@ -34,7 +34,8 @@ settings_schema = {
                  'formatter': 'timeAgo'}
             ],
             'client_list': [
-                {'label': 'Name', 'key': 'name', 'formatter': 'clientName'},
+                {'label': 'Name', 'key': 'name', 'formatter': 'clientName',
+                 'sortable': True, 'defaultSort': 'asc'},
                 {'label': 'IP', 'key': 'address'},
                 {'label': 'Version', 'key': 'version'},
                 {'label': 'Last keepalive', 'key': 'timestamp',

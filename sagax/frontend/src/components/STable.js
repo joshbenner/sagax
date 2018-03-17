@@ -108,6 +108,25 @@ export default {
         return o
       }, {})
     },
+    orderBy () {
+      for (let field of this.fields) {
+        if (get(field, 'sortable', false) && get(field, 'defaultSort', false)) {
+          return {
+            column: fKey(field),
+            ascending: field.defaultSort === 'asc'
+          }
+        }
+      }
+      return {}
+    },
+    sortable () {
+      return this.fields.reduce((sortable, field) => {
+        if (get(field, 'sortable', false)) {
+          sortable.push(fKey(field))
+        }
+        return sortable
+      }, [])
+    },
     options () {
       return {
         headings: this.fields.reduce((o, f) => {
@@ -137,7 +156,9 @@ export default {
         },
         filterable: this.enableSearch,
         rowClassCallback: this.rowClassCallback,
-        columnsClasses: this.colClasses
+        columnsClasses: this.colClasses,
+        orderBy: this.orderBy,
+        sortable: this.sortable
       }
     }
   }
