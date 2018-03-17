@@ -1,11 +1,14 @@
 <template>
    <div class="sidebar-form">
-     <b-button v-b-modal="'silenceModal'">Silence</b-button>
+     <b-button @click="showSilenceModal()">Silence</b-button>
    </div>
 </template>
 <script>
-
+import bus from '../../services/bus'
 export default {
-  name: 'sidebar-form'
+  name: 'sidebar-form',
+  methods: {
+    showSilenceModal: (sub, check) => bus.$emit('show-silence-modal', sub, check)
+  }
 }
 </script>

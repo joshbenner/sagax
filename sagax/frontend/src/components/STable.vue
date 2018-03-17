@@ -78,7 +78,11 @@ export default {
         }, {}),
         perPage: 99999,
         perPageValues: [],
-        skin: 'table table-striped'
+        skin: 'table table-striped',
+        texts: {
+          filter: '',
+          count: '{count} records'
+        }
       }
     }
   }

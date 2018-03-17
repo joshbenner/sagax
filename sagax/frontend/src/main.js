@@ -31,6 +31,7 @@ import bSelect from 'bootstrap-vue/es/components/form-select/form-select'
 import bNavbarNav from 'bootstrap-vue/es/components/navbar/navbar-nav'
 import bNavItem from 'bootstrap-vue/es/components/nav/nav-item'
 import bNavItemDropdown from 'bootstrap-vue/es/components/nav/nav-item-dropdown'
+import vBToolTip from 'bootstrap-vue/es/directives/tooltip/tooltip'
 import Multiselect from 'vue-multiselect'
 import Autocomplete from './components/Autocomplete'
 import flatPickr from 'vue-flatpickr-component'
@@ -71,6 +72,7 @@ Vue.component('b-navbar-nav', bNavbarNav)
 Vue.component('b-nav-item', bNavItem)
 Vue.component('b-nav-item-dropdown', bNavItemDropdown)
 Vue.component('v-gravatar', Gravatar)
+Vue.directive('b-tooltip', vBToolTip)
 
 Vue.component('s-table', STable)
 

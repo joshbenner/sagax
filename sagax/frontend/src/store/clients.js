@@ -36,6 +36,9 @@ const getters = {
     })
     return Array.from(silenced)
   },
+  clientIsSilenced: (state, getters) => (clientName) => {
+    return getters.silencedClients.map((c) => c.name).includes(clientName)
+  },
   okClientCount: (state, getters) => getters.okClients.length,
   warningClientCount: (state, getters) => getters.warningClients.length,
   criticalClientCount: (state, getters) => getters.criticalClients.length,

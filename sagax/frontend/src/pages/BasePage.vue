@@ -10,7 +10,9 @@
         </div>
       </main>
     </div>
-    <SilenceModal/>
+    <SilenceModal ref="silenceModal"
+                  :initialSubscription="silenceSubscription"
+                  :initialCheck="silenceCheck"/>
     <notifications group="main"/>
   </div>
 </template>
@@ -18,6 +20,7 @@
 <script>
 import nav from '../_nav'
 import auth from '../services/auth'
+import bus from '../services/bus'
 
 import AppHeader from '../components/Header'
 import Sidebar from '../components/Sidebar/Sidebar'
@@ -38,7 +41,9 @@ export default {
   },
   data () {
     return {
-      nav: nav.items
+      nav: nav.items,
+      silenceSubscription: '',
+      silenceCheck: ''
     }
   },
   computed: {
@@ -48,6 +53,9 @@ export default {
     list () {
       return this.$route.matched
     }
+  },
+  mounted () {
+    bus.$on('show-silence-modal', this.showSilenceModal)
   },
   created () {
     if (!this.getConfig('require_authentication') || auth.isAuthenticated()) {
@@ -65,6 +73,11 @@ export default {
         seconds * 1000
       )
       this.$store.dispatch('refreshAll')
+    },
+    showSilenceModal (subscription, check) {
+      this.silenceSubscription = subscription || ''
+      this.silenceCheck = check || ''
+      this.$refs.silenceModal.show()
     }
   }
 }

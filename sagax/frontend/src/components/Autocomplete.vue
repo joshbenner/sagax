@@ -42,7 +42,7 @@
 export default {
   name: 'Autocomplete',
   props: {
-    value: {
+    initialValue: {
       type: String,
       default: ''
     },
@@ -56,11 +56,20 @@ export default {
       default: ''
     }
   },
+  model: {
+    prop: 'initialValue'
+  },
   data: function () {
     return {
+      value: this.initialValue,
       open: false,
       current: 0,
       blurTimer: null
+    }
+  },
+  watch: {
+    initialValue: function (val) {
+      this.value = this.initialValue
     }
   },
   computed: {

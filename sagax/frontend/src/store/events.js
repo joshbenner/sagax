@@ -42,6 +42,9 @@ const getters = {
 
     return maxStatus
   },
+  maxStatusOfClient: (state, getters) => (clientName) => {
+    return getters.maxStatusByClient[clientName]
+  },
   eventsWithStatus: (state) => (status) => {
     return state.events.filter((e) => e.check.status === status)
   },

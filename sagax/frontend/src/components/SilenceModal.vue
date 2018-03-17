@@ -1,10 +1,11 @@
 <template>
   <b-modal id="silenceModal"
+           ref="modal"
            title="Silence Events"
            centered
            ok-title="Create Entry"
            @ok="createEntry"
-           @show="showModal">
+           @shown="showModal">
     <b-form>
       <b-form-group label="Reason for Silencing"
                     label-for="silenceReason">
@@ -133,6 +134,10 @@ function defaultData () {
 
 export default {
   name: 'SilenceModal',
+  props: {
+    initialSubscription: String,
+    initialCheck: String
+  },
   data: defaultData,
   computed: {
     expireAfterTimeSuggestions: function () {
@@ -173,6 +178,9 @@ export default {
     }
   },
   methods: {
+    show: function () {
+      this.$refs.modal.show()
+    },
     showModal: function () {
       api.allResults((results) => {
         this.allResults = results
@@ -180,9 +188,12 @@ export default {
       if (this.expireAfterTime === '') {
         this.expireAfterTime = this.getConfig('silence_interval_default', '2 hours')
       }
+      this.resetForm()
     },
     resetForm: function () {
       Object.assign(this.$data, defaultData())
+      this.subscription = this.initialSubscription
+      this.check = this.initialCheck
     },
     // Build it at submit-time rather than generate. Saves cycles, and assures
     // that times are calculate when the button is pressed.
