@@ -5,3 +5,13 @@
 .sidebar .nav-link .badge {
   margin-right: 2px;
 }
+
+.VueTables__sortable {
+  cursor: pointer;
+}
+
+.VueTables__sortable .VueTables__sort-icon {
+  display: inline-block;
+  float: none !important;
+  margin-left: 10px;
+}

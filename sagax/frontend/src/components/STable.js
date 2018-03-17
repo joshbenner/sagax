@@ -158,7 +158,13 @@ export default {
         rowClassCallback: this.rowClassCallback,
         columnsClasses: this.colClasses,
         orderBy: this.orderBy,
-        sortable: this.sortable
+        sortable: this.sortable,
+        sortIcon: {
+          base: 'fa',
+          up: 'fa-sort-up',
+          down: 'fa-sort-down',
+          is: 'fa-sort'
+        }
       }
     }
   }
