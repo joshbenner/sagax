@@ -7,6 +7,7 @@ import router from './router'
 import store from './store'
 
 import { configMixin } from './services/config'
+import silenceMixin from './services/silence'
 
 import bRow from 'bootstrap-vue/es/components/layout/row'
 import bCol from 'bootstrap-vue/es/components/layout/col'
@@ -79,6 +80,7 @@ Vue.component('s-table', STable)
 Vue.config.productionTip = false
 
 Vue.mixin(configMixin)
+Vue.mixin(silenceMixin)
 
 /* eslint-disable no-new */
 new Vue({

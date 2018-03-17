@@ -1,6 +1,7 @@
 <template>
   <span class="client-name" :class="statusClass">
-    <b-link variant="primary" v-b-tooltip.bottom="`Silence all checks for ${clientName}`">
+    <b-link v-b-tooltip.bottom="`Silence all checks for ${clientName}`"
+            @click="showSilenceModal(`client:${clientName}`)">
       <i class="fa fa-lg fa-volume-up"></i>
     </b-link>
     {{ clientName }}
