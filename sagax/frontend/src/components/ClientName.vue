@@ -1,9 +1,17 @@
 <template>
   <span class="client-name" :class="statusClass">
-    <b-link v-b-tooltip.bottom="`Silence all checks for ${clientName}`"
-            @click="showSilenceModal(`client:${clientName}`)">
+    <b-button variant="link"
+              v-b-tooltip="silenceTooltip"
+              class="client-silence"
+              v-if="!silenced"
+              @click="showSilenceModal(`client:${clientName}`)">
       <i class="fa fa-lg fa-volume-up"></i>
-    </b-link>
+    </b-button>
+    <b-button variant="link"
+              class="client-unsilence"
+              v-if="silenced">
+      <i class="fa fa-lg fa-volume-off text-danger"></i>
+    </b-button>
     {{ clientName }}
   </span>
 </template>
@@ -27,6 +35,14 @@ export default {
     }
   },
   computed: {
+    silenceTooltip () {
+      return {
+        title: `Silence all checks for ${this.clientName}`,
+        placement: 'bottom',
+        container: 'body',
+        delay: {show: 2000}
+      }
+    },
     client () {
       return this.$store.getters.getClient(this.clientName)
     },
@@ -42,3 +58,15 @@ export default {
   }
 }
 </script>
+
+<style>
+.client-name button {
+  padding: 0 2px 1px 0;
+  width: 2em;
+}
+.client-name button .fa-stack {
+  line-height: 1.2em;
+  height: 1.2em;
+  width: 1.2em;
+}
+</style>
