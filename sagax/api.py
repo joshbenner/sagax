@@ -36,6 +36,7 @@ def token_auth(request, response, **kwargs):
 
 @hug.directive()
 class Sensu(object):
+    """Wrap Sensu API, injectable as directive."""
     def __init__(self, api, *args, **kwargs):
         self.api = api.context['sensu']
 
@@ -53,6 +54,9 @@ class Sensu(object):
 
     def create_silenced(self, silenced):
         return self.api.create_silenced(silenced)
+
+    def clear_silenced(self, silence_ids):
+        return self.api.clear_silenced(silence_ids)
 
     def results(self):
         return self.api.results()
@@ -150,6 +154,12 @@ def post_silenced(sensu: Sensu, body, response):
     status_code, data = sensu.create_silenced(body)
     response.status = get_http_status(status_code)
     return data
+
+
+@hug.post('/clear', requires=token_auth)
+def clear_silenced(sensu: Sensu, body):
+    responses = sensu.clear_silenced(body['ids'])
+    return {'results': responses}
 
 
 @hug.get('/results', requires=token_auth)

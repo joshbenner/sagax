@@ -4,7 +4,10 @@
            title="Confirm Clear Silence Entries"
            centered
            size="lg"
-           ok-title="Delete Entries">
+           ok-title="Delete Entries"
+           :ok-disabled="selected.length < 1"
+           @ok="deleteClicked"
+           @show="onShow">
     <s-table :items="entriesToRemove"
              :fields="fields"
              :small="true"
@@ -29,6 +32,7 @@
 
 <script>
 import difference from 'lodash/difference'
+import api from '../services/api'
 
 export default {
   name: 'UnsilenceModal',
@@ -66,8 +70,34 @@ export default {
     show () {
       this.$refs.modal.show()
     },
+    onShow () {
+      this.$nextTick(() => { this.selected = this.silenceIds })
+    },
     toggleAllSelected (checked) {
       this.selected = checked ? this.silenceIds : []
+    },
+    deleteClicked () {
+      api.clearSilenced(this.selected).then((r) => {
+        r.data.results.map(({ id, status, data }) => {
+          if (status > 200 && status < 300) {
+            this.$notify({
+              group: 'main',
+              type: 'success',
+              title: 'Silence Cleared',
+              text: `Cleared silence: ${id}`
+            })
+          } else {
+            console.log({id, status, data})
+            this.$notify({
+              group: 'main',
+              type: 'error',
+              title: 'Silence Not Cleared',
+              text: `Failed to clear silence: ${id}`
+            })
+          }
+          this.$store.dispatch('getSilenced', {force: true})
+        })
+      })
     }
   }
 }

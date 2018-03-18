@@ -16,27 +16,31 @@ class SensuAPI(ABC):
 
     @abstractmethod
     def is_healthy(self) -> bool:
-        raise NotImplemented
+        raise NotImplemented()
 
     @abstractmethod
     def events(self, client: str=None, check: str=None) -> list:
-        raise NotImplemented
+        raise NotImplemented()
 
     @abstractmethod
     def clients(self) -> list:
-        raise NotImplemented
+        raise NotImplemented()
 
     @abstractmethod
     def silenced(self) -> list:
-        raise NotImplemented
+        raise NotImplemented()
 
     @abstractmethod
     def create_silenced(self, silence) -> tuple:
-        raise NotImplemented
+        raise NotImplemented()
+
+    @abstractmethod
+    def clear_silenced(self, silence_ids) -> list:
+        raise NotImplemented()
 
     @abstractmethod
     def results(self) -> list:
-        raise NotImplemented
+        raise NotImplemented()
 
 
 class Sensu1API(SensuAPI, HTTP):
@@ -74,6 +78,14 @@ class Sensu1API(SensuAPI, HTTP):
     def create_silenced(self, silenced):
         r = self.post('/silenced', **silenced)
         return r.status_code, r.data
+
+    def clear_silenced(self, silence_ids):
+        responses = []
+        for silence_id in silence_ids:
+            r = self.post('/silenced/clear', id=silence_id)
+            responses.append(dict(id=silence_id, status=r.status_code,
+                                  data=r.data))
+        return responses
 
     def results(self) -> list:
         r = self.get('/results')

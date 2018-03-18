@@ -1,4 +1,5 @@
 import moment from 'moment'
+import get from 'lodash/get'
 
 export function maybeLogoutOnLoadFail (e, commit, dispatch) {
   commit('doneLoading')
@@ -8,8 +9,11 @@ export function maybeLogoutOnLoadFail (e, commit, dispatch) {
 }
 
 export function loader (loaderFunc, mutation) {
-  return function ({ commit, dispatch, getters }) {
-    if (moment().unix() - getters.lastRefresh[mutation] < 1) {
+  return function ({ commit, dispatch, getters }, opts) {
+    let force = get(opts, 'force', false)
+    let sinceLast = moment().unix() - getters.lastRefresh[mutation]
+
+    if (sinceLast < 1 && !force) {
       return new Promise(() => {})
     }
     commit('startLoading')

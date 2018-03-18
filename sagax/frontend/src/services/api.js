@@ -10,6 +10,10 @@ function postSilenced (silenced) {
   return HTTP.post('/silenced', silenced)
 }
 
+function clearSilenced (silenceIds) {
+  return HTTP.post('/clear', {ids: silenceIds})
+}
+
 export default {
   getConfig: getter('config'),
   getRefresh: getter('refresh'),
@@ -17,5 +21,6 @@ export default {
   getClients: getter('clients'),
   getSilenced: getter('silenced'),
   postSilenced: postSilenced,
+  clearSilenced: clearSilenced,
   allResults: getter('results')
 }

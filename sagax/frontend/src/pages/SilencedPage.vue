@@ -4,7 +4,7 @@
              :fields="fields"
              class="silenced-table">
       <template slot="actions" slot-scope="props">
-        <b-link>
+        <b-link @click="deleteClicked(props.row._item.id)">
           <i class="fa fa-trash fa-lg text-danger"></i>
         </b-link>
       </template>
@@ -27,6 +27,11 @@ export default {
   },
   created () {
     return this.$store.dispatch('getSilenced')
+  },
+  methods: {
+    deleteClicked (silenceId) {
+      this.showUnsilenceModal([silenceId])
+    }
   }
 }
 </script>

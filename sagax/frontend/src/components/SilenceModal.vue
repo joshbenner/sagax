@@ -240,7 +240,6 @@ export default {
     },
     createEntry: function () {
       let silenced = this.buildSilencedEntry()
-      console.log(silenced)
       api.postSilenced(silenced).then((r) => {
         if (r.status === 201) {
           this.$notify({
@@ -249,6 +248,7 @@ export default {
             title: 'Silence entry created',
             text: 'The silence entry was succesfully created in Sensu'
           })
+          this.$store.dispatch('getSilenced', {force: true})
         } else {
           console.log(r)
           this.$notify({
