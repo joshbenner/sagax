@@ -197,7 +197,7 @@ export default {
     },
     clearInput () {
       this.setValue('')
-      this.closeDropdown()
+      this.$nextTick(this.closeDropdown)
       this.$refs.input.focus()
     },
     clickDropdownButton () {
@@ -211,13 +211,36 @@ export default {
 }
 </script>
 
-<style scoped>
-  .autocomplete {
-    position: relative;
+<style lang="scss">
+@import '../styles/bootstrap-variables';
+
+.autocomplete {
+  position: relative;
+
+  input {
+    border-right: none;
+
+    &:focus {
+      box-shadow: none;
+      border-color: $gray-200;
+    }
   }
+
+  .input-group:focus-within {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
   .dropdown-menu {
     width: 100%;
     max-height: 300px;
     overflow: auto;
   }
+
+  .autocomplete-clear {
+    background: transparent;
+    border-left: none;
+    border-color: $gray-200;
+  }
+}
 </style>
