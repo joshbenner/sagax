@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import moment from 'moment'
 import get from 'lodash/get'
+import bus from '../services/bus'
 import api from '../services/api'
 import auth from '../services/auth'
 import router from '../router'
@@ -77,13 +78,17 @@ export default new Vuex.Store({
       commit('clearSilenced')
     },
     refreshAll ({ dispatch, commit }) {
+      bus.$emit('refreshing-all')
       commit('startLoading')
       api.getRefresh(data => {
         commit('setEvents', data['events'])
         commit('setClients', data['clients'])
         commit('setSilenced', data['silenced'])
       })
-        .then(() => commit('doneLoading', ['setEvents', 'setClients', 'setSilenced']))
+        .then(() => {
+          commit('doneLoading', ['setEvents', 'setClients', 'setSilenced'])
+          bus.$emit('refreshed-all')
+        })
         .catch((e) => maybeLogoutOnLoadFail(e, commit, dispatch))
     }
   },

@@ -1,8 +1,8 @@
 import get from 'lodash/get'
-import moment from 'moment'
 
 import ClientName from './ClientName'
 import CheckStatus from './CheckStatus'
+import TimeAgo from './TimeAgo'
 
 function fKey (field) {
   return field.key.replace('.', '_')
@@ -25,7 +25,7 @@ function componentTemplate (component, valProp) {
 // noinspection JSUnusedGlobalSymbols
 let templates = {
   _d: (val) => val,
-  timeAgo: (val) => moment.unix(val).fromNow(),
+  timeAgo: componentTemplate(TimeAgo, 'timestamp'),
   checkName: (val) => val,
   clientName: componentTemplate(ClientName, 'clientName'),
   checkStatus: componentTemplate(CheckStatus, 'status')

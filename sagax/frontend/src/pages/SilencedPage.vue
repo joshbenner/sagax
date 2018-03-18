@@ -1,6 +1,8 @@
 <template>
   <b-card>
-    <b-table :items="silenced" :fields="fields" striped/>
+    <s-table :items="silenced"
+             :fields="fields"
+             class="silenced-table"/>
   </b-card>
 </template>
 

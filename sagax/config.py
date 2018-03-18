@@ -6,7 +6,7 @@ from sagax.plugins import get_plugin_class
 
 settings_schema = {
     'frontend': {
-        'timestamp_format': Item(default='YYYY-MM-DD HH:mm:ss z', envvar=True),
+        'timestamp_format': Item(default='L LT z', envvar=True),
         'refresh_interval': 5,
         'silence_intervals': [
             '15 minutes',
@@ -21,34 +21,36 @@ settings_schema = {
         'fields': {
             'event_list': [
                 {'label': 'Client', 'key': 'client.name',
-                 'formatter': 'clientName'},
+                 'formatter': 'clientName', 'sortable': True},
                 {'label': 'Check', 'key': 'check.name',
-                 'formatter': 'checkName'},
+                 'formatter': 'checkName', 'sortable': True},
                 {'label': 'Status', 'key': 'check.status',
-                 'formatter': 'checkStatus'},
+                 'formatter': 'checkStatus', 'sortable': True,
+                 'defaultSort': 'desc'},
                 {'label': 'Output', 'key': 'check.output'},
-                {'label': 'Occurrences', 'key': 'occurrences'},
+                {'label': 'Occurrences', 'key': 'occurrences',
+                 'sortable': True},
                 {'label': 'Last Occurrence', 'key': 'timestamp',
-                 'formatter': 'timeAgo'},
+                 'formatter': 'timeAgo', 'sortable': True},
                 {'label': 'Last OK', 'key': 'last_ok',
-                 'formatter': 'timeAgo'}
+                 'formatter': 'timeAgo', 'sortable': True}
             ],
             'client_list': [
                 {'label': 'Name', 'key': 'name', 'formatter': 'clientName',
                  'sortable': True, 'defaultSort': 'asc'},
-                {'label': 'IP', 'key': 'address'},
-                {'label': 'Version', 'key': 'version'},
+                {'label': 'IP', 'key': 'address', 'sortable': True},
+                {'label': 'Version', 'key': 'version', 'sortable': True},
                 {'label': 'Last keepalive', 'key': 'timestamp',
-                 'formatter': 'timeAgo'}
+                 'formatter': 'timeAgo', 'sortable': True}
             ],
             'silenced_list': [
-                {'label': 'ID', 'key': 'id'},
+                {'label': 'ID', 'key': 'id', 'sortable': True},
                 {'label': 'Reason', 'key': 'reason'},
-                {'label': 'Creator', 'key': 'creator'},
+                {'label': 'Creator', 'key': 'creator', 'sortable': True},
                 {'label': 'Created', 'key': 'timestamp',
-                 'formatter': 'timeAgo'},
+                 'formatter': 'timeAgo', 'sortable': True},
                 {'label': 'Expires', 'key': 'expire',
-                 'formatter': 'silenceExpire'}
+                 'formatter': 'silenceExpire', 'sortable': True}
             ],
             'unsilence_list': [
                 {'label': 'ID', 'key': 'id'},
