@@ -163,11 +163,15 @@ export default {
         el[0].scrollIntoView({block: 'nearest', inline: 'nearest'})
       }
     },
-    suggestionIsActive (index) {
-      return index === this.current
+    suggestionIsActive (visibleIndex) {
+      return visibleIndex === this.current
     },
-    selectSuggestion (index) {
-      this.setValue(this.normalizedSuggestions[index].value)
+    suggestionFromVisibleIndex (visibleIndex) {
+      let matches = this.matches.filter((m) => m.visibleIndex === visibleIndex)
+      return matches.length ? matches[0] : null
+    },
+    selectSuggestion (visibleIndex) {
+      this.setValue(this.suggestionFromVisibleIndex(visibleIndex).value)
       this.closeDropdown()
     },
     openDropdown () {
