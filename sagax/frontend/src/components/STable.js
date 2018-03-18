@@ -3,12 +3,13 @@ import get from 'lodash/get'
 import ClientName from './ClientName'
 import CheckStatus from './CheckStatus'
 import TimeAgo from './TimeAgo'
+import SilenceExpire from './SilenceExpire'
 
 function fKey (field) {
   return field.key.replace('.', '_')
 }
 
-function componentTemplate (component, valProp) {
+function componentTemplate (component, valProp, itemProp) {
   return function (val, h, row, index) {
     let data = {
       props: {
@@ -17,6 +18,9 @@ function componentTemplate (component, valProp) {
       }
     }
     data.props[valProp || 'val'] = val
+    if (typeof itemProp !== 'undefined') {
+      data.props[itemProp] = row._item
+    }
     return h(component, data)
   }
 }
@@ -28,7 +32,8 @@ let templates = {
   timeAgo: componentTemplate(TimeAgo, 'timestamp'),
   checkName: (val) => val,
   clientName: componentTemplate(ClientName, 'clientName'),
-  checkStatus: componentTemplate(CheckStatus, 'status')
+  checkStatus: componentTemplate(CheckStatus, 'status'),
+  silenceExpire: componentTemplate(SilenceExpire, 'expires', 'entry')
 }
 
 export default {
