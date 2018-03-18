@@ -88,6 +88,11 @@ settings_schema = {
             ],
             'silenced_list': [
                 {
+                    'label': '',
+                    'key': 'id',
+                    'formatter': 'silenceDelete'
+                },
+                {
                     'label': 'Subscription',
                     'key': 'subscription',
                     'formatter': 'silenceIdPart',

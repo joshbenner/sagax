@@ -29,6 +29,7 @@ import CheckStatus from './CheckStatus'
 import TimeAgo from './TimeAgo'
 import SilenceExpire from './SilenceExpire'
 import SilenceId from './SilenceId'
+import SilenceDelete from './SilenceDelete'
 
 function fKey (field) {
   return field.key.replace('.', '_')
@@ -62,7 +63,8 @@ let templates = {
   checkStatus: componentTemplate(CheckStatus, 'status'),
   silenceExpire: componentTemplate(SilenceExpire, null, 'entry'),
   silenceId: componentTemplate(SilenceId, null, 'entry'),
-  silenceIdPart: (val) => val || '(all)'
+  silenceIdPart: (val) => val || '(all)',
+  silenceDelete: componentTemplate(SilenceDelete, 'silenceId')
 }
 
 export default {
