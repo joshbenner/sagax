@@ -20,46 +20,123 @@ settings_schema = {
         'silence_interval_default': '2 hours',
         'fields': {
             'event_list': [
-                {'label': 'Client', 'key': 'client.name',
-                 'formatter': 'clientName', 'sortable': True},
-                {'label': 'Check', 'key': 'check.name',
-                 'formatter': 'checkName', 'sortable': True},
-                {'label': 'Status', 'key': 'check.status',
-                 'formatter': 'checkStatus', 'sortable': True,
-                 'defaultSort': 'desc'},
-                {'label': 'Output', 'key': 'check.output'},
-                {'label': 'Occurrences', 'key': 'occurrences',
-                 'sortable': True},
-                {'label': 'Last Occurrence', 'key': 'timestamp',
-                 'formatter': 'timeAgo', 'sortable': True},
-                {'label': 'Last OK', 'key': 'last_ok',
-                 'formatter': 'timeAgo', 'sortable': True}
+                {
+                    'label': 'Client',
+                    'key': 'client.name',
+                    'formatter': 'clientName',
+                    'sortable': True
+                },
+                {
+                    'label': 'Check',
+                    'key': 'check.name',
+                    'formatter': 'checkName',
+                    'sortable': True
+                },
+                {
+                    'label': 'Status',
+                    'key': 'check.status',
+                    'formatter': 'checkStatus',
+                    'sortable': True,
+                    'defaultSort': 'desc'
+                },
+                {
+                    'label': 'Output',
+                    'key': 'check.output'
+                },
+                {
+                    'label': 'Occurrences',
+                    'key': 'occurrences',
+                    'sortable': True
+                },
+                {
+                    'label': 'Last Occurrence',
+                    'key': 'timestamp',
+                    'formatter': 'timeAgo',
+                    'sortable': True
+                },
+                {
+                    'label': 'Last OK',
+                    'key': 'last_ok',
+                    'formatter': 'timeAgo',
+                    'sortable': True
+                }
             ],
             'client_list': [
-                {'label': 'Name', 'key': 'name', 'formatter': 'clientName',
-                 'sortable': True, 'defaultSort': 'asc'},
-                {'label': 'IP', 'key': 'address', 'sortable': True},
-                {'label': 'Version', 'key': 'version', 'sortable': True},
-                {'label': 'Last keepalive', 'key': 'timestamp',
-                 'formatter': 'timeAgo', 'sortable': True}
+                {
+                    'label': 'Name',
+                    'key': 'name',
+                    'formatter': 'clientName',
+                    'sortable': True,
+                    'defaultSort': 'asc'
+                },
+                {
+                    'label': 'IP',
+                    'key': 'address',
+                    'sortable': True
+                },
+                {
+                    'label': 'Version',
+                    'key': 'version',
+                    'sortable': True
+                },
+                {
+                    'label': 'Last keepalive',
+                    'key': 'timestamp',
+                    'formatter': 'timeAgo',
+                    'sortable': True
+                }
             ],
             'silenced_list': [
-                {'label': 'ID', 'key': 'id', 'sortable': True},
-                {'label': 'Reason', 'key': 'reason'},
-                {'label': 'Creator', 'key': 'creator', 'sortable': True},
-                {'label': 'Created', 'key': 'timestamp',
-                 'formatter': 'timeAgo', 'sortable': True},
-                {'label': 'Expires', 'key': 'expire',
-                 'formatter': 'silenceExpire', 'sortable': True}
+                {
+                    'label': 'ID',
+                    'key': 'id',
+                    'sortable': True
+                },
+                {
+                    'label': 'Reason',
+                    'key': 'reason'
+                },
+                {
+                    'label': 'Creator',
+                    'key': 'creator',
+                    'sortable': True
+                },
+                {
+                    'label': 'Created',
+                    'key': 'timestamp',
+                    'formatter': 'timeAgo',
+                    'sortable': True
+                },
+                {
+                    'label': 'Expires',
+                    'key': 'expire',
+                    'formatter': 'silenceExpire',
+                    'sortable': True
+                }
             ],
             'unsilence_list': [
-                {'label': 'ID', 'key': 'id'},
-                {'label': 'Reason', 'key': 'reason'},
-                {'label': 'Creator', 'key': 'creator'},
-                {'label': 'Created', 'key': 'timestamp',
-                 'formatter': 'timeAgo'},
-                {'label': 'Expires', 'key': 'expire',
-                 'formatter': 'silenceExpire'}
+                {
+                    'label': 'ID',
+                    'key': 'id'
+                },
+                {
+                    'label': 'Reason',
+                    'key': 'reason'
+                },
+                {
+                    'label': 'Creator',
+                    'key': 'creator'
+                },
+                {
+                    'label': 'Created',
+                    'key': 'timestamp',
+                    'formatter': 'timeAgo'
+                },
+                {
+                    'label': 'Expires',
+                    'key': 'expire',
+                    'formatter': 'silenceExpire'
+                }
             ]
         }
     },
