@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import BasePage from '../pages/BasePage'
-import LoginPage from '../pages/LoginPage'
-import EventsPage from '../pages/EventsPage'
-import ClientsPage from '../pages/ClientsPage'
-import SilencedPage from '../pages/SilencedPage'
+import BasePage from '../views/BasePage'
+import LoginPage from '../views/LoginPage'
+import EventsPage from '../views/EventsPage'
+import ClientsPage from '../views/ClientsPage'
+import SilencedPage from '../views/SilencedPage'
 
 Vue.use(Router)
 
