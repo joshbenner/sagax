@@ -5,7 +5,7 @@
            centered
            ok-title="Create Entry"
            @ok="createEntry"
-           @shown="showModal">
+           @shown="onShown">
     <b-form>
       <b-form-group label="Reason for Silencing"
                     label-for="silenceReason">
@@ -20,6 +20,7 @@
         <autocomplete id="silenceSub"
                       :suggestions="clientSuggestions"
                       v-model="subscription"
+                      ref="subscription"
                       placeholder="Select or enter a subscription to silence"/>
       </b-form-group>
 
@@ -28,6 +29,7 @@
         <autocomplete id="silenceCheck"
                       :suggestions="checkSuggestions"
                       v-model="check"
+                      ref="check"
                       placeholder="Select or enter the check to silence"/>
       </b-form-group>
 
@@ -199,7 +201,7 @@ export default {
     show: function () {
       this.$refs.modal.show()
     },
-    showModal: function () {
+    onShown: function () {
       api.allResults((results) => {
         this.allResults = results
       })
@@ -207,7 +209,11 @@ export default {
         this.expireAfterTime = this.getConfig('silence_interval_default', '2 hours')
       }
       this.resetForm()
-      this.$refs.reasonInput.focus()
+      this.$nextTick(() => {
+        this.$refs.subscription.closeDropdown()
+        this.$refs.check.closeDropdown()
+        this.$refs.reasonInput.focus()
+      })
     },
     resetForm: function () {
       Object.assign(this.$data, defaultData())
