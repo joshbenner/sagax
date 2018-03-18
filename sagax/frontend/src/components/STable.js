@@ -4,6 +4,7 @@ import ClientName from './ClientName'
 import CheckStatus from './CheckStatus'
 import TimeAgo from './TimeAgo'
 import SilenceExpire from './SilenceExpire'
+import SilenceId from './SilenceId'
 
 function fKey (field) {
   return field.key.replace('.', '_')
@@ -17,7 +18,9 @@ function componentTemplate (component, valProp, itemProp) {
         index: index
       }
     }
-    data.props[valProp || 'val'] = val
+    if (valProp !== null) {
+      data.props[valProp || 'val'] = val
+    }
     if (typeof itemProp !== 'undefined') {
       data.props[itemProp] = row._item
     }
@@ -33,7 +36,9 @@ let templates = {
   checkName: (val) => val,
   clientName: componentTemplate(ClientName, 'clientName'),
   checkStatus: componentTemplate(CheckStatus, 'status'),
-  silenceExpire: componentTemplate(SilenceExpire, 'expires', 'entry')
+  silenceExpire: componentTemplate(SilenceExpire, null, 'entry'),
+  silenceId: componentTemplate(SilenceId, null, 'entry'),
+  silenceIdPart: (val) => val || '(all)'
 }
 
 export default {

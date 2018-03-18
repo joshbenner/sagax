@@ -88,8 +88,16 @@ settings_schema = {
             ],
             'silenced_list': [
                 {
-                    'label': 'ID',
-                    'key': 'id',
+                    'label': 'Subscription',
+                    'key': 'subscription',
+                    'formatter': 'silenceIdPart',
+                    'sortable': True,
+                    'defaultSort': 'asc'
+                },
+                {
+                    'label': 'Check',
+                    'key': 'check',
+                    'formatter': 'silenceIdPart',
                     'sortable': True
                 },
                 {

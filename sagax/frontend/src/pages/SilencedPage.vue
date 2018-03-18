@@ -2,7 +2,13 @@
   <b-card>
     <s-table :items="silenced"
              :fields="fields"
-             class="silenced-table"/>
+             class="silenced-table">
+      <template slot="actions" slot-scope="props">
+        <b-link>
+          <i class="fa fa-trash fa-lg text-danger"></i>
+        </b-link>
+      </template>
+    </s-table>
   </b-card>
 </template>
 
@@ -14,7 +20,9 @@ export default {
   computed: {
     ...mapState({ silenced: state => state.silenced.silenced }),
     fields () {
-      return this.getConfig('fields.silenced_list', [])
+      let fields = Array.from(this.getConfig('fields.silenced_list', []))
+      fields.unshift({label: '', key: 'actions'})
+      return fields
     }
   },
   created () {
@@ -22,3 +30,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.silenced-table td:first-child {
+  width: 1%;
+}
+</style>
