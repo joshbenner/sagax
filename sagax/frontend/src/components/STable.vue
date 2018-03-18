@@ -121,6 +121,9 @@ export default {
     }
   },
   watch: {
+    checkboxSelected (newVal) {
+      this.selected = newVal
+    },
     selected (newVal) {
       this.allSelected = (difference(this.allSelectValues, newVal).length === 0)
       this.indeterminate = (!this.allSelected && newVal.length > 0)
