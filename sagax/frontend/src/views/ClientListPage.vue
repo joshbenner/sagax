@@ -14,7 +14,7 @@
 import { mapState, mapGetters } from 'vuex'
 
 export default {
-  name: 'ClientsPage',
+  name: 'ClientListPage',
   data () {
     return {
       selected: []

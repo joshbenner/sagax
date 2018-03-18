@@ -3,9 +3,9 @@ import Router from 'vue-router'
 
 import BasePage from '../views/BasePage'
 import LoginPage from '../views/LoginPage'
-import EventsPage from '../views/EventsPage'
-import ClientsPage from '../views/ClientsPage'
-import SilencedPage from '../views/SilencedPage'
+import EventListPage from '../views/EventListPage'
+import ClientListPage from '../views/ClientListPage'
+import SilencedListPage from '../views/SilencedListPage'
 
 Vue.use(Router)
 
@@ -28,17 +28,17 @@ export default new Router({
         {
           path: 'events',
           name: 'Events',
-          component: EventsPage
+          component: EventListPage
         },
         {
           path: 'clients',
           name: 'Clients',
-          component: ClientsPage
+          component: ClientListPage
         },
         {
           path: 'silenced',
           name: 'Silenced',
-          component: SilencedPage
+          component: SilencedListPage
         }
       ]
     }

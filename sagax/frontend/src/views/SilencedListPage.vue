@@ -10,7 +10,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'SilencedPage',
+  name: 'SilencedListPage',
   computed: {
     ...mapState({ silenced: state => state.silenced.silenced }),
     fields () {

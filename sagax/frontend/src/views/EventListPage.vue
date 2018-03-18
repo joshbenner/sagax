@@ -11,7 +11,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'EventsPage',
+  name: 'EventListPage',
   computed: {
     ...mapState({ events: state => state.events.events }),
     fields () {
