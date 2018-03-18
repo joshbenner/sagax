@@ -11,6 +11,7 @@
                     label-for="silenceReason">
         <b-form-input v-model="reason"
                       type="text"
+                      ref="reasonInput"
                       placeholder="Enter a reason for silencing"/>
       </b-form-group>
 
@@ -35,7 +36,11 @@
         <b-form-group horizontal
                       label="Begins:"
                       label-for="silenceBegins">
-          <b-form-input v-if="!useBegin" plaintext value="Immediately" class="begin-immediately"/>
+          <b-form-input v-if="!useBegin"
+                        plaintext
+                        tabindex="-1"
+                        value="Immediately"
+                        class="begin-immediately"/>
           <b-button v-if="!useBegin"
                     variant="secondary"
                     @click="useBegin = true">
@@ -202,6 +207,7 @@ export default {
         this.expireAfterTime = this.getConfig('silence_interval_default', '2 hours')
       }
       this.resetForm()
+      this.$refs.reasonInput.focus()
     },
     resetForm: function () {
       Object.assign(this.$data, defaultData())

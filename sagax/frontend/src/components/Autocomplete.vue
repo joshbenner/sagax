@@ -16,8 +16,9 @@
       <b-input-group-append>
         <b-button class="autocomplete-clear fa fa-close"
                   v-if="value.length > 0"
+                  tabindex="-1"
                   @click="clearInput"/>
-        <b-button @click="clickDropdownButton" variant="primary">
+        <b-button @click="clickDropdownButton" variant="primary" tabindex="-1">
           <i class="fa fa-caret-down"></i>
         </b-button>
       </b-input-group-append>
@@ -120,6 +121,7 @@ export default {
   methods: {
     onInput (value) {
       this.setValue(value)
+      this.openDropdown()
     },
     onClickInput () {
       if (!this.open && this.value === '') {
@@ -138,8 +140,6 @@ export default {
           this.closeDropdown()
           event.stopPropagation()
         }
-      } else if (this.open === false) {
-        this.openDropdown()
       }
     },
     enter () {
@@ -152,7 +152,9 @@ export default {
       this.$nextTick(this.scrollToActive)
     },
     down () {
-      if (this.current < this.matches.length - 1) {
+      if (!this.open) {
+        this.openDropdown()
+      } else if (this.current < this.matches.length - 1) {
         this.current++
       }
       this.$nextTick(this.scrollToActive)
@@ -172,7 +174,7 @@ export default {
     },
     selectSuggestion (visibleIndex) {
       this.setValue(this.suggestionFromVisibleIndex(visibleIndex).value)
-      this.closeDropdown()
+      this.$nextTick(this.closeDropdown)
     },
     openDropdown () {
       this.open = true
