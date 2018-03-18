@@ -3,6 +3,9 @@
     <s-table :items="clients"
              :fields="fields"
              class="client-table"
+             v-model="selected"
+             :showCheckboxes="true"
+             checkboxValuePath="name"
              :row-class-callback="rowClass"/>
   </b-card>
 </template>
@@ -12,6 +15,11 @@ import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'ClientsPage',
+  data () {
+    return {
+      selected: []
+    }
+  },
   computed: {
     ...mapState({ clients: state => state.clients.clients }),
     ...mapGetters(['maxStatusByClient']),
@@ -42,10 +50,15 @@ export default {
 <style lang="scss">
 @import '../styles/core-variables';
 
+$status-width: 7px;
+
 .client-table {
+  thead tr {
+    border-left: $status-width solid transparent;
+  }
   @each $status, $color in $client-status-colors {
     tr.client-#{$status}  {
-      border-left: 10px solid $color;
+      border-left: $status-width solid $color;
     }
   }
 }

@@ -1,4 +1,28 @@
+<template>
+  <v-client-table class="s-table"
+                  ref="table"
+                  :data="tableData"
+                  :columns="columns"
+                  :options="options">
+
+    <template v-if="showCheckboxes" slot="h___checkbox">
+      <b-form-checkbox plain
+                       v-model="allSelected"
+                       @change="toggleAllSelected"
+                       :indeterminate="indeterminate"/>
+    </template>
+
+    <template v-if="showCheckboxes" slot="_checkbox" slot-scope="props">
+      <b-form-checkbox plain
+                       v-model="selected"
+                       :value="_get(props.row._item, checkboxValuePath)" />
+    </template>
+  </v-client-table>
+</template>
+
+<script>
 import get from 'lodash/get'
+import difference from 'lodash/difference'
 
 import ClientName from './ClientName'
 import CheckStatus from './CheckStatus'
@@ -72,9 +96,36 @@ export default {
     },
     rowClassCallback: {
       default: false
+    },
+    showCheckboxes: {
+      type: Boolean,
+      default: false
+    },
+    checkboxValuePath: {
+      type: String,
+      default: 'id'
+    },
+    checkboxSelected: {
+      type: Array,
+      default: () => []
+    }
+  },
+  model: {
+    prop: 'checkboxSelected'
+  },
+  data: function () {
+    return {
+      selected: [],
+      allSelected: false,
+      indeterminate: false
     }
   },
   watch: {
+    selected (newVal) {
+      this.allSelected = (difference(this.allSelectValues, newVal).length === 0)
+      this.indeterminate = (!this.allSelected && newVal.length > 0)
+      this.$emit('input', this.selected)
+    },
     orderBy (newVal, oldVal) {
       // Fix default order, because table is created before we have all the
       // config ready in some cases.
@@ -82,21 +133,6 @@ export default {
         this.$nextTick(this.$refs.table.initOrderBy)
       }
     }
-  },
-  render (h) {
-    return h(
-      'v-client-table',
-      {
-        scopedSlots: this.$vnode.data.scopedSlots,
-        class: {'s-table': true},
-        ref: 'table',
-        props: {
-          data: this.tableData,
-          columns: this.columns,
-          options: this.options
-        }
-      }
-    )
   },
   computed: {
     tableData () {
@@ -109,7 +145,11 @@ export default {
       })
     },
     columns () {
-      return this.fields.map(fKey)
+      let cols = this.fields.map(fKey)
+      if (this.showCheckboxes) {
+        cols.unshift('_checkbox')
+      }
+      return cols
     },
     extraClasses () {
       let classes = []
@@ -186,6 +226,17 @@ export default {
           is: 'fa-sort'
         }
       }
+    },
+    allSelectValues () {
+      return this.items.map((item) => item[this.checkboxValuePath])
+    }
+  },
+  methods: {
+    _get: get,
+    _debug: console.log,
+    toggleAllSelected (checked) {
+      this.selected = checked ? this.allSelectValues : []
     }
   }
 }
+</script>

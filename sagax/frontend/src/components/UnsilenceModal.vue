@@ -13,25 +13,14 @@
              :small="true"
              :striped="false"
              count-text=""
-             :enable-search="false">
-
-      <template slot="h__checkbox">
-        <b-form-checkbox plain
-                         v-model="allSelected"
-                         @change="toggleAllSelected"
-                         :indeterminate="indeterminate"/>
-      </template>
-
-      <template slot="checkbox" slot-scope="props">
-        <b-form-checkbox plain v-model="selected" :value="props.row.id" />
-      </template>
-
-    </s-table>
+             v-model="selected"
+             :showCheckboxes="true"
+             checkboxValuePath="id"
+             :enable-search="false"/>
   </b-modal>
 </template>
 
 <script>
-import difference from 'lodash/difference'
 import api from '../services/api'
 
 export default {
@@ -44,15 +33,7 @@ export default {
   },
   data () {
     return {
-      selected: [],
-      allSelected: false,
-      indeterminate: false
-    }
-  },
-  watch: {
-    selected (newVal) {
-      this.allSelected = (difference(this.silenceIds, newVal).length === 0)
-      this.indeterminate = (!this.allSelected && newVal.length > 0)
+      selected: []
     }
   },
   computed: {
@@ -72,9 +53,6 @@ export default {
     },
     onShow () {
       this.$nextTick(() => { this.selected = this.silenceIds })
-    },
-    toggleAllSelected (checked) {
-      this.selected = checked ? this.silenceIds : []
     },
     deleteClicked () {
       api.clearSilenced(this.selected).then((r) => {
