@@ -64,7 +64,11 @@ export default {
     bus.$on('show-unsilence-modal', this.showUnsilenceModal)
   },
   created () {
-    if (!this.getConfig('require_authentication') || auth.isAuthenticated()) {
+    let authenticated = auth.isAuthenticated()
+    if (authenticated) {
+      this.$store.commit('loggedIn', auth.getDecodedAuthToken())
+    }
+    if (!this.getConfig('require_authentication') || authenticated) {
       this.startRefresh()
     }
   },

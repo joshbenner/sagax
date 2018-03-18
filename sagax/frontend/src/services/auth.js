@@ -38,6 +38,9 @@ export default {
     return !!getAuthToken()
   },
   getAuthToken: getAuthToken,
+  getDecodedAuthToken () {
+    return decode(this.getAuthToken())
+  },
   logout () {
     delAuthToken()
   }
