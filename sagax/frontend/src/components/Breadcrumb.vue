@@ -1,6 +1,6 @@
 <template>
   <ol class="breadcrumb">
-    <li class="breadcrumb-item" v-for="(item, index) in list" :key="index">
+    <li class="breadcrumb-item" v-for="(item, index) in list" :key="index" v-if="!isHidden(item)">
       <span class="active" v-if="isLast(index)">{{ showName(item) }}</span>
       <router-link :to="item" v-else>{{ showName(item) }}</router-link>
     </li>
@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import isFunction from 'lodash/isFunction'
+
 export default {
   props: {
     list: {
@@ -17,17 +19,32 @@ export default {
     }
   },
   methods: {
+    isHidden (item) {
+      return item.meta && item.meta.hide
+    },
     isLast (index) {
-      return index === this.list.length - 1
+      if (index === this.list.length - 1) {
+        return true
+      }
+      if (index === this.list.length - 2) {
+        if (this.isHidden(this.list[index + 1])) {
+          return true
+        }
+      }
+      return false
     },
     showName (item) {
+      let name = ''
       if (item.meta && item.meta.label) {
-        item = item.meta && item.meta.label
+        if (isFunction(item.meta.label)) {
+          name = item.meta.label(item, this.$route)
+        } else {
+          name = item.meta.label
+        }
+      } else if (item.name) {
+        name = item.name
       }
-      if (item.name) {
-        item = item.name
-      }
-      return item
+      return name
     }
   }
 }

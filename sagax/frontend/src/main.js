@@ -42,6 +42,7 @@ import Notifications from 'vue-notification'
 import Gravatar from 'vue-gravatar'
 import { ClientTable } from 'vue-tables-2'
 import STable from './components/STable'
+import ClientInfoPanel from './components/ClientInfoPanel'
 
 Vue.use(Vuex)
 Vue.use(Notifications)
@@ -76,6 +77,7 @@ Vue.component('b-nav-item', bNavItem)
 Vue.component('b-nav-item-dropdown', bNavItemDropdown)
 Vue.component('v-gravatar', Gravatar)
 Vue.directive('b-tooltip', vBToolTip)
+Vue.component('client-info-panel', ClientInfoPanel)
 
 Vue.component('s-table', STable)
 

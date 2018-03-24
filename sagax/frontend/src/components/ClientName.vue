@@ -13,7 +13,7 @@
               @click="showUnsilenceModal(relevantSilenceIds())">
       <i class="fa fa-lg fa-volume-off text-danger"></i>
     </b-button>
-    {{ clientName }}
+    <router-link :to="link" >{{ clientName }}</router-link>
   </span>
 </template>
 
@@ -29,6 +29,14 @@ export default {
     }
   },
   computed: {
+    link () {
+      return {
+        name: 'clientDetail',
+        params: {
+          clientName: this.clientName
+        }
+      }
+    },
     silenceTooltip () {
       return {
         title: `Silence all checks for ${this.clientName}`,
