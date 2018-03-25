@@ -12,7 +12,7 @@
               @click="showUnsilenceModal(relevantSilenceIds)">
       <i class="fa fa-lg fa-volume-off text-danger"></i>
     </b-button>
-    {{ check.name }}
+    <router-link :to="link">{{ check.name }}</router-link>
   </span>
 </template>
 
@@ -30,6 +30,15 @@ export default {
     }
   },
   computed: {
+    link () {
+      return {
+        name: 'resultDetail',
+        params: {
+          clientName: this.clientName,
+          checkName: this.checkName
+        }
+      }
+    },
     checkName () {
       return this.check ? this.check.name : ''
     },

@@ -21,6 +21,14 @@ const actions = {
 
 const getters = {
   allEvents: (state) => state.events,
+  getEvent: (state) => (clientName, checkName) => {
+    for (let event of state.events) {
+      if (event.client.name === clientName && event.check.name === checkName) {
+        return event
+      }
+    }
+    return null
+  },
   maxStatusByClient: (state, getters) => {
     let clientNames = getters.allClients.map((c) => c.name)
     let maxStatus = zipObject(clientNames, clientNames.map(() => 0))

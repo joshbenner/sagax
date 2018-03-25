@@ -1,6 +1,8 @@
 import get from 'lodash/get'
 import merge from 'lodash/merge'
 import keys from 'lodash/keys'
+import isArray from 'lodash/isArray'
+import round from 'lodash/round'
 
 import ClientName from '../components/ClientName'
 import CheckName from '../components/CheckName'
@@ -11,6 +13,8 @@ import SilenceId from '../components/SilenceId'
 import SilenceDelete from '../components/SilenceDelete'
 
 import clientStore from '../store/clients'
+
+import { changeRatio } from '../services/flap'
 
 export function getFormatter (fieldSpec) {
   let formatter = get(formatters, get(fieldSpec, 'formatter', '_d'), formatters._d)
@@ -36,7 +40,25 @@ function componentTemplate (component, valProp, itemProp) {
 }
 
 function bullets (val, h, type) {
+  if (!isArray(val)) {
+    return ''
+  }
   return h(type, {}, val.map((v) => h('li', {}, [v])))
+}
+
+function statusPill (val, item, h) {
+  let variant = get({0: 'success', 1: 'warning', 2: 'danger'}, val, 'info')
+  let text = get({0: 'OK', 1: 'Warning', 2: 'Critical'}, val, 'UNKNOWN')
+  return h(
+    'b-badge',
+    {
+      props: {
+        pill: true,
+        variant: variant
+      }
+    },
+    [text]
+  )
 }
 
 function jsonTreeExpanded (data, item, h, fieldSpec) {
@@ -101,5 +123,9 @@ const formatters = {
   clientIsSilenced: (name) => clientStore.getters.clientIsSilenced(name) ? 'Yes' : 'No',
   jsonTree: jsonTreeExpanded,
   jsonTreeExpanded,
-  jsonTreeCollapsed
+  jsonTreeCollapsed,
+  commaList: (val) => val.join(', '),
+  statusPill,
+  changePercentage: (history) => `${round(changeRatio(history) * 100, 0)}%`,
+  yesno: (val) => val ? 'Yes' : 'No'
 }

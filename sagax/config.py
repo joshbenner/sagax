@@ -131,6 +131,90 @@ settings_schema = {
                     'formatter': 'timeAgo'
                 }
             ],
+            'result_detail_result': [
+                {
+                    'label': 'Check name',
+                    'key': 'check.name'
+                },
+                {
+                    'label': 'Command',
+                    'key': 'check.command'
+                },
+                {
+                    'label': 'Output',
+                    'key': 'check.output'
+                },
+                {
+                    'label': 'Status',
+                    'key': 'check.status',
+                    'formatter': 'statusPill'
+                },
+                {
+                    'label': 'Interval',
+                    'key': 'check.interval'
+                },
+                {
+                    'label': 'TTL',
+                    'key': 'check.ttl'
+                },
+                {
+                    'label': 'Timeout',
+                    'key': 'check.timeout'
+                },
+                {
+                    'label': 'Issued',
+                    'key': 'check.issued',
+                    'formatter': 'timeAgo'
+                },
+                {
+                    'label': 'Executed',
+                    'key': 'check.executed',
+                    'formatter': 'timeAgo'
+                },
+                {
+                    'label': 'Duration',
+                    'key': 'check.duration'
+                },
+                {
+                    'label': 'Standalone',
+                    'key': 'check.standalone'
+                },
+                {
+                    'label': 'Subscribers',
+                    'key': 'check.subscribers',
+                    'formatter': 'unorderedList'
+                },
+                {
+                    'label': 'Change',
+                    'key': 'check.history',
+                    'formatter': 'changePercentage'
+                }
+            ],
+            'result_detail_event': [
+                {
+                    'label': 'ID',
+                    'key': 'id'
+                },
+                {
+                    'label': 'Occurrences',
+                    'key': 'occurrences'
+                },
+                {
+                    'label': 'Last OK',
+                    'key': 'last_ok',
+                    'formatter': 'timeAgo'
+                },
+                {
+                    'label': 'Last Change',
+                    'key': 'last_state_change',
+                    'formatter': 'timeAgo'
+                },
+                {
+                    'label': 'Silenced',
+                    'key': 'silenced',
+                    'formatter': 'yesno'
+                }
+            ],
             'silenced_list': [
                 {
                     'label': '',

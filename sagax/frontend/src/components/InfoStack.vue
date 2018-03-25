@@ -1,7 +1,12 @@
 <script>
+import get from 'lodash/get'
 import { getFormatter } from '../services/formatters'
 
-function renderItemField (item, field, h) {
+function renderItemField (item, field, h, skipEmpty) {
+  let val = get(item, field.key, null)
+  if (val === null && skipEmpty) {
+    return ''
+  }
   return h(
     'div',
     { class: { 'info-stack-field': true } },
@@ -30,13 +35,17 @@ export default {
     item: {
       type: Object,
       required: true
+    },
+    skipEmpty: {
+      type: Boolean,
+      default: false
     }
   },
   render: function (h) {
     return h(
       'div',
       { class: { 'info-stack': true } },
-      this.fields.map((f) => renderItemField(this.item, f, h))
+      this.fields.map((f) => renderItemField(this.item, f, h, this.skipEmpty))
     )
   }
 }

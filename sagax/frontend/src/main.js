@@ -47,6 +47,7 @@ import Gravatar from 'vue-gravatar'
 import { ClientTable } from 'vue-tables-2'
 import STable from './components/STable'
 import ClientInfoPanel from './components/ClientInfoPanel'
+import ResultInfoPanel from './components/ResultInfoPanel'
 import InfoStack from './components/InfoStack'
 import TreeView from 'vue-json-tree-view'
 import ResultTable from './components/ResultTable'
@@ -88,6 +89,7 @@ Vue.component('b-nav-item-dropdown', bNavItemDropdown)
 Vue.component('v-gravatar', Gravatar)
 Vue.directive('b-tooltip', vBToolTip)
 Vue.component('client-info-panel', ClientInfoPanel)
+Vue.component('result-info-panel', ResultInfoPanel)
 Vue.component('b-dropdown', bDropdown)
 Vue.component('b-dropdown-item', bDropdownItem)
 Vue.component('info-stack', InfoStack)

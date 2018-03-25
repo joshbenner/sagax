@@ -47,6 +47,13 @@ const actions = {
 
 const getters = {
   allResults: (state) => keys(state.results).reduce((all, k) => all + state.results[k], []),
+  getResult: (state) => (clientName, checkName) => {
+    for (let result of state.results) {
+      if (result.client === clientName && result.check.name === checkName) {
+        return result
+      }
+    }
+  },
   resultsByClient: (state) => collatedResults(state.results),
   clientResults: (state, getters) => (clientName) => get(getters.resultsByClient, clientName, []),
   resultClientToRefresh: (state) => state.clientToRefresh

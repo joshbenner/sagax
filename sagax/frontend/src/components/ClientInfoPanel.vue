@@ -13,7 +13,11 @@
         </span>
         <b-dropdown-item>
           <i class="fa fa-trash"></i>
-          Delete
+          Delete client
+        </b-dropdown-item>
+        <b-dropdown-item>
+          <i class="fa fa-eye"></i>
+          View raw client
         </b-dropdown-item>
       </b-dropdown>
     </div>
@@ -42,11 +46,6 @@ export default {
     },
     fields () {
       return this.getConfig('fields.client_detail', [])
-    },
-    clientInfo () {
-      return [
-        {}
-      ]
     }
   },
   methods: {
@@ -66,18 +65,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.client-info-panel {
-  .card-header {
-    h2 {
-      font-size: 1.6em;
-      margin: 0;
-      display: inline;
-    }
-    .dropdown {
-      float: right;
-    }
-  }
-}
-</style>

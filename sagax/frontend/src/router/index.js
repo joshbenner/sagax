@@ -9,6 +9,7 @@ import EventListPage from '../views/EventListPage'
 import ClientListPage from '../views/ClientListPage'
 import SilencedListPage from '../views/SilencedListPage'
 import ClientPage from '../views/ClientPage'
+import ResultPage from '../views/ResultPage'
 
 Vue.use(Router)
 
@@ -45,13 +46,26 @@ export default new Router({
               path: '',
               name: 'clientList',
               component: ClientListPage,
-              meta: { label: 'Clients', hide: true }
+              meta: { hide: true }
             },
             {
               path: ':clientName',
-              name: 'clientDetail',
-              component: ClientPage,
-              meta: { label: (item, route) => inHTMLData(route.params.clientName) }
+              meta: { label: (item, route) => inHTMLData(route.params.clientName) },
+              component: {template: '<router-view />'},
+              children: [
+                {
+                  path: '',
+                  name: 'clientDetail',
+                  meta: { hide: true },
+                  component: ClientPage
+                },
+                {
+                  path: ':checkName',
+                  name: 'resultDetail',
+                  component: ResultPage,
+                  meta: { label: (item, route) => inHTMLData(route.params.checkName) }
+                }
+              ]
             }
           ]
         },
