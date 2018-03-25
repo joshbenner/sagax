@@ -70,8 +70,14 @@ function jsonTreeCollapsed (data, item, h, fieldSpec) {
 
 function checkName (val, item, h) {
   let itemKeys = keys(item)
-  if (itemKeys.includes('check') && itemKeys.includes('client')) {
-    // This is a result item.
+  if (itemKeys.includes('action')) {
+    // Event item.
+    return h(
+      CheckName,
+      { props: { clientName: item.client.name, check: item.check } }
+    )
+  } else if (itemKeys.includes('check') && itemKeys.includes('client')) {
+    // Result item.
     return h(
       CheckName,
       { props: { clientName: item.client, check: item.check } }
