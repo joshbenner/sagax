@@ -59,7 +59,7 @@ class Sensu(object):
     def clear_silenced(self, silence_ids):
         return self.api.clear_silenced(silence_ids)
 
-    def results(self, client_name):
+    def results(self, client_name=None):
         return self.api.results(client_name)
 
 
@@ -166,6 +166,11 @@ def clear_silenced(sensu: Sensu, body):
     return {'results': responses}
 
 
+@hug.get('/results', requires=token_auth)
+def results(sensu: Sensu):
+    return sensu.results()
+
+
 @hug.get('/results/{client_name}', requires=token_auth)
-def results(sensu: Sensu, client_name: str=None):
+def results(sensu: Sensu, client_name: str):
     return sensu.results(client_name)
