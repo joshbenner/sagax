@@ -17,6 +17,7 @@ import bLink from 'bootstrap-vue/es/components/link/link'
 import bTable from 'bootstrap-vue/es/components/table/table'
 import bCard from 'bootstrap-vue/es/components/card/card'
 import bCardBody from 'bootstrap-vue/es/components/card/card-body'
+import bCardHeader from 'bootstrap-vue/es/components/card/card-header'
 import bModal from 'bootstrap-vue/es/components/modal/modal'
 import bModalDirective from 'bootstrap-vue/es/directives/modal/modal'
 import bForm from 'bootstrap-vue/es/components/form/form'
@@ -33,6 +34,8 @@ import bCheckbox from 'bootstrap-vue/es/components/form-checkbox/form-checkbox'
 import bNavbarNav from 'bootstrap-vue/es/components/navbar/navbar-nav'
 import bNavItem from 'bootstrap-vue/es/components/nav/nav-item'
 import bNavItemDropdown from 'bootstrap-vue/es/components/nav/nav-item-dropdown'
+import bDropdown from 'bootstrap-vue/es/components/dropdown/dropdown'
+import bDropdownItem from 'bootstrap-vue/es/components/dropdown/dropdown-item'
 import vBToolTip from 'bootstrap-vue/es/directives/tooltip/tooltip'
 import Multiselect from 'vue-multiselect'
 import Autocomplete from './components/Autocomplete'
@@ -43,6 +46,7 @@ import Gravatar from 'vue-gravatar'
 import { ClientTable } from 'vue-tables-2'
 import STable from './components/STable'
 import ClientInfoPanel from './components/ClientInfoPanel'
+import InfoStack from './components/InfoStack'
 
 Vue.use(Vuex)
 Vue.use(Notifications)
@@ -56,6 +60,7 @@ Vue.component('b-link', bLink)
 Vue.component('b-table', bTable)
 Vue.component('b-card', bCard)
 Vue.component('b-card-body', bCardBody)
+Vue.component('b-card-header', bCardHeader)
 Vue.component('b-modal', bModal)
 Vue.directive('b-modal', bModalDirective)
 Vue.component('b-form', bForm)
@@ -78,6 +83,9 @@ Vue.component('b-nav-item-dropdown', bNavItemDropdown)
 Vue.component('v-gravatar', Gravatar)
 Vue.directive('b-tooltip', vBToolTip)
 Vue.component('client-info-panel', ClientInfoPanel)
+Vue.component('b-dropdown', bDropdown)
+Vue.component('b-dropdown-item', bDropdownItem)
+Vue.component('info-stack', InfoStack)
 
 Vue.component('s-table', STable)
 

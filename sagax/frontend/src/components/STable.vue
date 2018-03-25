@@ -24,47 +24,10 @@
 import get from 'lodash/get'
 import difference from 'lodash/difference'
 
-import ClientName from './ClientName'
-import CheckStatus from './CheckStatus'
-import TimeAgo from './TimeAgo'
-import SilenceExpire from './SilenceExpire'
-import SilenceId from './SilenceId'
-import SilenceDelete from './SilenceDelete'
+import templates from '../services/formatters'
 
 function fKey (field) {
   return field.key.replace('.', '_')
-}
-
-function componentTemplate (component, valProp, itemProp) {
-  return function (val, h, row, index) {
-    let data = {
-      props: {
-        row: row,
-        index: index
-      }
-    }
-    if (valProp !== null) {
-      data.props[valProp || 'val'] = val
-    }
-    if (typeof itemProp !== 'undefined') {
-      data.props[itemProp] = row._item
-    }
-    return h(component, data)
-  }
-}
-
-// Formatter templates that frontend config can designate for rendering cell.
-// noinspection JSUnusedGlobalSymbols
-let templates = {
-  _d: (val) => val,
-  timeAgo: componentTemplate(TimeAgo, 'timestamp'),
-  checkName: (val) => val,
-  clientName: componentTemplate(ClientName, 'clientName'),
-  checkStatus: componentTemplate(CheckStatus, 'status'),
-  silenceExpire: componentTemplate(SilenceExpire, null, 'entry'),
-  silenceId: componentTemplate(SilenceId, null, 'entry'),
-  silenceIdPart: (val) => val || '(all)',
-  silenceDelete: componentTemplate(SilenceDelete, 'silenceId')
 }
 
 export default {

@@ -1,6 +1,6 @@
 <template>
   <div class="client-page">
-    <client-info-panel :clientName="clientName" class="col"/>
+    <client-info-panel :clientName="clientName" />
   </div>
 </template>
 

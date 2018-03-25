@@ -86,6 +86,31 @@ settings_schema = {
                     'sortable': True
                 }
             ],
+            'client_detail': [
+                {
+                    'label': 'IP Address',
+                    'key': 'address'
+                },
+                {
+                    'label': 'Client version',
+                    'key': 'version'
+                },
+                {
+                    'label': 'Last keepalive',
+                    'key': 'timestamp',
+                    'formatter': 'timeAgo'
+                },
+                {
+                    'label': 'Silenced',
+                    'key': 'name',
+                    'formatter': 'clientIsSilenced'
+                },
+                {
+                    'label': 'Subscriptions',
+                    'key': 'subscriptions',
+                    'formatter': 'unorderedList'
+                }
+            ],
             'silenced_list': [
                 {
                     'label': '',
