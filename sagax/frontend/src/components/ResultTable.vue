@@ -1,7 +1,7 @@
 <template>
   <s-table :items="results"
            :fields="fields"
-           class="result-table"
+           class="result-table row-status-indicators"
            :enableSearch="false"
            :row-class-callback="rowClass"
            countText="{count} check results"/>
@@ -25,13 +25,13 @@ export default {
     rowClass (row) {
       switch (row._item.check.status) {
         case 0:
-          return 'result-ok'
+          return 'status-ok'
         case 1:
-          return 'result-warn text-warning'
+          return 'status-warn text-warning'
         case 2:
-          return 'result-crit text-danger'
+          return 'status-crit text-danger'
         default:
-          return 'result-unknown text-info'
+          return 'status-unknown text-info'
       }
     }
   }
@@ -39,20 +39,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../styles/core-variables';
-
 .result-table {
   .check-name {
     font-weight: 600;
-  }
-
-  thead tr {
-    border-left: $status-width solid transparent;
-  }
-  @each $status, $color in $client-status-colors {
-    tr.result-#{$status}  {
-      border-left: $status-width solid $color;
-    }
   }
 }
 </style>

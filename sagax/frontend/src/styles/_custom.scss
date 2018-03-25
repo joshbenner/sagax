@@ -60,3 +60,14 @@ button i.fa {
     color: $orange;
   }
 }
+
+.row-status-indicators {
+  thead tr {
+    border-left: $status-width solid transparent;
+  }
+  @each $status, $color in $client-status-colors {
+    tr.status-#{$status}  {
+      border-left: $status-width solid $color;
+    }
+  }
+}

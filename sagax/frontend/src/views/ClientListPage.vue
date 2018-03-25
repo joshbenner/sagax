@@ -2,7 +2,7 @@
   <b-card>
     <s-table :items="clients"
              :fields="fields"
-             class="client-table"
+             class="client-table row-status-indicators"
              v-model="selected"
              :showCheckboxes="true"
              checkboxValuePath="name"
@@ -34,30 +34,15 @@ export default {
     rowClass (row) {
       switch (this.maxStatusByClient[row.name]) {
         case 0:
-          return 'client-ok'
+          return 'status-ok'
         case 1:
-          return 'client-warn text-warning'
+          return 'status-warn text-warning'
         case 2:
-          return 'client-crit text-danger'
+          return 'status-crit text-danger'
         default:
-          return 'client-unknown text-info'
+          return 'status-unknown text-info'
       }
     }
   }
 }
 </script>
-
-<style lang="scss">
-@import '../styles/core-variables';
-
-.client-table {
-  thead tr {
-    border-left: $status-width solid transparent;
-  }
-  @each $status, $color in $client-status-colors {
-    tr.client-#{$status}  {
-      border-left: $status-width solid $color;
-    }
-  }
-}
-</style>
