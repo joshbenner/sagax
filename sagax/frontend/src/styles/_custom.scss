@@ -22,6 +22,11 @@ button i.fa {
 
 .tree-view-wrapper {
   line-height: initial;
+  overflow: hidden !important;
+
+  .tree-view-item {
+    font-size: 1em;
+  }
 
   .tree-view-item-key {
     color: $indigo;

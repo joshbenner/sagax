@@ -9,6 +9,7 @@ import store from './store'
 import { configMixin } from './services/config'
 import silenceMixin from './services/silence'
 
+import bContainer from 'bootstrap-vue/es/components/layout/container'
 import bRow from 'bootstrap-vue/es/components/layout/row'
 import bCol from 'bootstrap-vue/es/components/layout/col'
 import bButton from 'bootstrap-vue/es/components/button/button'
@@ -48,12 +49,14 @@ import STable from './components/STable'
 import ClientInfoPanel from './components/ClientInfoPanel'
 import InfoStack from './components/InfoStack'
 import TreeView from 'vue-json-tree-view'
+import ResultTable from './components/ResultTable'
 
 Vue.use(Vuex)
 Vue.use(Notifications)
 Vue.use(ClientTable, {}, false, 'bootstrap4')
 Vue.use(TreeView)
 
+Vue.component('b-container', bContainer)
 Vue.component('b-row', bRow)
 Vue.component('b-col', bCol)
 Vue.component('b-button', bButton)
@@ -88,6 +91,7 @@ Vue.component('client-info-panel', ClientInfoPanel)
 Vue.component('b-dropdown', bDropdown)
 Vue.component('b-dropdown-item', bDropdownItem)
 Vue.component('info-stack', InfoStack)
+Vue.component('result-table', ResultTable)
 
 Vue.component('s-table', STable)
 

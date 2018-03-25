@@ -111,6 +111,25 @@ settings_schema = {
                     'formatter': 'unorderedList'
                 }
             ],
+            'result_list': [
+                {
+                    'label': 'Check',
+                    'key': 'check.name',
+                    'sortable': True,
+                    'defaultSort': 'asc'
+                },
+                {
+                    'label': 'Output',
+                    'key': 'check.output',
+                    'sortable': True
+                },
+                {
+                    'label': 'Last check',
+                    'key': 'check.executed',
+                    'sortable': True,
+                    'formatter': 'timeAgo'
+                }
+            ],
             'silenced_list': [
                 {
                     'label': '',

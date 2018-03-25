@@ -17,12 +17,12 @@ export function loader (loaderFunc, mutation) {
       return new Promise(() => {})
     }
     commit('startLoading')
-    return loaderFunc(data => {
-      commit(mutation, data)
-      return Promise.resolve(data)
-    })
+    return loaderFunc()
       .then(
-        () => commit('doneLoading', mutation),
+        ({ data }) => {
+          commit(mutation, data)
+          commit('doneLoading', mutation)
+        },
         (e) => {
           maybeLogoutOnLoadFail(e, commit, dispatch)
           return Promise.resolve(e)

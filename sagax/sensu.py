@@ -39,7 +39,7 @@ class SensuAPI(ABC):
         raise NotImplemented()
 
     @abstractmethod
-    def results(self) -> list:
+    def results(self, client_name: str=None) -> list:
         raise NotImplemented()
 
 
@@ -87,6 +87,9 @@ class Sensu1API(SensuAPI, HTTP):
                                   data=r.data))
         return responses
 
-    def results(self) -> list:
-        r = self.get('/results')
+    def results(self, client_name: str=None) -> list:
+        if client_name is None:
+            r = self.get('/results')
+        else:
+            r = self.get('/results/{}'.format(client_name))
         return r.data

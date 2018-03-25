@@ -2,7 +2,7 @@
   <b-card class="client-info-panel">
     <div slot="header">
       <h2>{{ clientName }}</h2>
-      <b-dropdown split variant="primary" @click="silenceToggleClicked">
+      <b-dropdown split variant="primary" size="sm" @click="silenceToggleClicked">
         <span slot="button-content" v-if="silenced">
           <i class="fa fa-volume-off"></i>
           Unsilence
@@ -71,7 +71,7 @@ export default {
 .client-info-panel {
   .card-header {
     h2 {
-      font-size: 1.2rem;
+      font-size: 1.6em;
       margin: 0;
       display: inline;
     }

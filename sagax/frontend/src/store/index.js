@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import moment from 'moment'
 import get from 'lodash/get'
+import keys from 'lodash/keys'
 import bus from '../services/bus'
 import api from '../services/api'
 import auth from '../services/auth'
@@ -13,6 +14,7 @@ import config from './config'
 import events from './events'
 import clients from './clients'
 import silenced from './silenced'
+import results from './results'
 
 Vue.use(Vuex)
 
@@ -30,7 +32,8 @@ export default new Vuex.Store({
     config,
     events,
     clients,
-    silenced
+    silenced,
+    results
   },
   mutations: {
     startLoading (state) {
@@ -76,16 +79,19 @@ export default new Vuex.Store({
       commit('clearEvents')
       commit('clearClients')
       commit('clearSilenced')
+      commit('clearResults')
     },
-    refreshAll ({ dispatch, commit }) {
+    refreshAll ({ dispatch, commit, getters }) {
       bus.$emit('refreshing-all')
       commit('startLoading')
-      api.getRefresh(data => {
-        commit('setEvents', data['events'])
-        commit('setClients', data['clients'])
-        commit('setSilenced', data['silenced'])
-      })
-        .then(() => {
+      api.getRefresh(getters.resultClientToRefresh)
+        .then(({ data }) => {
+          commit('setEvents', data.events)
+          commit('setClients', data.clients)
+          commit('setSilenced', data.silenced)
+          if (keys(data).includes('results')) {
+            commit('setResults', data.results)
+          }
           commit('doneLoading', ['setEvents', 'setClients', 'setSilenced'])
           bus.$emit('refreshed-all')
         })

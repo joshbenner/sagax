@@ -6,12 +6,13 @@ from falcon import get_http_status
 from sagax.config import config
 from sagax.plugins import plugin_class_factory
 from sagax.tokens import issue_token, verify_token
+from sagax.middleware import CORSMiddleware
 
 ui_path = pkg_resources.resource_filename('sagax', 'frontend/dist')
 static_path = pkg_resources.resource_filename('sagax', 'frontend/dist/static')
 
 api_ = hug.API(__name__)
-api_.http.add_middleware(hug.middleware.CORSMiddleware(api_))
+api_.http.add_middleware(CORSMiddleware(api_))
 
 
 def token_auth(request, response, **kwargs):
@@ -58,8 +59,8 @@ class Sensu(object):
     def clear_silenced(self, silence_ids):
         return self.api.clear_silenced(silence_ids)
 
-    def results(self):
-        return self.api.results()
+    def results(self, client_name):
+        return self.api.results(client_name)
 
 
 @hug.directive()
@@ -126,12 +127,15 @@ def get_frontend_config():
 
 
 @hug.get('/refresh', requires=token_auth)
-def get_refresh(sensu: Sensu):
-    return {
+def get_refresh(sensu: Sensu, results_client: hug.types.text=None):
+    data = {
         'events': sensu.events(),
         'clients': sensu.clients(),
         'silenced': sensu.silenced()
     }
+    if results_client:
+        data['results'] = sensu.results(results_client)
+    return data
 
 
 @hug.get('/events', requires=token_auth)
@@ -162,6 +166,6 @@ def clear_silenced(sensu: Sensu, body):
     return {'results': responses}
 
 
-@hug.get('/results', requires=token_auth)
-def results(sensu: Sensu):
-    return sensu.results()
+@hug.get('/results/{client_name}', requires=token_auth)
+def results(sensu: Sensu, client_name: str=None):
+    return sensu.results(client_name)
