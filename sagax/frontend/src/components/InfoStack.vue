@@ -64,6 +64,7 @@ export default {
       display: table-cell;
       text-align: right;
       font-weight: bold;
+      white-space: nowrap;
 
       &:after {
         content: ':';

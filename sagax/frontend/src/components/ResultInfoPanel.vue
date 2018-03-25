@@ -39,7 +39,7 @@
     </div>
 
     <h3 v-if="result">Result Info</h3>
-    <info-stack v-if="result" :fields="resultFields" :item="result" :skip-empty="true"/>
+    <info-stack v-if="result" :fields="resultFields" :item="resultTokenized" :skip-empty="true"/>
 
     <h3 v-if="event">Event Info</h3>
     <info-stack v-if="event" :fields="eventFields" :item="event"/>
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { tokenReplace } from '../services/tokens'
+
 export default {
   name: 'ResultInfoPanel',
   props: {
@@ -60,6 +62,9 @@ export default {
     }
   },
   computed: {
+    client () {
+      return this.$store.getters.getClient(this.clientName)
+    },
     relevantSilenceIds () {
       let silences = this.$store.getters.silencesForCheck(this.clientName, this.checkName)
       return silences.map((s) => s.id)
@@ -75,6 +80,9 @@ export default {
     },
     result () {
       return this.$store.getters.getResult(this.clientName, this.checkName)
+    },
+    resultTokenized () {
+      return tokenReplace(this.result)
     },
     resultFields () {
       return this.getConfig('fields.result_detail_result', [])
