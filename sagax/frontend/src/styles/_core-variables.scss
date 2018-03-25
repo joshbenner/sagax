@@ -7,3 +7,5 @@ $client-status-colors: (
   crit: map-get($theme-colors, danger),
   unknown: map-get($theme-colors, info)
 );
+
+$status-width: 5px;

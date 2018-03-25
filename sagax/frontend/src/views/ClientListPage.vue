@@ -50,8 +50,6 @@ export default {
 <style lang="scss">
 @import '../styles/core-variables';
 
-$status-width: 7px;
-
 .client-table {
   thead tr {
     border-left: $status-width solid transparent;

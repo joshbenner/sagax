@@ -39,9 +39,20 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../styles/core-variables';
+
 .result-table {
   .check-name {
     font-weight: 600;
+  }
+
+  thead tr {
+    border-left: $status-width solid transparent;
+  }
+  @each $status, $color in $client-status-colors {
+    tr.result-#{$status}  {
+      border-left: $status-width solid $color;
+    }
   }
 }
 </style>
