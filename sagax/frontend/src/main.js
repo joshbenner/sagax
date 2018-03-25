@@ -47,10 +47,12 @@ import { ClientTable } from 'vue-tables-2'
 import STable from './components/STable'
 import ClientInfoPanel from './components/ClientInfoPanel'
 import InfoStack from './components/InfoStack'
+import TreeView from 'vue-json-tree-view'
 
 Vue.use(Vuex)
 Vue.use(Notifications)
 Vue.use(ClientTable, {}, false, 'bootstrap4')
+Vue.use(TreeView)
 
 Vue.component('b-row', bRow)
 Vue.component('b-col', bCol)

@@ -24,7 +24,7 @@
 import get from 'lodash/get'
 import difference from 'lodash/difference'
 
-import templates from '../services/formatters'
+import { getFormatter } from '../services/formatters'
 
 function fKey (field) {
   return field.key.replace('.', '_')
@@ -168,11 +168,7 @@ export default {
         }, {}),
         templates: this.fields.reduce((o, f) => {
           let k = fKey(f)
-          let formatterName = get(f, 'formatter', '_d')
-          let formatter = get(templates, formatterName, templates._d)
-          o[k] = function (h, row, index) {
-            return formatter(row[k], h, row, index)
-          }
+          o[k] = (h, row) => getFormatter(f)(row._item, h)
           return o
         }, {}),
         perPage: 99999,

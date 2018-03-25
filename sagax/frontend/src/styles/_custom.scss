@@ -19,3 +19,27 @@ button i.fa {
   float: none !important;
   margin-left: 10px;
 }
+
+.tree-view-wrapper {
+  line-height: initial;
+
+  .tree-view-item-key {
+    color: $indigo;
+  }
+
+  .tree-view-item-value-string {
+    color: $red;
+  }
+
+  .tree-view-item-value-number {
+    color: $red;
+  }
+
+  .tree-view-item-value-boolean {
+    color: $green;
+  }
+
+  .tree-view-item-value-null {
+    color: $orange;
+  }
+}

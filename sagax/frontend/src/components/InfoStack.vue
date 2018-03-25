@@ -1,9 +1,7 @@
 <script>
-import get from 'lodash/get'
-import formatters from '../services/formatters'
+import { getFormatter } from '../services/formatters'
 
 function renderItemField (item, field, h) {
-  let formatter = get(formatters, get(field, 'formatter', '_d'), formatters._d)
   return h(
     'div',
     { class: { 'info-stack-field': true } },
@@ -16,7 +14,7 @@ function renderItemField (item, field, h) {
       h(
         'span',
         { class: { 'info-stack-value': true } },
-        [formatter(item[field.key], h, {_item: item}, 0)]
+        [getFormatter(field)(item, h)]
       )
     ]
   )
