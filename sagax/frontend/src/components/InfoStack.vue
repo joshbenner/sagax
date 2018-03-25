@@ -7,9 +7,11 @@ function renderItemField (item, field, h, skipEmpty) {
   if (val === null && skipEmpty) {
     return ''
   }
+  let classes = { 'info-stack-field': true }
+  classes[`info-stack-field-${field.key.replace('.', '_')}`] = true
   return h(
     'div',
-    { class: { 'info-stack-field': true } },
+    { class: classes },
     [
       h(
         'label',

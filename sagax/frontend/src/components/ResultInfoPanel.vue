@@ -143,5 +143,9 @@ export default {
   .status-unknown {
     color: $purple;
   }
+
+  .info-stack-field-check_command .info-stack-value {
+    font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  }
 }
 </style>
