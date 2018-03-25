@@ -51,11 +51,13 @@ import ResultInfoPanel from './components/ResultInfoPanel'
 import InfoStack from './components/InfoStack'
 import TreeView from 'vue-json-tree-view'
 import ResultTable from './components/ResultTable'
+import VueClipboard from 'vue-clipboard2'
 
 Vue.use(Vuex)
 Vue.use(Notifications)
 Vue.use(ClientTable, {}, false, 'bootstrap4')
 Vue.use(TreeView)
+Vue.use(VueClipboard)
 
 Vue.component('b-container', bContainer)
 Vue.component('b-row', bRow)

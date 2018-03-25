@@ -138,7 +138,8 @@ settings_schema = {
                 },
                 {
                     'label': 'Command',
-                    'key': 'check.command'
+                    'key': 'check.command',
+                    'formatter': 'copyable'
                 },
                 {
                     'label': 'Output',
@@ -193,7 +194,8 @@ settings_schema = {
             'result_detail_event': [
                 {
                     'label': 'ID',
-                    'key': 'id'
+                    'key': 'id',
+                    'formatter': 'copyable'
                 },
                 {
                     'label': 'Occurrences',

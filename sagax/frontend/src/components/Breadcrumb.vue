@@ -1,6 +1,6 @@
 <template>
   <ol class="breadcrumb">
-    <li class="breadcrumb-item" v-for="(item, index) in list" :key="index" v-if="!isHidden(item)">
+    <li class="breadcrumb-item" v-for="(item, index) in links" :key="index" v-if="!isHidden(item)">
       <span class="active" v-if="isLast(index)">{{ showName(item) }}</span>
       <router-link :to="item" v-else>{{ showName(item) }}</router-link>
     </li>
@@ -16,6 +16,17 @@ export default {
       type: Array,
       required: true,
       default: () => []
+    }
+  },
+  computed: {
+    links () {
+      return this.list.map((link) => {
+        return {
+          name: link.name || link.meta.defaultChild,
+          meta: link.meta,
+          params: this.$route.params
+        }
+      })
     }
   },
   methods: {

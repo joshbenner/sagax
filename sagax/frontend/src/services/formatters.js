@@ -11,6 +11,7 @@ import TimeAgo from '../components/TimeAgo'
 import SilenceExpire from '../components/SilenceExpire'
 import SilenceId from '../components/SilenceId'
 import SilenceDelete from '../components/SilenceDelete'
+import Copyable from '../components/Copyable'
 
 import clientStore from '../store/clients'
 
@@ -127,5 +128,6 @@ const formatters = {
   commaList: (val) => val.join(', '),
   statusPill,
   changePercentage: (history) => `${round(changeRatio(history) * 100, 0)}%`,
-  yesno: (val) => val ? 'Yes' : 'No'
+  yesno: (val) => val ? 'Yes' : 'No',
+  copyable: componentTemplate(Copyable, 'value')
 }

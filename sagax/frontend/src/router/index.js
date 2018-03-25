@@ -39,7 +39,7 @@ export default new Router({
         },
         {
           path: 'clients',
-          meta: { label: 'Clients' },
+          meta: { label: 'Clients', defaultChild: 'clientList' },
           component: {template: '<router-view />'},
           children: [
             {
@@ -50,7 +50,10 @@ export default new Router({
             },
             {
               path: ':clientName',
-              meta: { label: (item, route) => inHTMLData(route.params.clientName) },
+              meta: {
+                label: (item, route) => inHTMLData(route.params.clientName),
+                defaultChild: 'clientDetail'
+              },
               component: {template: '<router-view />'},
               children: [
                 {
