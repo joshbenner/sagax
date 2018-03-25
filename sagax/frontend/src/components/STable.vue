@@ -1,5 +1,6 @@
 <template>
   <v-client-table class="s-table"
+                  :class="{checkboxes: showCheckboxes}"
                   ref="table"
                   :data="tableData"
                   :columns="columns"
@@ -204,3 +205,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.s-table {
+  &.checkboxes {
+    tr > td:first-child {
+      width: 1px;
+    }
+  }
+}
+</style>
