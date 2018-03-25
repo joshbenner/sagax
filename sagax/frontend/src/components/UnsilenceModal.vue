@@ -42,9 +42,7 @@ export default {
         (s) => this.silenceIds.includes(s.id))
     },
     fields () {
-      let fields = Array.from(this.getConfig('fields.unsilence_list', []))
-      fields.unshift({key: 'checkbox'})
-      return fields
+      return Array.from(this.getConfig('fields.unsilence_list', []))
     }
   },
   methods: {

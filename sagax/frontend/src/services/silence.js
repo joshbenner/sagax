@@ -22,3 +22,11 @@ export function silenceAppliesToClient (silenced, client) {
 export function clientSilencedBy (client, silenced) {
   return silenceAppliesToClient(silenced, client) && isKeepaliveSilenced(silenced)
 }
+
+export function silencedAppliesToCheck (silenced, client, checkName) {
+  let appliesToClient = (
+    silenced.subscription === null ||
+    client.subscriptions.includes(silenced.subscription))
+  let appliesToCheck = silenced.check === null || silenced.check === checkName
+  return appliesToClient && appliesToCheck
+}

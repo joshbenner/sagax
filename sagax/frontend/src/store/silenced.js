@@ -1,5 +1,6 @@
 import api from '../services/api'
 import { loader } from './utils'
+import { silencedAppliesToCheck } from '../services/silence'
 
 const state = {
   silenced: []
@@ -20,7 +21,11 @@ const actions = {
 
 const getters = {
   allSilenced: (state) => state.silenced,
-  silencedCount: (state) => state.silenced.length
+  silencedCount: (state) => state.silenced.length,
+  silencesForCheck: (state, getters) => (clientName, checkName) => {
+    let client = getters.getClient(clientName)
+    return getters.allSilenced.filter((s) => silencedAppliesToCheck(s, client, checkName))
+  }
 }
 
 export default {

@@ -115,6 +115,7 @@ settings_schema = {
                 {
                     'label': 'Check',
                     'key': 'check.name',
+                    'formatter': 'checkName',
                     'sortable': True,
                     'defaultSort': 'asc'
                 },

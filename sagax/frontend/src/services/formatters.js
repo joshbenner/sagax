@@ -1,7 +1,9 @@
 import get from 'lodash/get'
 import merge from 'lodash/merge'
+import keys from 'lodash/keys'
 
 import ClientName from '../components/ClientName'
+import CheckName from '../components/CheckName'
 import CheckStatus from '../components/CheckStatus'
 import TimeAgo from '../components/TimeAgo'
 import SilenceExpire from '../components/SilenceExpire'
@@ -66,13 +68,24 @@ function jsonTreeCollapsed (data, item, h, fieldSpec) {
   )
 }
 
+function checkName (val, item, h) {
+  let itemKeys = keys(item)
+  if (itemKeys.includes('check') && itemKeys.includes('client')) {
+    // This is a result item.
+    return h(
+      CheckName,
+      { props: { clientName: item.client, check: item.check } }
+    )
+  }
+}
+
 // Formatter templates that frontend config can designate for rendering cell.
 const formatters = {
   _d: (val) => val,
   orderedList: (val, item, h) => bullets(val, h, 'ol'),
   unorderedList: (val, item, h) => bullets(val, h, 'ul'),
   timeAgo: componentTemplate(TimeAgo, 'timestamp'),
-  checkName: (val) => val,
+  checkName: checkName,
   clientName: componentTemplate(ClientName, 'clientName'),
   checkStatus: componentTemplate(CheckStatus, 'status'),
   silenceExpire: componentTemplate(SilenceExpire, null, 'entry'),
