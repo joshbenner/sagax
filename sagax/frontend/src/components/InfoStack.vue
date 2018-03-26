@@ -1,34 +1,26 @@
+<template>
+  <div class="info-stack">
+    <div v-for="(field, index) in fields"
+         v-if="showField(field)"
+         :key="index"
+         :class="[`info-stack-field-${field.key.replace('.', '_')}`, 'info-stack-field']">
+      <label class="info-stack-label">{{ field.label }}</label>
+      <span class="info-stack-value" ref="value">
+        <Formatter :field="field" :item="item"/>
+      </span>
+    </div>
+  </div>
+</template>
+
 <script>
 import get from 'lodash/get'
-import { getFormatter } from '../services/formatters'
-
-function renderItemField (item, field, h, skipEmpty) {
-  let val = get(item, field.key, null)
-  if (val === null && skipEmpty) {
-    return ''
-  }
-  let classes = { 'info-stack-field': true }
-  classes[`info-stack-field-${field.key.replace('.', '_')}`] = true
-  return h(
-    'div',
-    { class: classes },
-    [
-      h(
-        'label',
-        { class: { 'info-stack-label': true } },
-        [field.label ? field.label : '']
-      ),
-      h(
-        'span',
-        { class: { 'info-stack-value': true } },
-        [getFormatter(field)(item, h)]
-      )
-    ]
-  )
-}
+import Formatter from './Formatter'
 
 export default {
   name: 'InfoStack',
+  components: {
+    Formatter
+  },
   props: {
     fields: {
       type: Array,
@@ -43,12 +35,10 @@ export default {
       default: false
     }
   },
-  render: function (h) {
-    return h(
-      'div',
-      { class: { 'info-stack': true } },
-      this.fields.map((f) => renderItemField(this.item, f, h, this.skipEmpty))
-    )
+  methods: {
+    showField (field) {
+      return !this.skipEmpty || get(this.item, field.key, false)
+    }
   }
 }
 </script>

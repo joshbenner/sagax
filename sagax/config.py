@@ -18,6 +18,9 @@ settings_schema = {
             '1 day'
         ],
         'silence_interval_default': '2 hours',
+        'iframe_prefixes': [
+            'iframe'
+        ],
         'fields': {
             'event_list': [
                 {
