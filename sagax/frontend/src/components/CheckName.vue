@@ -54,6 +54,9 @@ export default {
 </script>
 
 <style>
+.check-name {
+  white-space: nowrap;
+}
 .check-name button {
   padding: 0 2px 1px 0;
   width: 2em;

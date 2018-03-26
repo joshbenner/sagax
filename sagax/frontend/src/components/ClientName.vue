@@ -64,6 +64,9 @@ export default {
 </script>
 
 <style>
+.client-name {
+  white-space: nowrap;
+}
 .client-name button {
   padding: 0 2px 1px 0;
   width: 2em;
