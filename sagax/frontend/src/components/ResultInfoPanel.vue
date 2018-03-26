@@ -39,10 +39,14 @@
     </div>
 
     <h3 v-if="result">Result Info</h3>
-    <info-stack v-if="result" :fields="resultFields" :item="resultTokenized" :skip-empty="true"/>
+    <info-stack v-if="result"
+                :fields="resultFields"
+                :item="resultTokenized"/>
 
     <h3 v-if="event">Event Info</h3>
-    <info-stack v-if="event" :fields="eventFields" :item="event"/>
+    <info-stack v-if="event"
+                :fields="eventFields"
+                :item="event"/>
   </b-card>
 </template>
 

@@ -108,6 +108,20 @@ function checkName (val, item, h) {
   }
 }
 
+function iframe (val, item, h, fieldSpec) {
+  return h(
+    'iframe',
+    {
+      attrs: {
+        height: get(fieldSpec, 'formatter_options.height', 200),
+        width: '100%',
+        src: val,
+        frameborder: 0
+      }
+    }
+  )
+}
+
 // Formatter templates that frontend config can designate for rendering cell.
 const formatters = {
   _d: (val) => val,
@@ -129,5 +143,6 @@ const formatters = {
   statusPill,
   changePercentage: (history) => `${round(changeRatio(history) * 100, 0)}%`,
   yesno: (val) => val ? 'Yes' : 'No',
-  copyable: componentTemplate(Copyable, 'value')
+  copyable: componentTemplate(Copyable, 'value'),
+  iframe
 }

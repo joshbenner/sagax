@@ -2,7 +2,7 @@
   <div class="info-stack">
     <div v-for="(field, index) in fields"
          v-if="showField(field)"
-         :key="index"
+         :key="`field-${index}`"
          :class="[`info-stack-field-${field.key.replace('.', '_')}`, 'info-stack-field']">
       <label class="info-stack-label">{{ field.label }}</label>
       <span class="info-stack-value" ref="value">
@@ -32,7 +32,11 @@ export default {
     },
     skipEmpty: {
       type: Boolean,
-      default: false
+      default: true
+    },
+    showPrefixed: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
@@ -55,6 +59,7 @@ export default {
       text-align: right;
       font-weight: bold;
       white-space: nowrap;
+      vertical-align: top;
 
       &:after {
         content: ':';

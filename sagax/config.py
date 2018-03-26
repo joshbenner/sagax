@@ -18,9 +18,6 @@ settings_schema = {
             '1 day'
         ],
         'silence_interval_default': '2 hours',
-        'iframe_prefixes': [
-            'iframe'
-        ],
         'fields': {
             'event_list': [
                 {
@@ -192,6 +189,14 @@ settings_schema = {
                     'label': 'Change',
                     'key': 'check.history',
                     'formatter': 'changePercentage'
+                },
+                {
+                    'label': 'Graph',
+                    'key': 'check.graph_iframe',
+                    'formatter': 'iframe',
+                    'formatter_options': {
+                        'height': 200
+                    }
                 }
             ],
             'result_detail_event': [
