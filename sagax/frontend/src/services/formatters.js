@@ -108,6 +108,27 @@ function checkName (val, item, h) {
   }
 }
 
+function keyvals (data, item, h) {
+  return h(
+    'div',
+    {
+      class: {
+        keyvals: true
+      }
+    },
+    keys(data).map((key) => {
+      return h(
+        'div',
+        { class: { keyval: true } },
+        [
+          h('label', { class: { 'keyval-key': true } }, [key]),
+          h('span', { class: { 'keyval-val': true } }, [data[key]])
+        ]
+      )
+    })
+  )
+}
+
 function iframe (val, item, h, fieldSpec) {
   return h(
     'iframe',
@@ -144,5 +165,6 @@ const formatters = {
   changePercentage: (history) => `${round(changeRatio(history) * 100, 0)}%`,
   yesno: (val) => val ? 'Yes' : 'No',
   copyable: componentTemplate(Copyable, 'value'),
-  iframe
+  iframe,
+  keyvals
 }

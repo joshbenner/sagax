@@ -82,3 +82,25 @@ button i.fa {
     float: right;
   }
 }
+
+.keyvals {
+  display: table;
+
+  .keyval {
+    display: table-row;
+  }
+
+  .keyval-key {
+    display: table-cell;
+    font-weight: bold;
+    &:after {
+      content: ':';
+      font-weight: bold;
+    }
+  }
+
+  .keyval-val {
+    display: table-cell;
+    padding-left: 1em;
+  }
+}
