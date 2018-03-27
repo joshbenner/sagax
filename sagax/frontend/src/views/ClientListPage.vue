@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ClientListPage',
@@ -21,10 +21,14 @@ export default {
     }
   },
   computed: {
-    ...mapState({ clients: state => state.clients.clients }),
     ...mapGetters(['maxStatusByClient']),
     fields () {
       return this.getConfig('fields.client_list', [])
+    },
+    clients () {
+      return this.$store.getters.allClients.map((c) => Object.assign({}, c, {
+        event_count: this.$store.getters.eventsForClient(c.name).length
+      }))
     }
   },
   created () {
@@ -32,7 +36,7 @@ export default {
   },
   methods: {
     rowClass (row) {
-      switch (this.maxStatusByClient[row.name]) {
+      switch (this.maxStatusByClient[row._item.name]) {
         case 0:
           return 'status-ok'
         case 1:

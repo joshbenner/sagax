@@ -27,10 +27,6 @@ import difference from 'lodash/difference'
 
 import { getFormatter } from '../services/formatters'
 
-function fKey (field) {
-  return field.key.replace('.', '_')
-}
-
 export default {
   name: 'STable',
   props: {
@@ -104,17 +100,24 @@ export default {
     }
   },
   computed: {
+    _fields () {
+      let fieldIndex = 0
+      return this.fields.map((f) => {
+        let key = f.key.replace('.', '_')
+        return Object.assign({}, f, { index: `${key}_${fieldIndex++}` })
+      })
+    },
     tableData () {
       return this.items.map((item) => {
         let out = {_item: item}
-        this.fields.forEach((field) => {
-          out[fKey(field)] = get(item, field.key, '')
+        this._fields.forEach((field) => {
+          out[field.index] = get(item, field.key, '')
         })
         return out
       })
     },
     columns () {
-      let cols = this.fields.map(fKey)
+      let cols = this._fields.map((f) => f.index)
       if (this.showCheckboxes) {
         cols.unshift('_checkbox')
       }
@@ -130,18 +133,11 @@ export default {
       }
       return classes
     },
-    colClasses () {
-      return this.fields.reduce((o, f) => {
-        let key = fKey(f)
-        o[key] = `col-${key}`
-        return o
-      }, {})
-    },
     orderBy () {
-      for (let field of this.fields) {
+      for (let field of this._fields) {
         if (get(field, 'sortable', false) && get(field, 'defaultSort', false)) {
           return {
-            column: fKey(field),
+            column: field.index,
             ascending: field.defaultSort === 'asc'
           }
         }
@@ -149,27 +145,23 @@ export default {
       return {}
     },
     sortable () {
-      return this.fields.reduce((sortable, field) => {
+      return this._fields.reduce((sortable, field) => {
         if (get(field, 'sortable', false)) {
-          sortable.push(fKey(field))
+          sortable.push(field.index)
         }
         return sortable
       }, [])
     },
     options () {
       return {
-        headings: this.fields.reduce((o, f) => {
-          let key = fKey(f)
+        headings: this._fields.reduce((o, f) => {
           if ('label' in f) {
-            o[key] = f.label
-          } else if (`h__${key}` in this.$slots) {
-            o[key] = () => this.$slots[`h__${key}`][0]
+            o[f.index] = f.label
           }
           return o
         }, {}),
-        templates: this.fields.reduce((o, f) => {
-          let k = fKey(f)
-          o[k] = (h, row) => getFormatter(f)(row._item, h)
+        templates: this._fields.reduce((o, f) => {
+          o[f.index] = (h, row) => getFormatter(f)(row._item, h)
           return o
         }, {}),
         perPage: 99999,
@@ -181,7 +173,6 @@ export default {
         },
         filterable: this.enableSearch,
         rowClassCallback: this.rowClassCallback,
-        columnsClasses: this.colClasses,
         orderBy: this.orderBy,
         sortable: this.sortable,
         sortIcon: {

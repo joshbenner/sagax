@@ -12,6 +12,7 @@ import SilenceExpire from '../components/SilenceExpire'
 import SilenceId from '../components/SilenceId'
 import SilenceDelete from '../components/SilenceDelete'
 import Copyable from '../components/Copyable'
+import ClientEventList from '../components/ClientEventList'
 
 import clientStore from '../store/clients'
 
@@ -166,5 +167,6 @@ const formatters = {
   yesno: (val) => val ? 'Yes' : 'No',
   copyable: componentTemplate(Copyable, 'value'),
   iframe,
-  keyvals
+  keyvals,
+  clientEventList: componentTemplate(ClientEventList, null, 'client')
 }

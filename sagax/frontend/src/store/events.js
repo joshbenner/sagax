@@ -29,6 +29,9 @@ const getters = {
     }
     return null
   },
+  eventsForClient: (state) => (clientName) => {
+    return state.events.filter((e) => e.client.name === clientName)
+  },
   maxStatusByClient: (state, getters) => {
     let clientNames = getters.allClients.map((c) => c.name)
     let maxStatus = zipObject(clientNames, clientNames.map(() => 0))

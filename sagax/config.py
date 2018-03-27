@@ -66,8 +66,14 @@ settings_schema = {
                     'label': 'Name',
                     'key': 'name',
                     'formatter': 'clientName',
+                    'sortable': True
+                },
+                {
+                    'label': 'Events',
+                    'key': 'event_count',
+                    'formatter': 'clientEventList',
                     'sortable': True,
-                    'defaultSort': 'asc'
+                    'defaultSort': 'desc'
                 },
                 {
                     'label': 'IP',
