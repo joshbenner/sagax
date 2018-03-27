@@ -10,6 +10,7 @@ import { configMixin } from './services/config'
 import silenceMixin from './services/silence'
 import { clientMixin } from './services/clients'
 import { resultMixin } from './services/results'
+import { rawMixin } from './services/raw'
 
 import bContainer from 'bootstrap-vue/es/components/layout/container'
 import bRow from 'bootstrap-vue/es/components/layout/row'
@@ -54,12 +55,15 @@ import InfoStack from './components/InfoStack'
 import TreeView from 'vue-json-tree-view'
 import ResultTable from './components/ResultTable'
 import VueClipboard from 'vue-clipboard2'
+import VueHighlightJS from 'vue-highlightjs'
+import 'highlight.js/styles/idea.css'
 
 Vue.use(Vuex)
 Vue.use(Notifications)
 Vue.use(ClientTable, {}, false, 'bootstrap4')
 Vue.use(TreeView)
 Vue.use(VueClipboard)
+Vue.use(VueHighlightJS)
 
 Vue.component('b-container', bContainer)
 Vue.component('b-row', bRow)
@@ -107,6 +111,7 @@ Vue.mixin(configMixin)
 Vue.mixin(silenceMixin)
 Vue.mixin(clientMixin)
 Vue.mixin(resultMixin)
+Vue.mixin(rawMixin)
 
 /* eslint-disable no-new */
 new Vue({

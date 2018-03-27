@@ -32,6 +32,13 @@
         {{ deleteClientName }} / {{ deleteCheckName }}?</p>
       <p>If the check is still active, this result will reappear.</p>
     </b-modal>
+    <b-modal id="raw-viewer"
+             ref="rawViewer"
+             size="lg"
+             :title="`Raw data for ${rawType} ${rawName}`"
+             :ok-only="true">
+      <pre v-highlightjs="JSON.stringify(rawData, null, 2)"><code class="JSON"></code></pre>
+    </b-modal>
     <notifications group="main"/>
   </div>
 </template>
@@ -67,7 +74,10 @@ export default {
       silenceCheck: '',
       silenceIdsToDelete: [],
       deleteClientName: '',
-      deleteCheckName: ''
+      deleteCheckName: '',
+      rawType: '',
+      rawName: '',
+      rawData: {}
     }
   },
   computed: {
@@ -83,6 +93,7 @@ export default {
     bus.$on('show-unsilence-modal', this.showUnsilenceModal)
     bus.$on('show-client-delete-modal', this.showClientDeleteModal)
     bus.$on('show-result-delete-modal', this.showResultDeleteModal)
+    bus.$on('show-raw', this.showRawModal)
   },
   created () {
     let authenticated = auth.isAuthenticated()
@@ -122,6 +133,12 @@ export default {
       this.deleteClientName = clientName
       this.deleteCheckName = checkName
       this.$refs.resultDeleteModal.show()
+    },
+    showRawModal (type, name, data) {
+      this.rawType = type
+      this.rawName = name
+      this.rawData = data
+      this.$refs.rawViewer.show()
     }
   }
 }

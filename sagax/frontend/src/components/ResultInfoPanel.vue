@@ -20,11 +20,11 @@
           Delete Result
         </b-dropdown-item>
 
-        <b-dropdown-item>
-          View Raw Check
+        <b-dropdown-item @click="showRaw('result', `${clientName}/${checkName}`, result)">
+          View Raw Result
         </b-dropdown-item>
 
-        <b-dropdown-item>
+        <b-dropdown-item @click="showRaw('event', `${clientName}/${checkName}`, event)">
           View Raw Event
         </b-dropdown-item>
 

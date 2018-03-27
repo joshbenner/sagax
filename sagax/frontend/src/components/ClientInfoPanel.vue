@@ -15,7 +15,7 @@
           <i class="fa fa-trash"></i>
           Delete client
         </b-dropdown-item>
-        <b-dropdown-item>
+        <b-dropdown-item @click="showRaw('client', clientName, client)">
           <i class="fa fa-eye"></i>
           View raw client
         </b-dropdown-item>
