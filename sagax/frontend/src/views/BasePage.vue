@@ -15,6 +15,23 @@
                   :initialCheck="silenceCheck"/>
     <UnsilenceModal ref="unsilenceModal"
                     :silenceIds="silenceIdsToDelete"/>
+    <b-modal id="confirm-client-delete"
+             ref="clientDeleteModal"
+             :title="`Confirm delete client ${deleteClientName}?`"
+             ok-title="Delete Client"
+             @ok="deleteClientConfirmed(deleteClientName)">
+      Are you sure you want to delete {{ deleteClientName }}?
+    </b-modal>
+    <b-modal id="confirm-result-delete"
+             ref="resultDeleteModal"
+             size="lg"
+             :title="`Confirm delete result for ${deleteClientName} / ${deleteCheckName}`"
+             ok-title="Delete Result"
+             @ok="deleteResultConfirmed(deleteClientName, deleteCheckName)">
+      <p>Are you sure you want to delete the result for
+        {{ deleteClientName }} / {{ deleteCheckName }}?</p>
+      <p>If the check is still active, this result will reappear.</p>
+    </b-modal>
     <notifications group="main"/>
   </div>
 </template>
@@ -48,7 +65,9 @@ export default {
       nav: nav.items,
       silenceSubscription: '',
       silenceCheck: '',
-      silenceIdsToDelete: []
+      silenceIdsToDelete: [],
+      deleteClientName: '',
+      deleteCheckName: ''
     }
   },
   computed: {
@@ -62,6 +81,8 @@ export default {
   mounted () {
     bus.$on('show-silence-modal', this.showSilenceModal)
     bus.$on('show-unsilence-modal', this.showUnsilenceModal)
+    bus.$on('show-client-delete-modal', this.showClientDeleteModal)
+    bus.$on('show-result-delete-modal', this.showResultDeleteModal)
   },
   created () {
     let authenticated = auth.isAuthenticated()
@@ -92,6 +113,15 @@ export default {
     showUnsilenceModal (silenceIds) {
       this.silenceIdsToDelete = silenceIds
       this.$refs.unsilenceModal.show()
+    },
+    showClientDeleteModal (clientName) {
+      this.deleteClientName = clientName
+      this.$refs.clientDeleteModal.show()
+    },
+    showResultDeleteModal (clientName, checkName) {
+      this.deleteClientName = clientName
+      this.deleteCheckName = checkName
+      this.$refs.resultDeleteModal.show()
     }
   }
 }

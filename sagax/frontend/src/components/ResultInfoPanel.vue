@@ -15,7 +15,7 @@
           Silence
         </span>
 
-        <b-dropdown-item>
+        <b-dropdown-item @click="deleteResult(clientName, checkName)">
           <i class="fa fa-trash"></i>
           Delete Result
         </b-dropdown-item>

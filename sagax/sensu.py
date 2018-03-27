@@ -27,6 +27,10 @@ class SensuAPI(ABC):
         raise NotImplemented()
 
     @abstractmethod
+    def delete_client(self, client_name: str):
+        raise NotImplemented()
+
+    @abstractmethod
     def silenced(self) -> list:
         raise NotImplemented()
 
@@ -40,6 +44,10 @@ class SensuAPI(ABC):
 
     @abstractmethod
     def results(self, client_name: str=None) -> list:
+        raise NotImplemented()
+
+    @abstractmethod
+    def delete_result(self, client_name: str, check_name: str):
         raise NotImplemented()
 
 
@@ -71,6 +79,10 @@ class Sensu1API(SensuAPI, HTTP):
         r = self.get('/clients')
         return r.data
 
+    def delete_client(self, client_name: str):
+        r = self.delete('/clients/{}'.format(client_name))
+        return r.status_code, r.data
+
     def silenced(self) -> list:
         r = self.get('/silenced')
         return r.data
@@ -93,3 +105,7 @@ class Sensu1API(SensuAPI, HTTP):
         else:
             r = self.get('/results/{}'.format(client_name))
         return r.data
+
+    def delete_result(self, client_name: str, check_name: str):
+        r = self.delete('/results/{}/{}'.format(client_name, check_name))
+        return r.status_code, r.data

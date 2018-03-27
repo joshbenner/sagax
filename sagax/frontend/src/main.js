@@ -8,6 +8,8 @@ import store from './store'
 
 import { configMixin } from './services/config'
 import silenceMixin from './services/silence'
+import { clientMixin } from './services/clients'
+import { resultMixin } from './services/results'
 
 import bContainer from 'bootstrap-vue/es/components/layout/container'
 import bRow from 'bootstrap-vue/es/components/layout/row'
@@ -103,6 +105,8 @@ Vue.config.productionTip = false
 
 Vue.mixin(configMixin)
 Vue.mixin(silenceMixin)
+Vue.mixin(clientMixin)
+Vue.mixin(resultMixin)
 
 /* eslint-disable no-new */
 new Vue({

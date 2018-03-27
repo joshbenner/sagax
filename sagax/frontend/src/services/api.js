@@ -29,5 +29,7 @@ export default {
   postSilenced: postSilenced,
   clearSilenced: clearSilenced,
   allResults: getter('results'),
-  clientResults: (clientName) => HTTP.get(`/results/${clientName}`)
+  clientResults: (clientName) => HTTP.get(`/results/${clientName}`),
+  deleteClient: (clientName) => HTTP.delete(`/clients/${clientName}`),
+  deleteResult: (clientName, checkName) => HTTP.delete(`/results/${clientName}/${checkName}`)
 }

@@ -11,13 +11,19 @@ const mutations = {
   setClients (state, newClients) {
     state.clients = newClients
   },
+  deleteClient (state, clientName) {
+    state.clients = state.clients.filter((c) => c.name !== clientName)
+  },
   clearClients (state) {
     state.clients = []
   }
 }
 
 const actions = {
-  getClients: loader(api.getClients, 'setClients')
+  getClients: loader(api.getClients, 'setClients'),
+  deleteClient ({ commit }, clientName) {
+    api.deleteClient(clientName).then(() => commit('deleteClient', clientName))
+  }
 }
 
 const getters = {

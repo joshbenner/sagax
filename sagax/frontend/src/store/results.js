@@ -29,6 +29,11 @@ const mutations = {
   clearResults (state) {
     state.results = {}
     state.clientToRefresh = null
+  },
+  deleteResult (state, { clientName, checkName }) {
+    state.results = state.results.filter((r) => {
+      return r.client !== clientName || r.check.name !== checkName
+    })
   }
 }
 
@@ -42,6 +47,10 @@ const actions = {
         commit('doneLoading')
       }
     )
+  },
+  deleteResult ({ commit }, { clientName, checkName }) {
+    api.deleteResult(clientName, checkName)
+      .then(() => commit('deleteResult', {clientName, checkName}))
   }
 }
 

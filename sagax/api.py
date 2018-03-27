@@ -50,6 +50,9 @@ class Sensu(object):
     def clients(self):
         return self.api.clients()
 
+    def delete_client(self, client_name: str):
+        return self.api.delete_client(client_name)
+
     def silenced(self):
         return self.api.silenced()
 
@@ -61,6 +64,9 @@ class Sensu(object):
 
     def results(self, client_name=None):
         return self.api.results(client_name)
+
+    def delete_result(self, client_name: str, check_name: str):
+        return self.api.delete_result(client_name, check_name)
 
 
 @hug.directive()
@@ -148,6 +154,13 @@ def get_clents(sensu: Sensu):
     return sensu.clients()
 
 
+@hug.delete('/clients/{client_name}', requires=token_auth)
+def delete_client(sensu: Sensu, client_name: str, response):
+    status_code, data = sensu.delete_client(client_name)
+    response.status = get_http_status(status_code)
+    return data
+
+
 @hug.get('/silenced', requires=token_auth)
 def get_silenced(sensu: Sensu):
     return sensu.silenced()
@@ -174,3 +187,10 @@ def results(sensu: Sensu):
 @hug.get('/results/{client_name}', requires=token_auth)
 def results(sensu: Sensu, client_name: str):
     return sensu.results(client_name)
+
+
+@hug.delete('/results/{client_name}/{check_name}', requires=token_auth)
+def delete_result(sensu: Sensu, client_name: str, check_name: str, response):
+    status_code, data = sensu.delete_result(client_name, check_name)
+    response.status = get_http_status(status_code)
+    return data
