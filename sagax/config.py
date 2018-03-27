@@ -171,12 +171,12 @@ settings_schema = {
                 {
                     'label': 'Issued',
                     'key': 'check.issued',
-                    'formatter': 'timeAgo'
+                    'formatter': 'timestamp'
                 },
                 {
                     'label': 'Executed',
                     'key': 'check.executed',
-                    'formatter': 'timeAgo'
+                    'formatter': 'timestamp'
                 },
                 {
                     'label': 'Duration',

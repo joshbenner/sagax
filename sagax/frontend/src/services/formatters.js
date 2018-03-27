@@ -13,6 +13,7 @@ import SilenceId from '../components/SilenceId'
 import SilenceDelete from '../components/SilenceDelete'
 import Copyable from '../components/Copyable'
 import ClientEventList from '../components/ClientEventList'
+import Timestamp from '../components/Timestamp'
 
 import clientStore from '../store/clients'
 
@@ -168,5 +169,6 @@ const formatters = {
   copyable: componentTemplate(Copyable, 'value'),
   iframe,
   keyvals,
-  clientEventList: componentTemplate(ClientEventList, null, 'client')
+  clientEventList: componentTemplate(ClientEventList, null, 'client'),
+  timestamp: componentTemplate(Timestamp, 'unix')
 }
