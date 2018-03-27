@@ -49,10 +49,13 @@ export default {
 
 <style lang="scss">
 .info-stack {
-  line-height: 2em;
 
   .info-stack-field {
     display: table-row;
+
+    & > label, & > span {
+      padding: 0.2em 0;
+    }
 
     .info-stack-label {
       display: table-cell;
@@ -70,6 +73,7 @@ export default {
     .info-stack-value {
       display: table-cell;
       padding-left: 0.5em;
+      vertical-align: middle;
 
       ul, ol {
         padding-left: 1.2em;
