@@ -11,7 +11,7 @@
           <i class="fa fa-volume-up"></i>
           Silence
         </span>
-        <b-dropdown-item>
+        <b-dropdown-item @click="deleteClient(clientName)">
           <i class="fa fa-trash"></i>
           Delete client
         </b-dropdown-item>
@@ -59,7 +59,7 @@ export default {
       if (this.silenced) {
         this.showUnsilenceModal(this.relevantSilenceIds())
       } else {
-        this.showSilenceModal(this.clientName)
+        this.showSilenceModal(`client:${this.clientName}`)
       }
     }
   }
