@@ -59,6 +59,7 @@ import ResultTable from './components/ResultTable'
 import VueClipboard from 'vue-clipboard2'
 import VueHighlightJS from 'vue-highlightjs'
 import 'highlight.js/styles/idea.css'
+import SelectFilter from './components/SelectFilter'
 
 Vue.use(Vuex)
 Vue.use(Notifications)
@@ -104,6 +105,7 @@ Vue.component('b-dropdown', bDropdown)
 Vue.component('b-dropdown-item', bDropdownItem)
 Vue.component('info-stack', InfoStack)
 Vue.component('result-table', ResultTable)
+Vue.component('select-filter', SelectFilter)
 
 Vue.component('s-table', STable)
 

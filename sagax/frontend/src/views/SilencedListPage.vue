@@ -2,6 +2,7 @@
   <b-card>
     <s-table :items="silenced"
              :fields="fields"
+             name="silencedList"
              class="silenced-table"/>
   </b-card>
 </template>

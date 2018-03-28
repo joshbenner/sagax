@@ -2,6 +2,7 @@
   <v-client-table class="s-table"
                   :class="{checkboxes: showCheckboxes}"
                   ref="table"
+                  :name="name"
                   :data="tableData"
                   :columns="columns"
                   :options="options">
@@ -18,6 +19,8 @@
                        v-model="selected"
                        :value="_get(props.row._item, checkboxValuePath)" />
     </template>
+
+    <slot name="filters" slot="afterFilter"/>
   </v-client-table>
 </template>
 
@@ -30,6 +33,10 @@ import { getFormatter } from '../services/formatters'
 export default {
   name: 'STable',
   props: {
+    name: {
+      required: true,
+      type: String
+    },
     items: {
       required: true
     },
@@ -68,6 +75,10 @@ export default {
       default: 'id'
     },
     checkboxSelected: {
+      type: Array,
+      default: () => []
+    },
+    customFilters: {
       type: Array,
       default: () => []
     }
@@ -180,7 +191,8 @@ export default {
           up: 'fa-sort-up',
           down: 'fa-sort-down',
           is: 'fa-sort'
-        }
+        },
+        customFilters: this.customFilters
       }
     },
     allSelectValues () {

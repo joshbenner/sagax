@@ -10,6 +10,7 @@
            @show="onShow">
     <s-table :items="entriesToRemove"
              :fields="fields"
+             name="unsilenceList"
              :small="true"
              :striped="false"
              count-text=""

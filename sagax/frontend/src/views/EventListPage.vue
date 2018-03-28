@@ -2,6 +2,7 @@
   <b-card>
     <s-table :items="events"
              :fields="fields"
+             name="eventList"
              class="event-table"
              :row-class-callback="rowClass"/>
   </b-card>
