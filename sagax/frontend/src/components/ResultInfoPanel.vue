@@ -24,7 +24,8 @@
           View Raw Result
         </b-dropdown-item>
 
-        <b-dropdown-item @click="showRaw('event', `${clientName}/${checkName}`, event)">
+        <b-dropdown-item v-if="event"
+                         @click="showRaw('event', `${clientName}/${checkName}`, event)">
           View Raw Event
         </b-dropdown-item>
 
