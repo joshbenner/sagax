@@ -3,7 +3,7 @@
     <b-button variant="link"
               class="check-silence"
               v-if="!silenced"
-              @click="showSilenceModal(`client:${clientName}:${checkName}`)">
+              @click="showSilenceModal(`client:${clientName}`, checkName)">
       <i class="fa fa-lg fa-volume-up"></i>
     </b-button>
     <b-button variant="link"
