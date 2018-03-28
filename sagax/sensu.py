@@ -54,6 +54,11 @@ class SensuAPI(ABC):
     def resolve_event(self, client_name: str, check_name: str):
         raise NotImplemented()
 
+    @abstractmethod
+    def request_check(self, check_name: str, subscribers: list, creator: str,
+                      reason: str):
+        raise NotImplemented()
+
 
 class Sensu1API(SensuAPI, HTTP):
     """
@@ -116,4 +121,10 @@ class Sensu1API(SensuAPI, HTTP):
 
     def resolve_event(self, client_name: str, check_name: str):
         r = self.post('/resolve', client=client_name, check=check_name)
+        return r.status_code, r.data
+
+    def request_check(self, check_name: str, subscribers: list, creator: str,
+                      reason: str):
+        r = self.post('/request', check=check_name, subscribers=subscribers,
+                      creator=creator, reason=reason)
         return r.status_code, r.data

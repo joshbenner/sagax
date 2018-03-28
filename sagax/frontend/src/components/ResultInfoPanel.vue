@@ -28,7 +28,7 @@
           View Raw Event
         </b-dropdown-item>
 
-        <b-dropdown-item v-if="!standalone">
+        <b-dropdown-item v-if="!standalone" @click="requestCheckClicked">
           Request Check
         </b-dropdown-item>
 
@@ -115,6 +115,9 @@ export default {
       } else {
         this.showSilenceModal(`client:${this.clientName}:${this.checkName}`)
       }
+    },
+    requestCheckClicked () {
+      this.requestCheck(this.checkName, [`client:${this.clientName}`])
     }
   },
   created () {

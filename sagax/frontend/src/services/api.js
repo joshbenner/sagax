@@ -35,5 +35,10 @@ export default {
   resolveEvent: (clientName, checkName) => HTTP.post('/resolve', {
     client: clientName,
     check: checkName
+  }),
+  requestCheck: (checkName, subscribers, reason) => HTTP.post('/request', {
+    check: checkName,
+    subscribers: subscribers || [],
+    reason: reason || ''
   })
 }

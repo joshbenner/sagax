@@ -12,6 +12,7 @@ import { clientMixin } from './services/clients'
 import { resultMixin } from './services/results'
 import { rawMixin } from './services/raw'
 import { eventMixin } from './services/events'
+import { checkMixin } from './services/checks'
 
 import bContainer from 'bootstrap-vue/es/components/layout/container'
 import bRow from 'bootstrap-vue/es/components/layout/row'
@@ -114,6 +115,7 @@ Vue.mixin(clientMixin)
 Vue.mixin(resultMixin)
 Vue.mixin(rawMixin)
 Vue.mixin(eventMixin)
+Vue.mixin(checkMixin)
 
 /* eslint-disable no-new */
 new Vue({
