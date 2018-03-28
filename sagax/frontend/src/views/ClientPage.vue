@@ -38,9 +38,6 @@ export default {
   },
   updated () {
     this.$store.commit('setResultClientToRefresh', this.clientName)
-    if (!this.client) {
-      this.$router.replace({ name: 'clientList' })
-    }
   }
 }
 </script>
