@@ -42,3 +42,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.time-ago {
+  white-space: nowrap;
+}
+</style>
