@@ -28,11 +28,11 @@
           View Raw Event
         </b-dropdown-item>
 
-        <b-dropdown-item>
+        <b-dropdown-item v-if="!standalone">
           Request Check
         </b-dropdown-item>
 
-        <b-dropdown-item>
+        <b-dropdown-item v-if="event" @click="resolveEvent(clientName, checkName)">
           Force Resolve
         </b-dropdown-item>
       </b-dropdown>
@@ -90,6 +90,9 @@ export default {
     },
     resultFields () {
       return this.getConfig('fields.result_detail_result', [])
+    },
+    standalone () {
+      return this.result.check.standalone || false
     },
     headingIconClasses () {
       let status = this.result && this.result.check.status

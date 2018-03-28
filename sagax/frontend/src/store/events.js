@@ -12,6 +12,10 @@ const mutations = {
   },
   clearEvents (state) {
     state.events = []
+  },
+  resolveEvent (state, { clientName, checkName }) {
+    let f = (e) => e.client.name !== clientName || e.check.name !== checkName
+    state.events = state.events.filter(f)
   }
 }
 

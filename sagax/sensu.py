@@ -50,6 +50,10 @@ class SensuAPI(ABC):
     def delete_result(self, client_name: str, check_name: str):
         raise NotImplemented()
 
+    @abstractmethod
+    def resolve_event(self, client_name: str, check_name: str):
+        raise NotImplemented()
+
 
 class Sensu1API(SensuAPI, HTTP):
     """
@@ -108,4 +112,8 @@ class Sensu1API(SensuAPI, HTTP):
 
     def delete_result(self, client_name: str, check_name: str):
         r = self.delete('/results/{}/{}'.format(client_name, check_name))
+        return r.status_code, r.data
+
+    def resolve_event(self, client_name: str, check_name: str):
+        r = self.post('/resolve', client=client_name, check=check_name)
         return r.status_code, r.data

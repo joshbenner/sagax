@@ -68,6 +68,9 @@ class Sensu(object):
     def delete_result(self, client_name: str, check_name: str):
         return self.api.delete_result(client_name, check_name)
 
+    def resolve_event(self, client_name: str, check_name: str):
+        return self.api.resolve_event(client_name, check_name)
+
 
 @hug.directive()
 class AuthN(object):
@@ -192,5 +195,12 @@ def results(sensu: Sensu, client_name: str):
 @hug.delete('/results/{client_name}/{check_name}', requires=token_auth)
 def delete_result(sensu: Sensu, client_name: str, check_name: str, response):
     status_code, data = sensu.delete_result(client_name, check_name)
+    response.status = get_http_status(status_code)
+    return data
+
+
+@hug.post('/resolve', requires=token_auth)
+def post_resolve(sensu: Sensu, body, response):
+    status_code, data = sensu.resolve_event(body['client'], body['check'])
     response.status = get_http_status(status_code)
     return data

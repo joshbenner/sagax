@@ -31,5 +31,9 @@ export default {
   allResults: getter('results'),
   clientResults: (clientName) => HTTP.get(`/results/${clientName}`),
   deleteClient: (clientName) => HTTP.delete(`/clients/${clientName}`),
-  deleteResult: (clientName, checkName) => HTTP.delete(`/results/${clientName}/${checkName}`)
+  deleteResult: (clientName, checkName) => HTTP.delete(`/results/${clientName}/${checkName}`),
+  resolveEvent: (clientName, checkName) => HTTP.post('/resolve', {
+    client: clientName,
+    check: checkName
+  })
 }
