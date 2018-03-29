@@ -53,6 +53,7 @@
 
 <script>
 import { tokenReplace } from '../services/tokens'
+import get from 'lodash/get'
 
 export default {
   name: 'ResultInfoPanel',
@@ -93,7 +94,7 @@ export default {
       return this.getConfig('fields.result_detail_result', [])
     },
     standalone () {
-      return this.result.check.standalone || false
+      return get(this.result, 'check.standalone', false)
     },
     headingIconClasses () {
       let status = this.result && this.result.check.status

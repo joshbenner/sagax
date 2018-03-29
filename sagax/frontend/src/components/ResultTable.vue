@@ -1,6 +1,7 @@
 <template>
   <s-table :items="results"
            :fields="fields"
+           name="resultList"
            class="result-table row-status-indicators"
            :enableSearch="false"
            :row-class-callback="rowClass"

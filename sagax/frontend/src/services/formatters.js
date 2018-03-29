@@ -145,9 +145,38 @@ function iframe (val, item, h, fieldSpec) {
   )
 }
 
+function image (val, item, h) {
+  return h(
+    'img',
+    { attrs: { src: val } }
+  )
+}
+
+function link (val, item, h, fieldSpec) {
+  return h(
+    'a',
+    {
+      attrs: {
+        href: val,
+        target: get(fieldSpec, 'formatter_options.target', '_blank')
+      }
+    },
+    [get(fieldSpec, 'formatter_options.text', val)]
+  )
+}
+
+function _default (val, item, h) {
+  let str = val.toString()
+  if (str.startsWith('http://') || str.startsWith('https://')) {
+    return h('a', {attrs: {href: str, target: '_blank'}}, [str])
+  } else {
+    return val
+  }
+}
+
 // Formatter templates that frontend config can designate for rendering cell.
 const formatters = {
-  _d: (val) => val,
+  _d: _default,
   orderedList: (val, item, h) => bullets(val, h, 'ol'),
   unorderedList: (val, item, h) => bullets(val, h, 'ul'),
   timeAgo: componentTemplate(TimeAgo, 'timestamp'),
@@ -168,6 +197,8 @@ const formatters = {
   yesno: (val) => val ? 'Yes' : 'No',
   copyable: componentTemplate(Copyable, 'value'),
   iframe,
+  image,
+  link,
   keyvals,
   clientEventList: componentTemplate(ClientEventList, null, 'client'),
   timestamp: componentTemplate(Timestamp, 'unix')
