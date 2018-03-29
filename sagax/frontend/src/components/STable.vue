@@ -17,7 +17,7 @@
     <template v-if="showCheckboxes" slot="_checkbox" slot-scope="props">
       <b-form-checkbox plain
                        v-model="selected"
-                       :value="props.index - 1" />
+                       :value="props.row._idx" />
     </template>
 
     <template slot="beforeFilter">
@@ -41,7 +41,6 @@
 
 <script>
 import get from 'lodash/get'
-import range from 'lodash/range'
 import difference from 'lodash/difference'
 
 import { getFormatter } from '../services/formatters'
@@ -85,10 +84,6 @@ export default {
     showCheckboxes: {
       type: Boolean,
       default: false
-    },
-    checkboxValuePath: {
-      type: String,
-      default: 'id'
     },
     checkboxSelected: {
       type: Array,
@@ -139,8 +134,9 @@ export default {
       })
     },
     tableData () {
+      let idx = 0
       return this.items.map((item) => {
-        let out = {_item: item}
+        let out = {_item: item, _idx: idx++}
         this._fields.forEach((field) => {
           out[field.index] = get(item, field.key, '')
         })
@@ -216,7 +212,7 @@ export default {
       }
     },
     allSelectValues () {
-      return range(this.items.length)
+      return this.tableData.map((i) => i._idx)
     }
   },
   methods: {
@@ -226,7 +222,9 @@ export default {
       this.selected = checked ? this.allSelectValues : []
     },
     bulkItems (selected) {
-      return selected.map((s) => this.tableData[s]._item)
+      return this.tableData
+        .filter((i) => selected.includes(i._idx))
+        .map((i) => i._item)
     }
   }
 }

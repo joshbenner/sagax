@@ -23,6 +23,7 @@
 
 <script>
 import api from '../services/api'
+import range from 'lodash/range'
 
 export default {
   name: 'UnsilenceModal',
@@ -44,6 +45,9 @@ export default {
     },
     fields () {
       return Array.from(this.getConfig('fields.unsilence_list', []))
+    },
+    selectedIds () {
+      return this.selected.map((s) => this.silenceIds[s])
     }
   },
   methods: {
@@ -51,10 +55,10 @@ export default {
       this.$refs.modal.show()
     },
     onShow () {
-      this.$nextTick(() => { this.selected = this.silenceIds })
+      this.$nextTick(() => { this.selected = range(this.silenceIds.length) })
     },
     deleteClicked () {
-      api.clearSilenced(this.selected).then((r) => {
+      api.clearSilenced(this.selectedIds).then((r) => {
         r.data.results.map(({ id, status, data }) => {
           if (status > 200 && status < 300) {
             this.$notify({

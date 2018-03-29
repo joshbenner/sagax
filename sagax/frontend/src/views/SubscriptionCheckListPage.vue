@@ -3,7 +3,6 @@
     <s-table :items="checks"
              :fields="fields"
              :showCheckboxes="true"
-             checkboxValuePath="name"
              :bulkActions="bulkActions"
              v-model="selected"
              name="subscriptionCheckList"
