@@ -223,6 +223,29 @@ settings_schema = {
                     'formatter': 'yesno'
                 }
             ],
+            'subscription_check_list': [
+                {
+                    'label': 'Check Name',
+                    'key': 'name',
+                    'sortable': True,
+                    'defaultSort': 'asc'
+                },
+                {
+                    'label': 'Command',
+                    'key': 'command',
+                    'sortable': True
+                },
+                {
+                    'label': 'Subscribers',
+                    'key': 'subscribers',
+                    'formatter': 'commaList'
+                },
+                {
+                    'label': 'Interval',
+                    'key': 'interval',
+                    'sortable': True
+                }
+            ],
             'silenced_list': [
                 {
                     'label': '',

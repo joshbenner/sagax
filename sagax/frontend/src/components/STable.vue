@@ -17,7 +17,22 @@
     <template v-if="showCheckboxes" slot="_checkbox" slot-scope="props">
       <b-form-checkbox plain
                        v-model="selected"
-                       :value="_get(props.row._item, checkboxValuePath)" />
+                       :value="props.index - 1" />
+    </template>
+
+    <template slot="beforeFilter">
+      <b-dropdown text="Bulk Actions"
+                  class="bulk-action-dropdown"
+                  :variant="checkboxSelected.length ? 'primary' : 'light'"
+                  :disabled="!checkboxSelected.length"
+                  v-if="showCheckboxes">
+        <b-dropdown-item v-for="(action, idx) in bulkActions"
+                         :key="`bulk-${name}-${idx}`"
+                         @click="action.callback(bulkItems(checkboxSelected))">
+          <i v-if="action.icon" :class="[action.icon]"></i>
+          {{ action.label }}
+        </b-dropdown-item>
+      </b-dropdown>
     </template>
 
     <slot name="filters" slot="afterFilter"/>
@@ -26,6 +41,7 @@
 
 <script>
 import get from 'lodash/get'
+import range from 'lodash/range'
 import difference from 'lodash/difference'
 
 import { getFormatter } from '../services/formatters'
@@ -79,6 +95,10 @@ export default {
       default: () => []
     },
     customFilters: {
+      type: Array,
+      default: () => []
+    },
+    bulkActions: {
       type: Array,
       default: () => []
     }
@@ -196,7 +216,7 @@ export default {
       }
     },
     allSelectValues () {
-      return this.items.map((item) => item[this.checkboxValuePath])
+      return range(this.items.length)
     }
   },
   methods: {
@@ -204,6 +224,9 @@ export default {
     _debug: console.log,
     toggleAllSelected (checked) {
       this.selected = checked ? this.allSelectValues : []
+    },
+    bulkItems (selected) {
+      return selected.map((s) => this.tableData[s]._item)
     }
   }
 }

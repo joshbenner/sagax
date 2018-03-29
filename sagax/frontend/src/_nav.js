@@ -35,6 +35,17 @@ export default {
       ]
     },
     {
+      name: 'Central Checks',
+      url: '/subscription-checks',
+      icon: 'fa fa-check-square-o',
+      countBadges: [
+        {
+          getter: 'checkCount',
+          variant: 'info'
+        }
+      ]
+    },
+    {
       name: 'Silenced',
       url: '/silenced',
       icon: 'fa fa-bell-slash-o',

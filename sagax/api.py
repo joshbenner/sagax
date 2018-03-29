@@ -47,6 +47,9 @@ class Sensu(object):
     def events(self, client=None, check=None):
         return self.api.events(client, check)
 
+    def checks(self):
+        return self.api.checks()
+
     def clients(self):
         return self.api.clients()
 
@@ -144,7 +147,8 @@ def get_refresh(sensu: Sensu, results_client: hug.types.text=None):
     data = {
         'events': sensu.events(),
         'clients': sensu.clients(),
-        'silenced': sensu.silenced()
+        'silenced': sensu.silenced(),
+        'checks': sensu.checks()
     }
     if results_client:
         data['results'] = sensu.results(results_client)

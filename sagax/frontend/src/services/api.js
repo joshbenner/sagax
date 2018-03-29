@@ -26,6 +26,7 @@ export default {
   getEvents: getter('events'),
   getClients: getter('clients'),
   getSilenced: getter('silenced'),
+  getChecks: getter('checks'),
   postSilenced: postSilenced,
   clearSilenced: clearSilenced,
   allResults: getter('results'),

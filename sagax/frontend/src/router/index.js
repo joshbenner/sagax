@@ -10,6 +10,7 @@ import ClientListPage from '../views/ClientListPage'
 import SilencedListPage from '../views/SilencedListPage'
 import ClientPage from '../views/ClientPage'
 import ResultPage from '../views/ResultPage'
+import SubscriptionCheckListPage from '../views/SubscriptionCheckListPage'
 
 Vue.use(Router)
 
@@ -71,6 +72,12 @@ export default new Router({
               ]
             }
           ]
+        },
+        {
+          path: 'subscription-checks',
+          name: 'subscriptionChecks',
+          component: SubscriptionCheckListPage,
+          meta: { label: 'Central Checks' }
         },
         {
           path: 'silenced',
