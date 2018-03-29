@@ -8,14 +8,14 @@ const state = {
 const mutations = {
   setChecks (state, newChecks) {
     state.checks = newChecks
+  },
+  clearChecks (state) {
+    state.checks = []
   }
 }
 
 const actions = {
-  getChecks: loader(api.getChecks, 'setChecks'),
-  clearChecks (state) {
-    state.checks = []
-  }
+  getChecks: loader(api.getChecks, 'setChecks')
 }
 
 const getters = {
