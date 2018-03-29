@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     showField (field) {
-      return !this.skipEmpty || get(this.item, field.key, false)
+      return this.skipEmpty ? get(this.item, field.key) !== undefined : true
     }
   }
 }
