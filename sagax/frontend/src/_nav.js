@@ -29,10 +29,6 @@ export default {
           variant: 'warning'
         },
         {
-          getter: 'silencedClientCount',
-          variant: 'info'
-        },
-        {
           getter: 'okClientCount',
           variant: 'success'
         }
