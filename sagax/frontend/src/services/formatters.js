@@ -166,7 +166,7 @@ function link (val, item, h, fieldSpec) {
 }
 
 function _default (val, item, h) {
-  let str = val.toString()
+  let str = val + ''
   if (str.startsWith('http://') || str.startsWith('https://')) {
     return h('a', {attrs: {href: str, target: '_blank'}}, [str])
   } else {
