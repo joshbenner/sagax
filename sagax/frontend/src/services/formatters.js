@@ -174,6 +174,14 @@ function _default (val, item, h) {
   }
 }
 
+function bold (val, item, h) {
+  return h(
+    'span',
+    { class: ['field-bold'] },
+    [val]
+  )
+}
+
 // Formatter templates that frontend config can designate for rendering cell.
 const formatters = {
   _d: _default,
@@ -200,6 +208,7 @@ const formatters = {
   image,
   link,
   keyvals,
+  bold,
   clientEventList: componentTemplate(ClientEventList, null, 'client'),
   timestamp: componentTemplate(Timestamp, 'unix')
 }

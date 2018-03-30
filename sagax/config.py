@@ -228,7 +228,8 @@ settings_schema = {
                     'label': 'Check Name',
                     'key': 'name',
                     'sortable': True,
-                    'defaultSort': 'asc'
+                    'defaultSort': 'asc',
+                    'formatter': 'bold'
                 },
                 {
                     'label': 'Command',
