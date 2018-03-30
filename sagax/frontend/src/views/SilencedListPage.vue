@@ -6,7 +6,14 @@
              :bulkActions="bulkActions"
              v-model="selected"
              name="silencedList"
-             class="silenced-table"/>
+             class="silenced-table">
+      <template slot="filters">
+        <b-button variant="primary" @click="showSilenceModal('', '')">
+          <i class="fa fa-plus"></i>
+          Add Silence
+        </b-button>
+      </template>
+    </s-table>
   </b-card>
 </template>
 
