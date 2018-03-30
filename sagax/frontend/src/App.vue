@@ -1,10 +1,22 @@
 <template>
-  <router-view/>
+  <div>
+    <router-view/>
+    <link v-for="(url, idx) in extraCSS"
+          :key="`extra-css-${idx}`"
+          rel="stylesheet"
+          type="text/css"
+          :href="url" />
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  computed: {
+    extraCSS () {
+      return this.getConfig('extra_css', [])
+    }
+  }
 }
 </script>
 

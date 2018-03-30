@@ -6,6 +6,7 @@ from sagax.plugins import get_plugin_class
 
 settings_schema = {
     'frontend': {
+        'extra_css': [],
         'timestamp_format': Item(default='L LT z', envvar=True),
         'refresh_interval': 5,
         'silence_intervals': [
