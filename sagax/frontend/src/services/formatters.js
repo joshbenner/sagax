@@ -193,7 +193,7 @@ const formatters = {
   checkStatus: componentTemplate(CheckStatus, 'status'),
   silenceExpire: componentTemplate(SilenceExpire, null, 'entry'),
   silenceId: componentTemplate(SilenceId, null, 'entry'),
-  silenceIdPart: (val) => val || '(all)',
+  silenceIdPart: (val, item, h) => bold(val || '(all)', item, h),
   silenceDelete: componentTemplate(SilenceDelete, 'silenceId'),
   clientIsSilenced: (name) => clientStore.getters.clientIsSilenced(name) ? 'Yes' : 'No',
   jsonTree: jsonTreeExpanded,
