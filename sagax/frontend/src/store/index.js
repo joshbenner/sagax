@@ -16,6 +16,7 @@ import clients from './clients'
 import silenced from './silenced'
 import results from './results'
 import checks from './checks'
+import aggregates from './aggregates'
 
 Vue.use(Vuex)
 
@@ -35,7 +36,8 @@ export default new Vuex.Store({
     clients,
     silenced,
     results,
-    checks
+    checks,
+    aggregates
   },
   mutations: {
     startLoading (state) {
@@ -83,20 +85,27 @@ export default new Vuex.Store({
       commit('clearSilenced')
       commit('clearResults')
       commit('clearChecks')
+      commit('clearAggregates')
     },
     refreshAll ({ dispatch, commit, getters }) {
       bus.$emit('refreshing-all')
       commit('startLoading')
-      api.getRefresh(getters.resultClientToRefresh)
+      api.getRefresh(getters.resultClientToRefresh, getters.getDetailedAggregates)
         .then(({ data }) => {
           commit('setEvents', data.events)
           commit('setClients', data.clients)
           commit('setSilenced', data.silenced)
           commit('setChecks', data.checks)
+          commit('setAggregates', data.aggregates)
           if (keys(data).includes('results')) {
             commit('setResults', data.results)
           }
-          commit('doneLoading', ['setEvents', 'setClients', 'setSilenced', 'setChecks'])
+          commit('doneLoading', [
+            'setEvents',
+            'setClients',
+            'setSilenced',
+            'setChecks',
+            'setAggregates'])
           bus.$emit('refreshed-all')
         })
         .catch((e) => maybeLogoutOnLoadFail(e, commit, dispatch))

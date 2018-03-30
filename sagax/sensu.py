@@ -63,6 +63,14 @@ class SensuAPI(ABC):
                       reason: str):
         raise NotImplemented()
 
+    @abstractmethod
+    def aggregates(self) -> list:
+        raise NotImplemented()
+
+    @abstractmethod
+    def aggregate(self, aggregate_name: str):
+        raise NotImplemented()
+
 
 class Sensu1API(SensuAPI, HTTP):
     """
@@ -135,4 +143,12 @@ class Sensu1API(SensuAPI, HTTP):
                       reason: str):
         r = self.post('/request', check=check_name, subscribers=subscribers,
                       creator=creator, reason=reason)
+        return r.status_code, r.data
+
+    def aggregates(self) -> list:
+        r = self.get('/aggregates')
+        return r.data
+
+    def aggregate(self, aggregate_name: str):
+        r = self.get('/aggregates/{}'.format(aggregate_name))
         return r.status_code, r.data

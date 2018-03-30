@@ -307,6 +307,30 @@ settings_schema = {
                     'key': 'expire',
                     'formatter': 'silenceExpire'
                 }
+            ],
+            'aggregates_list': [
+                {
+                    'label': 'Aggregate Name',
+                    'key': 'name',
+                    'formatter': 'bold',
+                    'sortable': True,
+                    'defaultSort': 'asc'
+                },
+                {
+                    'label': 'Checks',
+                    'key': 'checks',
+                    'sortable': True
+                },
+                {
+                    'label': 'Clients',
+                    'key': 'clients',
+                    'sortable': True
+                },
+                {
+                    'label': 'States',
+                    'key': 'results',
+                    'formatter': 'aggregateStates'
+                }
             ]
         }
     },

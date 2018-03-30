@@ -14,6 +14,7 @@ import SilenceDelete from '../components/SilenceDelete'
 import Copyable from '../components/Copyable'
 import ClientEventList from '../components/ClientEventList'
 import Timestamp from '../components/Timestamp'
+import AggregateStates from '../components/AggregateStates'
 
 import clientStore from '../store/clients'
 
@@ -210,5 +211,6 @@ const formatters = {
   keyvals,
   bold,
   clientEventList: componentTemplate(ClientEventList, null, 'client'),
-  timestamp: componentTemplate(Timestamp, 'unix')
+  timestamp: componentTemplate(Timestamp, 'unix'),
+  aggregateStates: componentTemplate(AggregateStates, 'results')
 }

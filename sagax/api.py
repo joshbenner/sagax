@@ -78,6 +78,18 @@ class Sensu(object):
                       reason: str):
         return self.api.request_check(check_name, subscribers, creator, reason)
 
+    def aggregates(self, detailed: bool=False):
+        aggregates = self.api.aggregates()
+        if detailed:
+            for aggregate in aggregates:
+                status, data = self.api.aggregate(aggregate['name'])
+                if 200 <= status < 300:
+                    aggregate.update(data)
+        return aggregates
+
+    def aggregate(self, aggregate_name: str):
+        return self.api.aggregate(aggregate_name)
+
 
 @hug.directive()
 class AuthN(object):
@@ -143,12 +155,14 @@ def get_frontend_config():
 
 
 @hug.get('/refresh', requires=token_auth)
-def get_refresh(sensu: Sensu, results_client: hug.types.text=None):
+def get_refresh(sensu: Sensu, results_client: hug.types.text=None,
+                detailed_aggregates: int=0):
     data = {
         'events': sensu.events(),
         'clients': sensu.clients(),
         'silenced': sensu.silenced(),
-        'checks': sensu.checks()
+        'checks': sensu.checks(),
+        'aggregates': sensu.aggregates(detailed=(detailed_aggregates > 0))
     }
     if results_client:
         data['results'] = sensu.results(results_client)
@@ -219,5 +233,17 @@ def post_request(sensu: Sensu, body, response, request):
     creator = request.context['user']['username']
     status_code, data = sensu.request_check(body['check'], body['subscribers'],
                                             creator, body['reason'])
+    response.status = get_http_status(status_code)
+    return data
+
+
+@hug.get('/aggregates', requires=token_auth)
+def get_aggregates(sensu: Sensu, detail: int=0):
+    return sensu.aggregates(detailed=(detail > 0))
+
+
+@hug.get('/aggregates/{aggregate_name}', requires=token_auth)
+def get_aggregate(sensu: Sensu, aggregate_name: str, response):
+    status_code, data = sensu.aggregate(aggregate_name)
     response.status = get_http_status(status_code)
     return data

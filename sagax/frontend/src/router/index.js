@@ -11,6 +11,7 @@ import SilencedListPage from '../views/SilencedListPage'
 import ClientPage from '../views/ClientPage'
 import ResultPage from '../views/ResultPage'
 import SubscriptionCheckListPage from '../views/SubscriptionCheckListPage'
+import AggregateListPage from '../views/AggregateListPage'
 
 Vue.use(Router)
 
@@ -84,6 +85,12 @@ export default new Router({
           name: 'silenced',
           component: SilencedListPage,
           meta: { label: 'Silenced' }
+        },
+        {
+          path: 'aggregates',
+          name: 'aggregateList',
+          component: AggregateListPage,
+          meta: { label: 'Aggregates' }
         }
       ]
     }

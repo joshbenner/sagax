@@ -12,10 +12,13 @@ function clearSilenced (silenceIds) {
   return HTTP.post('/clear', {ids: silenceIds})
 }
 
-function getRefresh (resultsClientName) {
+function getRefresh (resultsClientName, detailedAggregates) {
   let path = 'refresh'
   if (resultsClientName) {
     path += `?results_client=${resultsClientName}`
+  }
+  if (detailedAggregates) {
+    path += '?detailed_aggregates=1'
   }
   return HTTP.get(path)
 }
@@ -41,5 +44,6 @@ export default {
     check: checkName,
     subscribers: subscribers || [],
     reason: reason || ''
-  })
+  }),
+  getAggregates: (detail) => HTTP.get(`/aggregates?detail=${detail ? 1 : 0}`)
 }

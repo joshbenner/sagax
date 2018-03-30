@@ -41,7 +41,7 @@ export default {
       countBadges: [
         {
           getter: 'checkCount',
-          variant: 'info'
+          variant: 'light'
         }
       ]
     },
@@ -52,7 +52,18 @@ export default {
       countBadges: [
         {
           getter: 'silencedCount',
-          variant: 'info'
+          variant: 'light'
+        }
+      ]
+    },
+    {
+      name: 'Aggregates',
+      url: '/aggregates',
+      icon: 'fa fa-cubes',
+      countBadges: [
+        {
+          getter: 'aggregateCount',
+          variant: 'light'
         }
       ]
     }
