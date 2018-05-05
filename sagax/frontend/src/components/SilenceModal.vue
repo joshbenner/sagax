@@ -224,7 +224,8 @@ export default {
     // that times are calculate when the button is pressed.
     buildSilencedEntry: function () {
       let silenced = {
-        reason: this.reason
+        reason: this.reason,
+        creator: this.$store.getters.username
       }
       let sub = this.subscription.trim()
       let check = this.check.trim()

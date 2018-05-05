@@ -115,6 +115,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    lastRefresh: (state) => state.lastRefresh
+    lastRefresh: (state) => state.lastRefresh,
+    username: (state) => state.user.username
   }
 })
