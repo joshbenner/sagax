@@ -10,7 +10,7 @@
                 <b-input-group-prepend>
                   <b-input-group-text><i class="icon-user"></i></b-input-group-text>
                 </b-input-group-prepend>
-                <b-form-input placeholder="Username" v-model="username" required/>
+                <b-form-input placeholder="Username" v-model="username" required autofocus/>
               </b-input-group>
               <b-input-group class="mb-4">
                 <b-input-group-prepend>
