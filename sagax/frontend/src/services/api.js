@@ -12,13 +12,21 @@ function clearSilenced (silenceIds) {
   return HTTP.post('/clear', {ids: silenceIds})
 }
 
-function getRefresh (resultsClientName, detailedAggregates) {
+function getRefresh (resultsClientName, detailedAggregates, fullAggregateName) {
   let path = 'refresh'
+  let query = []
+
   if (resultsClientName) {
-    path += `?results_client=${resultsClientName}`
+    query.push(`results_client=${resultsClientName}`)
   }
   if (detailedAggregates) {
-    path += '?detailed_aggregates=1'
+    query.push('detailed_aggregates=1')
+  }
+  if (fullAggregateName !== null) {
+    query.push(`full_aggregate=${fullAggregateName}`)
+  }
+  if (query) {
+    path += '?' + query.join('&')
   }
   return HTTP.get(path)
 }

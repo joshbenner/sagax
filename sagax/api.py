@@ -90,6 +90,9 @@ class Sensu(object):
     def aggregate(self, aggregate_name: str):
         return self.api.aggregate(aggregate_name)
 
+    def aggregate_detail(self, aggregate_name: str):
+        return self.api.aggregate_detail(aggregate_name)
+
 
 @hug.directive()
 class AuthN(object):
@@ -156,7 +159,7 @@ def get_frontend_config():
 
 @hug.get('/refresh', requires=token_auth)
 def get_refresh(sensu: Sensu, results_client: hug.types.text=None,
-                detailed_aggregates: int=0):
+                detailed_aggregates: int=0, full_aggregate: str=None):
     data = {
         'events': sensu.events(),
         'clients': sensu.clients(),
@@ -166,6 +169,9 @@ def get_refresh(sensu: Sensu, results_client: hug.types.text=None,
     }
     if results_client:
         data['results'] = sensu.results(results_client)
+    if full_aggregate is not None:
+        status, aggregate = sensu.aggregate_detail(full_aggregate)
+        data['full_aggregate'] = aggregate
     return data
 
 
@@ -245,5 +251,12 @@ def get_aggregates(sensu: Sensu, detail: int=0):
 @hug.get('/aggregates/{aggregate_name}', requires=token_auth)
 def get_aggregate(sensu: Sensu, aggregate_name: str, response):
     status_code, data = sensu.aggregate(aggregate_name)
+    response.status = get_http_status(status_code)
+    return data
+
+
+@hug.get('/aggregates/{aggregate_name}/detail', requires=token_auth)
+def get_aggregate_detail(sensu: Sensu, aggregate_name: str, response):
+    status_code, data = sensu.aggregate_detail(aggregate_name)
     response.status = get_http_status(status_code)
     return data

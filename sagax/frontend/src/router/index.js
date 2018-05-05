@@ -12,6 +12,7 @@ import ClientPage from '../views/ClientPage'
 import ResultPage from '../views/ResultPage'
 import SubscriptionCheckListPage from '../views/SubscriptionCheckListPage'
 import AggregateListPage from '../views/AggregateListPage'
+import AggregatePage from '../views/AggregatePage'
 
 Vue.use(Router)
 
@@ -88,9 +89,24 @@ export default new Router({
         },
         {
           path: 'aggregates',
-          name: 'aggregateList',
-          component: AggregateListPage,
-          meta: { label: 'Aggregates' }
+          component: {template: '<router-view />'},
+          meta: { label: 'Aggregates', defaultChild: 'aggregateList' },
+          children: [
+            {
+              path: '',
+              name: 'aggregateList',
+              component: AggregateListPage,
+              meta: { hide: true }
+            },
+            {
+              path: ':aggregateName',
+              name: 'aggregateDetail',
+              meta: {
+                label: (item, route) => inHTMLData(route.params.aggregateName)
+              },
+              component: AggregatePage
+            }
+          ]
         }
       ]
     }

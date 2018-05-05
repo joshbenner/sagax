@@ -3,7 +3,9 @@ import { loader } from './utils'
 
 const state = {
   aggregates: [],
-  detailedAggregates: false
+  detailedAggregates: false,
+  fullAggregate: null,
+  fullAggregateName: null
 }
 
 const mutations = {
@@ -15,6 +17,12 @@ const mutations = {
   },
   getDetailedAggregates (state, detailed) {
     state.detailedAggregates = detailed
+  },
+  setFullAggregateName (state, aggregateName) {
+    state.fullAggregateName = aggregateName
+  },
+  setFullAggregate (state, fullAggregate) {
+    state.fullAggregate = fullAggregate
   }
 }
 
@@ -29,7 +37,9 @@ const getters = {
     return matches.length ? matches[0] : null
   },
   aggregateCount: (state) => state.aggregates.length,
-  getDetailedAggregates: (state) => state.detailedAggregates
+  getDetailedAggregates: (state) => state.detailedAggregates,
+  fullAggregate: (state) => state.fullAggregate,
+  fullAggregateName: (state) => state.fullAggregateName
 }
 
 export default {

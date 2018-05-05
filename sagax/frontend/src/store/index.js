@@ -90,7 +90,7 @@ export default new Vuex.Store({
     refreshAll ({ dispatch, commit, getters }) {
       bus.$emit('refreshing-all')
       commit('startLoading')
-      api.getRefresh(getters.resultClientToRefresh, getters.getDetailedAggregates)
+      api.getRefresh(getters.resultClientToRefresh, getters.getDetailedAggregates, getters.fullAggregateName)
         .then(({ data }) => {
           commit('setEvents', data.events)
           commit('setClients', data.clients)
@@ -99,6 +99,9 @@ export default new Vuex.Store({
           commit('setAggregates', data.aggregates)
           if (keys(data).includes('results')) {
             commit('setResults', data.results)
+          }
+          if (keys(data).includes('full_aggregate')) {
+            commit('setFullAggregate', data.full_aggregate)
           }
           commit('doneLoading', [
             'setEvents',

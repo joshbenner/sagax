@@ -312,7 +312,7 @@ settings_schema = {
                 {
                     'label': 'Aggregate Name',
                     'key': 'name',
-                    'formatter': 'bold',
+                    'formatter': 'aggregateName',
                     'sortable': True,
                     'defaultSort': 'asc'
                 },
@@ -330,6 +330,41 @@ settings_schema = {
                     'label': 'States',
                     'key': 'results',
                     'formatter': 'aggregateStates'
+                }
+            ],
+            'aggregate_detail': [
+                {
+                    'label': 'Status of Aggregate',
+                    'key': 'counts.results',
+                    'formatter': 'aggregateStates'
+                },
+                {
+                    'label': 'Checks in Aggregate',
+                    'key': 'counts.checks'
+                },
+                {
+                    'label': 'Clients in Aggregate',
+                    'key': 'counts.clients'
+                }
+            ],
+            'aggregate_result_list': [
+                {
+                    'label': 'Client',
+                    'key': 'client',
+                    'formatter': 'clientName',
+                    'sortable': True,
+                    'defaultSort': 'asc'
+                },
+                {
+                    'label': 'Status',
+                    'key': 'status',
+                    'formatter': 'checkStatus',
+                    'sortable': True
+                },
+                {
+                    'label': 'Output',
+                    'key': 'output',
+                    'sortable': True
                 }
             ]
         }

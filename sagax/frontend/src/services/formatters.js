@@ -15,6 +15,7 @@ import Copyable from '../components/Copyable'
 import ClientEventList from '../components/ClientEventList'
 import Timestamp from '../components/Timestamp'
 import AggregateStates from '../components/AggregateStates'
+import AggregateName from '../components/AggregateName'
 
 import clientStore from '../store/clients'
 
@@ -212,5 +213,6 @@ const formatters = {
   bold,
   clientEventList: componentTemplate(ClientEventList, null, 'client'),
   timestamp: componentTemplate(Timestamp, 'unix'),
-  aggregateStates: componentTemplate(AggregateStates, 'results')
+  aggregateStates: componentTemplate(AggregateStates, 'results'),
+  aggregateName: componentTemplate(AggregateName, 'aggregateName')
 }

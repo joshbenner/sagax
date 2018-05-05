@@ -71,6 +71,10 @@ class SensuAPI(ABC):
     def aggregate(self, aggregate_name: str):
         raise NotImplemented()
 
+    @abstractmethod
+    def aggregate_detail(self, aggregate_name: str):
+        raise NotImplemented()
+
 
 class Sensu1API(SensuAPI, HTTP):
     """
@@ -152,3 +156,17 @@ class Sensu1API(SensuAPI, HTTP):
     def aggregate(self, aggregate_name: str):
         r = self.get('/aggregates/{}'.format(aggregate_name))
         return r.status_code, r.data
+
+    def aggregate_detail(self, aggregate_name: str):
+        status_code, counts = self.aggregate(aggregate_name)
+        if status_code != 200:
+            return status_code, counts
+        aggregate = {'counts': counts, 'results': {}}
+        for severity in ('ok', 'warning', 'critical', 'unknown', 'stale'):
+            path = '/aggregates/{}/results/{}'.format(aggregate_name, severity)
+            r = self.get(path)
+            if r.status_code == 200:
+                aggregate['results'][severity] = r.data
+            else:
+                aggregate['results'][severity] = []
+        return 200, aggregate
