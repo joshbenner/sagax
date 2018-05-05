@@ -1,5 +1,5 @@
 <template>
-  <b-form class="app flex-row align-items-center" @submit="login">
+  <b-form class="app flex-row align-items-center" @submit.prevent="login">
     <div class="container">
       <b-row class="justify-content-center">
         <b-col md="6">
@@ -44,6 +44,7 @@ export default {
     login () {
       let creds = {username: this.username, password: this.password}
       this.$store.dispatch('login', creds)
+      return false
     }
   }
 }
