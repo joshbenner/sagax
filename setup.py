@@ -1,11 +1,40 @@
 from os import path
+import subprocess
+
+import distutils.log
 from setuptools import setup
+from setuptools.command.build_py import build_py
 
 tests_require = ['pytest']
-
 here = path.abspath(path.dirname(__file__))
+frontend_path = path.join(here, 'sagax-frontend')
+
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
+
+
+class YarnInstall(build_py):
+    def run(self):
+        cmd = 'yarn --cwd="{}" install'.format(frontend_path)
+        self.announce('Running: {}'.format(cmd), level=distutils.log.INFO)
+        proc = subprocess.Popen(cmd, shell=True)
+        proc.communicate()
+
+
+class YarnBuild(build_py):
+    def run(self):
+        cmd = 'yarn --cwd="{}" run build'.format(frontend_path)
+        self.announce('Running: {}'.format(cmd), level=distutils.log.INFO)
+        proc = subprocess.Popen(cmd, shell=True)
+        proc.communicate()
+
+
+class BuildPy(build_py):
+    def run(self):
+        self.run_command('yarn_install')
+        self.run_command('yarn_build')
+        super(BuildPy, self).run()
+
 
 setup(
     name='sagax',
@@ -16,6 +45,11 @@ setup(
     url='https://github.com/joshbenner/sagax',
     description='Sensu dashboard',
     long_description=long_description,
+    cmdclass={
+        'yarn_install': YarnInstall,
+        'yarn_build': YarnBuild,
+        'build_py': BuildPy
+    },
     setup_requires=['setuptools_scm'],
     tests_require=tests_require,
     extras_require={
@@ -42,9 +76,15 @@ setup(
             'ldap = sagax.ldap:LDAPAuthentication'
         ]
     },
-    packages=['sagax'],
+    packages=['sagax', 'sagax-frontend'],
     package_data={
-        'sagax': ['sagax/frontend/dist']
+        'sagax-frontend': [
+            'dist/*',
+            'dist/static/css/*',
+            'dist/static/js/*',
+            'dist/static/fonts/*',
+            'dist/static/img/*'
+        ]
     },
     include_package_data=True,
     classifiers=[

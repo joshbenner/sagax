@@ -1,4 +1,4 @@
-import pkg_resources
+from pkg_resources import resource_filename, Requirement
 
 import hug
 from falcon import get_http_status
@@ -8,8 +8,9 @@ from sagax.plugins import plugin_class_factory
 from sagax.tokens import issue_token, verify_token
 from sagax.middleware import CORSMiddleware
 
-ui_path = pkg_resources.resource_filename('sagax', 'frontend/dist')
-static_path = pkg_resources.resource_filename('sagax', 'frontend/dist/static')
+_pkg = Requirement('sagax')
+ui_path = resource_filename(_pkg, 'sagax-frontend/dist')
+static_path = resource_filename(_pkg, 'sagax-frontend/dist/static')
 
 api_ = hug.API(__name__)
 api_.http.add_middleware(CORSMiddleware(api_))
