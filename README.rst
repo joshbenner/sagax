@@ -52,6 +52,9 @@ Example configuration file:
       url: https://sensu.example.com
       insecure: true
       timeout: 5
+      # Credentials used for basic auth if username is not an empty string.
+      username: ''
+      password: ''
 
     # Defaults to NO AUTHENTICATION. Here is LDAP example.
     require_authentication: true

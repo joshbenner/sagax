@@ -89,13 +89,18 @@ class Sensu1API(SensuAPI, HTTP):
     config_schema = {
         'url': Item(default='http://127.0.0.1:4567', envvar=True),
         'insecure': Item(default=False, envvar=True, type=bool),
-        'timeout': Item(default=5, envvar=True, type=int)
+        'timeout': Item(default=5, envvar=True, type=int),
+        'username': Item(default='', envvar=True, type=str),
+        'password': Item(default='', envvar=True, type=str)
     }
 
-    def __init__(self, url, insecure=False, timeout=5):
+    def __init__(self, url, insecure=False, timeout=5, username='',
+                 password=''):
         super(Sensu1API, self).__init__(url, timeout=timeout)
         if insecure:
             self.session.verify = False
+        if username != '':
+            self.session.auth = (username, password)
 
     def request(self, *args, **kwargs):
         r = super(Sensu1API, self).request(*args, **kwargs)
