@@ -376,7 +376,7 @@ settings_schema = {
         'ttl': Item(default=1209600, envvar=True, type=int)
     },
     'sensu_type': Item(default='Sensu1API', envvar=True),
-    'authentication_type': Item(default='NoAuth', envvar=True),
+    'authentication_type': Item(default='none', envvar=True),
     'require_authentication': False
 }
 
