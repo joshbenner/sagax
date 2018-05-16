@@ -7,6 +7,7 @@ from sagax.config import config
 from sagax.plugins import plugin_class_factory
 from sagax.tokens import issue_token, verify_token
 from sagax.middleware import CORSMiddleware
+from sagax.sensu import SensuAccessDenied
 
 _pkg = Requirement('sagax')
 ui_path = resource_filename(_pkg, 'sagax-frontend/dist')
@@ -14,6 +15,12 @@ static_path = resource_filename(_pkg, 'sagax-frontend/dist/static')
 
 api_ = hug.API(__name__)
 api_.http.add_middleware(CORSMiddleware(api_))
+
+
+@hug.exception(SensuAccessDenied)
+def handle_sensu_access_denied(exception, response):
+    response.status = get_http_status(500)
+    return {'error': 'Failed to connect to Sensu'}
 
 
 def token_auth(request, response, **kwargs):

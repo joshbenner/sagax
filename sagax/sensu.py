@@ -7,6 +7,12 @@ from configmanager import Item
 urllib3.disable_warnings()
 
 
+class SensuAccessDenied(Exception):
+    def __init__(self, response):
+        self.response = response
+        super(SensuAccessDenied, self).__init__('Access Denied')
+
+
 class SensuAPI(ABC):
     """
     An upstream Sensu API.
@@ -90,6 +96,12 @@ class Sensu1API(SensuAPI, HTTP):
         super(Sensu1API, self).__init__(url, timeout=timeout)
         if insecure:
             self.session.verify = False
+
+    def request(self, *args, **kwargs):
+        r = super(Sensu1API, self).request(*args, **kwargs)
+        if r.status_code in (401, 403):
+            raise SensuAccessDenied(response=r)
+        return r
 
     def is_healthy(self) -> bool:
         r = self.get('/health')
