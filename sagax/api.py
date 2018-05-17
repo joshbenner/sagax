@@ -128,6 +128,13 @@ def load_authentication_backend(api):
     api.context['authentication'] = authn
 
 
+@hug.get('/')
+def get_base(response):
+    response.set_header('Location', '/ui')
+    response.status = hug.HTTP_301
+    return 'You are being redirected'
+
+
 @hug.post('/auth')
 def post_auth(authn: AuthN, request, response, username=None, password=None):
     claims = authn.authenticate(username, password)
