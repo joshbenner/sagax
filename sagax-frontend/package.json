@@ -21,7 +21,7 @@
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.5",
     "moment": "^2.21.0",
-    "moment-timezone": "^0.5.14",
+    "moment-timezone": "^0.5.35",
     "parse-duration": "^0.1.1",
     "simple-line-icons": "^2.4.1",
     "vue": "^2.5.2",
